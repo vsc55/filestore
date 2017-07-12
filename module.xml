@@ -1,0 +1,17 @@
+
+<module>
+  <rawname>filesystem</rawname>
+  <name>Filestore</name>
+  <version>15.0.1alpha1</version>
+  <publisher>Generated Module</publisher>
+  <license>AGPLv3</license>
+  <changelog>
+	*15.0.1alpha1* Initial release
+  </changelog>
+  <category>Settings</category>
+  <description>Filesystem abstraction for FreePBX</description>
+  <menuitems>
+    <filestore>Filestore</filestore>
+  </menuitems>
+  <supported>15.0</supported>
+</module>

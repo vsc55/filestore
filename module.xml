@@ -1,6 +1,6 @@
 
 <module>
-  <rawname>filesystem</rawname>
+  <rawname>filestore</rawname>
   <name>Filestore</name>
   <version>15.0.1alpha1</version>
   <publisher>Generated Module</publisher>

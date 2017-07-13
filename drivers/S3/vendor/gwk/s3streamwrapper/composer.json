@@ -1,0 +1,21 @@
+{
+    "name": "gwk/s3streamwrapper",
+    "description": "Amazon AWS S3 Stream Wrapper",
+    "keywords": ["aws", "s3", "stream", "stream wrapper"],
+    "require": {
+        "aws/aws-sdk-php": ">=2.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gijs Kunze",
+            "email": "gwkunze@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"S3StreamWrapper": "src/"}
+    }
+}

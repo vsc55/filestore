@@ -1,5 +1,5 @@
 {
     "require": {
-        "buuum/s3": "^1.0"
+        "gwk/s3streamwrapper": "^0.3.2"
     }
 }

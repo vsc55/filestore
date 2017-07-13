@@ -1,7 +1,0 @@
-composer.phar
-composer.lock
-/vendor/
-/demo/
-.idea
-.DS_Store
-todo.md

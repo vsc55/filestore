@@ -1,5 +1,6 @@
 <?php
 namespace FreePBX\modules;
+
 /*
  * Class stub for BMO Module class
  * In _Construct you may remove the database line if you don't use it
@@ -7,7 +8,7 @@ namespace FreePBX\modules;
  *
  */
 
-class Filestore implements \BMO {
+class Filestore extends \DB_Helper implements \BMO {
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");

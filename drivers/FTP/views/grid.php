@@ -22,12 +22,12 @@
     <tr>
       <th data-field="name"><?php echo _("Name")?></th>
       <th data-field="desc"><?php echo _("Description")?></th>
-      <th data-field="id" data-formatter="linkFormatter"><?php echo _("Actions")?></th>
+      <th data-field="id" data-formatter="FTPLinkFormatter"><?php echo _("Actions")?></th>
     </tr>
   </thead>
 </table>
 <script>
-function linkFormatter(value, row, index){
+function FTPLinkFormatter(value, row, index){
     var html = '<a href="?display=filestore&driver=FTP&view=form&id='+value+'"><i class="fa fa-pencil"></i></a>';
     html += '&nbsp;<a href="?display=filestore&driver=FTP&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
     return html;

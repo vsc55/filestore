@@ -11,9 +11,11 @@ class Email{
 			"id" => '',
 			"name" => '',
 			"desc" => '',
-			"addr" => '',
+			"addr" => array(),
 			"maxsize" => '',
 			"maxtype" => '',
+			"from" => '',
+			"body" => ''
 		);
 	}
 	//Base actions
@@ -22,45 +24,17 @@ class Email{
 	 * @return null
 	 */
 	public function install(){
-		//If you add it here add it to dbcols above//
-		$cols = array(
-			"id" => array(
-				"type" => "integer",
-				"primaryKey" => true,
-				"autoincrement" => true
-			),
-			"name" => array(
-				"type" => "string",
-				"notnull" => true,
-			),
-			"desc" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"addr" => array(
-				"type" => "string",
-				"length" => 256
-			),
-			"maxsize" => array(
-				"type" => "integer",
-			),
-			"maxtype" => array(
-				"type" => "string",
-				"length" => 150
-			)
-		);
-		$table = $this->db->migrate("filestore_email");
-		$table->modify($cols);
 	}
 
 	/**
 	 * Run on module uninstall
 	 * @return null
 	 */
-	public function uninstall(){
-		$sql = "DROP TABLE filestore_email";
-		$stmt = $this->db->prepare($sql);
-		return $stmt->execute;
+	 public function uninstall(){
+	}
+
+	public function generateId(){
+		return \Ramsey\Uuid\Uuid::uuid4()->toString();
 	}
 
 	/**
@@ -83,7 +57,7 @@ class Email{
 			return array();
 		}
 		switch($request['driver']) {
-			case 'FTP':
+			case 'Email':
 				$buttons = array(
 					'delete' => array(
 						'name' => 'delete',
@@ -112,8 +86,7 @@ class Email{
 		$req = isset($_REQUEST['command'])?$_REQUEST['command']:'';
 		switch ($req) {
 			case 'getJSON':
-				$data = $this->listItems();
-				return $data['rows'];
+				 return $this->listItems();
 			default:
 				return false;
 		}
@@ -133,14 +106,13 @@ class Email{
 	 */
 	public function doConfigPageInit($page){
 		$req = $_REQUEST;
-		if($req['driver'] == 'FTP'){
-			dbug('HERE');
+		if($req['driver'] == 'Email'){
 			$action = isset($req['action'])?$req['action']:'';
 			$id = isset($req['id'])?$req['id']:false;
 			switch ($action) {
 				case 'add':
 				case 'save':
-					return $this->addItem($req);
+					return $this->addItem($_POST);
 				break;
 				case 'edit':
 					if($id){
@@ -181,29 +153,35 @@ class Email{
 	 * @param $data array of data for required
 	 */
 	public function addItem($data){
-		$insert = array();
-		$keys = array();
-		$vars = array();
-		foreach ($this->dbcols as $key => $value) {
-			if($key == 'id'){
-				continue;
+		$id = (isset($data['id']) && !empty($data['id']))?$data['id']:$this->generateId();
+		foreach ($this->dbcols as $key => $val) {
+			switch ($key) {
+				case 'id':
+					continue;
+				case 'addr':
+					$value = isset($data[$key])?$data[$key]:$val;
+					$tmp = preg_split("/\\r\\n|\\r|\\n/", $value);
+					$tmp = array_filter($tmp,trim);
+					$this->FreePBX->Filestore->setConfig($key,$tmp,$id);
+				break;
+				default:
+					$value = isset($data[$key])?$data[$key]:$val;
+					$this->FreePBX->Filestore->setConfig($key,$value,$id);
+				break;
 			}
-			$keys['`'.$key.'`'] = '`'.$key.'`';
-			$insert[':'.$key] = isset($data[$key])?$data[$key]:$value;
 		}
-		$sql = 'INSERT INTO filestore_email ('.implode(',', array_keys($keys)).') VALUES ('.implode(',',array_keys($insert)).')';
-		$stmt = $this->db->prepare($sql);
-		$ret = $stmt->execute($insert);
-		return array('status' => $ret, 'data' => $this->db->lastInsertId());
+		$description = isset($data['desc'])?$data['desc']:$this->dbcols['desc'];
+		$this->FreePBX->Filestore->setConfig($id,array('id' => $id, 'name' => $data['name'], 'desc' => $description),'emailservers');
+		return array('status' => $ret, 'data' => $id);
 	}
 	/**
 	 * Edit Item
 	 * @param  string  $id   Id of item
 	 * @param  array $data array of data required
-	 * @return bool       success, failure
+	 * @return string id
 	 */
-	public function editItem($id,$data){
-
+	public function editItem($data){
+		$this->addItem($data);
 	}
 
 	/**
@@ -212,35 +190,31 @@ class Email{
 	 * @return bool   success, failure
 	 */
 	public function deleteItem($id){
-
+		$this->FreePBX->Filestore->setConfig($id,false,'emailservers');
+		$this->FreePBX->Filestore->delById($id);
 	}
 
 	public function getItemById($id){
-		$sql = 'SELECT * FROM filestore_email WHERE id = :id LIMIT 1';
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute(array(':id' => $id));
-		return $stmt->fetch();
+		$data = $this->FreePBX->Filestore->getAll($id);
+		$return = array();
+		foreach ($this->dbcols as $key => $value) {
+			switch ($key) {
+				default:
+					$return[$key] = isset($data[$key])?$data[$key]:$value;
+				break;
+			}
+		}
+		return $return;
 	}
 
 	/**
 	 * Get list of items for driver
 	 * @return array Array of items.
 	 */
-	public function listItems($start = 0,$limit = 9999){
-		$sql = 'SELECT count(id) FROM filestore_ftp';
-		$ret = $this->db->query($sql);
-		$rowCount = $ret->fetchColumn();
-		if($rowCount > 0){
-			$sql = 'SELECT * FROM filestore_email LIMIT '.$limit.' OFFSET '.$start;
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute();
-			$rows =  $stmt->fetchAll(\PDO::FETCH_ASSOC);
-			return array('count' => $rowCount, 'rows' => $rows);
-		}else{
-			return array('count' => $rowCount, 'rows' => array());
-		}
+	public function listItems(){
+		$items = $this->FreePBX->Filestore->getAll('emailservers');
+		return array_values($items);
 	}
-
 
 	//Filestore Actions
 
@@ -252,12 +226,31 @@ class Email{
 	 * @return bool  object created
 	 */
 	public function put($id,$local,$remote){
-		$item = $this->getById($id);
+		$item = $this->getItemById($id);
+		$from = isset($item['from'])?$item['from']:get_current_user().'@'.gethostname();
+		if(isset($item['from']) && !empty($item['from'])){
+			$from = $item['from'];
+		}else{
+			$from = get_current_user() . '@' . gethostname();
+			if(function_exists('sysadmin_get_storage_email')){
+				$emails = sysadmin_get_storage_email();
+				//Check that what we got back above is a email address
+				if(!empty($emails['fromemail']) && filter_var($emails['fromemail'],FILTER_VALIDATE_EMAIL)){
+					//Fallback address
+					$from = $emails['fromemail'];
+				}
+			}
+		};
+		$to = array_filter($item['addr'],trim);
+		$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
+		$ident = $this->FreePBX->Config->get("FREEPBX_SYSTEM_IDENT");
+		$body = !empty($item['body'])?$item['body']:sprintf(_("File from %s, Identifier: %s"),$brand,$ident);
 		$mail = \FreePBX::Mail();
-		$mail->setSubject($item['subject']);
-		$mail->setBcc(json_decode($item['addr'],true));
-		$mail->setBody($item['body']);
-		$mail->attach(\Swift_Attachment::fromPath($local));
+		$mail->setSubject($item['desc']);
+		$mail->setFrom($from,$from);
+		$mail->setTo($to);
+		$mail->setBody($body);
+		$mail->addAttachment($local);
 		return $mail->send();
 	}
 }

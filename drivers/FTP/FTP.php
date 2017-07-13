@@ -43,51 +43,7 @@ class FTP{
 	 * @return null
 	 */
 	public function install(){
-		//If you add it here add it to dbcols above//
-		$cols = array(
-			"id" => array(
-				"type" => "integer",
-				"primaryKey" => true,
-				"autoincrement" => true
-			),
-			"name" => array(
-				"type" => "string",
-				"notnull" => true,
-			),
-			"desc" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"host" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"port" => array(
-				"type" => "integer",
-			),
-			"user" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"password" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"fstype" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"path" => array(
-				"type" => "string",
-				"length" => 150
-			),
-			"transfer" => array(
-				"type" => "string",
-				"length" => 150
-			)
-		);
-		$table = $this->db->migrate("filestore_ftp");
-		$table->modify($cols);
+
 	}
 
 	/**
@@ -95,11 +51,10 @@ class FTP{
 	 * @return null
 	 */
 	public function uninstall(){
-		$sql = "DROP TABLE filestore_ftp";
-		$stmt = $this->db->prepare($sql);
-		return $stmt->execute;
 	}
-
+	public function generateId(){
+		return \Ramsey\Uuid\Uuid::uuid4()->toString();
+	}
 	/**
 	 * The display view for non setting items.
 	 * @return string html
@@ -150,7 +105,7 @@ class FTP{
 		switch ($req) {
 			case 'getJSON':
 				$data = $this->listItems();
-				return $data['rows'];
+				return $data;
 			default:
 				return false;
 		}
@@ -219,20 +174,20 @@ class FTP{
 	 * @param $data array of data for required
 	 */
 	public function addItem($data){
-		$insert = array();
-		$keys = array();
-		$vars = array();
-		foreach ($this->dbcols as $key => $value) {
-			if($key == 'id'){
-				continue;
+		$id = (isset($data['id']) && !empty($data['id']))?$data['id']:$this->generateId();
+		foreach ($this->dbcols as $key => $val) {
+			switch ($key) {
+				case 'id':
+					continue;
+				default:
+					$value = isset($data[$key])?$data[$key]:$val;
+					$this->FreePBX->Filestore->setConfig($key,$value,$id);
+				break;
 			}
-			$keys['`'.$key.'`'] = '`'.$key.'`';
-			$insert[':'.$key] = isset($data[$key])?$data[$key]:$value;
 		}
-		$sql = 'INSERT INTO filestore_ftp ('.implode(',', array_keys($keys)).') VALUES ('.implode(',',array_keys($insert)).')';
-		$stmt = $this->db->prepare($sql);
-		$ret = $stmt->execute($insert);
-		return array('status' => $ret, 'data' => $this->db->lastInsertId());
+		$description = isset($data['desc'])?$data['desc']:$this->dbcols['desc'];
+		$this->FreePBX->Filestore->setConfig($id,array('id' => $id, 'name' => $data['name'], 'desc' => $description),'ftpservers');
+		return array('status' => $ret, 'data' => $id);
 	}
 	/**
 	 * Edit Item
@@ -241,7 +196,7 @@ class FTP{
 	 * @return bool       success, failure
 	 */
 	public function editItem($id,$data){
-
+		$this->addItem($data);
 	}
 
 	/**
@@ -250,33 +205,30 @@ class FTP{
 	 * @return bool   success, failure
 	 */
 	public function deleteItem($id){
-
+		$this->FreePBX->Filestore->setConfig($id,false,'ftpservers');
+		$this->FreePBX->Filestore->delById($id);
 	}
 
 	public function getItemById($id){
-		$sql = 'SELECT * FROM filestore_ftp WHERE id = :id LIMIT 1';
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute(array(':id' => $id));
-		return $stmt->fetch();
+		$data = $this->FreePBX->Filestore->getAll($id);
+		$return = array();
+		foreach ($this->dbcols as $key => $value) {
+			switch ($key) {
+				default:
+					$return[$key] = isset($data[$key])?$data[$key]:$value;
+				break;
+			}
+		}
+		return $return;
 	}
 
 	/**
 	 * Get list of items for driver
 	 * @return array Array of items.
 	 */
-	public function listItems($start = 0,$limit = 9999){
-		$sql = 'SELECT count(id) FROM filestore_ftp';
-		$ret = $this->db->query($sql);
-		$rowCount = $ret->fetchColumn();
-		if($rowCount > 0){
-			$sql = 'SELECT * FROM filestore_ftp LIMIT '.$limit.' OFFSET '.$start;
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute();
-			$rows =  $stmt->fetchAll(\PDO::FETCH_ASSOC);
-			return array('count' => $rowCount, 'rows' => $rows);
-		}else{
-			return array('count' => $rowCount, 'rows' => array());
-		}
+	public function listItems(){
+		$items = $this->FreePBX->Filestore->getAll('ftpservers');
+		return array_values($items);
 	}
 
 	//TOUKI STUFF

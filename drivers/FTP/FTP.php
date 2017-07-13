@@ -171,7 +171,6 @@ class FTP{
 	public function doConfigPageInit($page){
 		$req = $_REQUEST;
 		if($req['driver'] == 'FTP'){
-			dbug('HERE');
 			$action = isset($req['action'])?$req['action']:'';
 			$id = isset($req['id'])?$req['id']:false;
 			switch ($action) {

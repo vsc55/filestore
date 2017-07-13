@@ -1,9 +1,9 @@
 <?php
-  $dataurl = "ajax.php?module=filesystem&driver=FTP&command=getJSON&jdata=grid";
+  $dataurl = "ajax.php?module=filestore&driver=FTP&command=getJSON&jdata=grid";
 ?>
 <br/>
 <div id="toolbar-ftpgrid">
-  <a href='?display=filesystem&driver=FTP&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add FTP Instance")?></a>
+  <a href='?display=filestore&driver=FTP&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add FTP Instance")?></a>
 </div>
 <table id="ftpgrid"
     data-url="<?php echo $dataurl?>"
@@ -20,9 +20,16 @@
     class="table table-striped">
   <thead>
     <tr>
-      <th data-field="name"><?php echo _("Item")?></th>
-      <th data-field="description"><?php echo _("Description")?></th>
+      <th data-field="name"><?php echo _("Name")?></th>
+      <th data-field="desc"><?php echo _("Description")?></th>
       <th data-field="id" data-formatter="linkFormatter"><?php echo _("Actions")?></th>
     </tr>
   </thead>
 </table>
+<script>
+function linkFormatter(value, row, index){
+    var html = '<a href="?display=filestore&driver=FTP&view=form&id='+value+'"><i class="fa fa-pencil"></i></a>';
+    html += '&nbsp;<a href="?display=filestore&driver=FTP&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
+    return html;
+}
+</script>

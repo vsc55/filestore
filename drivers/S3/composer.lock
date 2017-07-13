@@ -1,0 +1,63 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "de1cf80b84bc10015cdc77724d79146d",
+    "content-hash": "25007ef583a2608e6e697e52dffcca1e",
+    "packages": [
+        {
+            "name": "buuum/s3",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/buuum/S3.git",
+                "reference": "e69015125f05a2cf6c0b48aa93b28f47bb744959"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/buuum/S3/zipball/e69015125f05a2cf6c0b48aa93b28f47bb744959",
+                "reference": "e69015125f05a2cf6c0b48aa93b28f47bb744959",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Buuum\\": "src/S3"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alfons Martinez",
+                    "email": "alfonsmartinezparra@gmail.com"
+                }
+            ],
+            "description": "A simple aws s3 class",
+            "homepage": "https://github.com/buuum/S3",
+            "keywords": [
+                "AWS S3",
+                "s3"
+            ],
+            "time": "2017-07-11 10:28:18"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

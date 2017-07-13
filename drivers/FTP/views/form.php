@@ -12,10 +12,10 @@ $fstype = isset($fstype)?$fstype:'auto';
 			<div class="col-sm-12">
 				<div class="fpbx-container">
 					<div class="display full-border">
-            <form class="fpbx-submit" action="" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=backup_servers&action=delete&id=<?php echo $id; ?>">
-              <input type="hidden" name="action" value="save">
+            <form class="fpbx-submit" action="?display=filesystem&driver=FTP" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filesystem&driver=FTP&action=delete&id=<?php echo $id; ?>">
+              <input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
               <input type="hidden" name="id" value="<?php echo $id?>">
-              <input type="hidden" name="server_type" value="ftp">
+              <input type="hidden" name="driver" value="FTP">
               <!--Server Name-->
               <div class="element-container">
                 <div class="row">
@@ -174,7 +174,8 @@ $fstype = isset($fstype)?$fstype:'auto';
                 </div>
               </div>
               <!--END Transfer Mode-->
-              <br/>
+						</form>
+            <br/>
 					</div>
 				</div>
 			</div>
@@ -185,7 +186,6 @@ $fstype = isset($fstype)?$fstype:'auto';
   var immortal = <?php echo (isset($immortal) && !empty($immortal))?'true':'false';?>;
 	$('#server_form').on('submit', function(e) {
 			if($("#host").val().length === 0 ) {
-				e.preventDefault();
 				warnInvalid($("#host"),_("The host cannot be empty"));
 				return false;
 			}else{

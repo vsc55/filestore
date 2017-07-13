@@ -1,2 +1,2 @@
 <?php
-echo FreePBX::Filesystem()->showPage();
+echo FreePBX::Filestore()->showPage();

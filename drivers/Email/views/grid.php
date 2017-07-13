@@ -22,7 +22,7 @@
     <tr>
       <th data-field="name"><?php echo _("Name")?></th>
       <th data-field="desc"><?php echo _("Description")?></th>
-      <th data-field="id" data-formatter="emailLlinkFormatter"><?php echo _("Actions")?></th>
+      <th data-field="id" data-formatter="emailLinkFormatter"><?php echo _("Actions")?></th>
     </tr>
   </thead>
 </table>

@@ -11,9 +11,10 @@ class Local{
 		}
 		require __DIR__ . '/../../vendor/autoload.php';
 		$this->dbcols = array(
-			'name',
-			'desc',
-			'path',
+			'name' => '',
+			'desc' => '',
+			'path' => '',
+			'immortal' => '',
 		);
 	}
 	//Base actions
@@ -165,7 +166,7 @@ class Local{
 			}
 		}
 		$description = isset($data['desc'])?$data['desc']:$this->dbcols['desc'];
-		$this->FreePBX->Filestore->setConfig($id,array('id' => $id, 'bucket' => $data['bucket'], 'desc' => $description),'localservers');
+		$this->FreePBX->Filestore->setConfig($id,array('id' => $id, 'name' => $data['name'], 'desc' => $description),'localservers');
 		return array('status' => $ret, 'data' => $id);
 	}
 	/**
@@ -211,10 +212,11 @@ class Local{
 	}
 	//Local STUFF
 	public function translatePath($path){
-		if(preg_match("/(.*)__.(.*).__(.*)/", $path, $matches) !== 1){
+		if(preg_match("/(.*)__(.*)__(.*)/", $path, $matches) !== 1){
 				return $path;
 		}
 		$var = $this->FreePBX->Config->get($matches[2]);
+		var_dump($var);
 		if($var === false){
 			return $path;
 		}
@@ -222,7 +224,8 @@ class Local{
 	}
 	public function getConnection($id){
 		$item = $this->getItemById($id);
-		$adapter = new Loc($item['path']);
+		$path = $this->translatePath($item['path']);
+		$adapter = new Loc($path);
 		$filesystem = new Filesystem($adapter);
 		return $filesystem;
 	}
@@ -276,7 +279,7 @@ class Local{
 		$path = $this->translatePath($path);
 		$filesystem = $this->getConnection($id);
 		try {
-			$ret = $filesystem->listContents('some/dir', $recursive);
+			$ret = $filesystem->listContents($path, $recursive);
 		} catch (\Exception $e) {
 			throw $e;
 		}

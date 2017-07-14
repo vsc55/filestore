@@ -34,7 +34,8 @@ class FTP{
 			"password" => 'anonymous',
 			"fstype" => 'auto',
 			"path" => '/',
-			"transfer" => 'passive'
+			"transfer" => 'passive',
+			'immortal' => '',
 		);
 	}
 	//Base actions

@@ -1,16 +1,29 @@
 <?php
 $disabled = (isset($readonly) && !empty($readonly))?' disabled ':'';
+$id = isset($_GET['id'])?$_GET['id']:'';
 ?>
 <div class="container-fluid">
-	<h1><?php echo _('FTP Instance')?></h1>
+	<h1><?php echo _('Local Directory')?></h1>
+	<div class="alert alert-info">
+		<p><h3><?php echo _("Paths supports parameter substitution such as the examples below")?></h3></p>
+		<ul class='fa-ul'>
+			<li><i class="fa-li fa fa-folder-o"></i>'__ASTAGIDIR__' = <?php echo _('AGI directory'); ?></li>
+			<li><i class="fa-li fa fa-folder-o"></i>'__ASTVARLIBDIR__' = <?php echo _('lib directory'); ?></li>
+			<li><i class="fa-li fa fa-folder-o"></i>'__ASTETCDIR__' = <?php echo _('etc directory'); ?></li>
+			<li><i class="fa-li fa fa-folder-o"></i>'__ASTLOGDIR__' = <?php echo _('log direcrory'); ?></li>
+			<li><i class="fa-li fa fa-folder-o"></i>'__ASTSPOOLDIR__' = <?php echo _('spool directory'); ?></li>
+			<li><i class="fa-li fa fa-folder-o"></i>'__AMPWEBROOT__' = <?php echo _('Webroot'); ?></li>
+		</ul>
+
+	</div>
 	<div class = "display full-border">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="fpbx-container">
 					<div class="display full-border">
-						<form class="fpbx-submit" action="?display=filesystem" method="post" id="server_form" name="server_form">
+						<form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" fpbx-delete="?display=filestore&driver=Local&action=delete&id=<?php echo $id?>">
 							<input type="hidden" name="action" value="save">
-							<input type="hidden" name="id" value="<?php echo isset($id)?$id:''?>">
+							<input type="hidden" name="id" value="<?php echo $id?>">
 							<input type="hidden" name="driver" value="Local">
 							<!--Server Name-->
 							<div class="element-container">
@@ -19,7 +32,7 @@ $disabled = (isset($readonly) && !empty($readonly))?' disabled ':'';
 										<div class="row">
 											<div class="form-group">
 												<div class="col-md-3">
-													<label class="control-label" for="name"><?php echo _("Server Name") ?></label>
+													<label class="control-label" for="name"><?php echo _("Path Name") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="name"></i>
 												</div>
 												<div class="col-md-9">
@@ -94,7 +107,7 @@ $disabled = (isset($readonly) && !empty($readonly))?' disabled ':'';
 <script type="text/javascript">
 var immortal = <?php echo (isset($immortal) && !empty($immortal))?'true':'false';?>;
 $('#server_form').on('submit', function(e) {
-	if($("#bucket").val().length === 0 ) {
+	if($("#name").val().length === 0 ) {
 		warnInvalid($("#host"),_("The host cannot be empty"));
 		return false;
 	}else{

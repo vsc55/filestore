@@ -264,14 +264,14 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @param  type file/dir Default both.
 	 * @return        File object
 	 */
-	public function ls($driver,$id,$path,$type=null){
+	public function ls($driver,$id,$path,$recursive=false){
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
 		$class = new $class($this->FreePBX);
 		if(method_exists($class,'ls')){
-			return $class->ls($id,$path,$type);
+			return $class->ls($id,$path,$recursive);
 		}else{
 			throw new \Exception(sprintf(_("The Driver %s doesn't support the method %s"),$driver,'ls'),501);
 		}

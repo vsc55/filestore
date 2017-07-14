@@ -20,7 +20,7 @@
     class="table table-striped">
   <thead>
     <tr>
-      <th data-field="bucket"><?php echo _("Name")?></th>
+      <th data-field="name"><?php echo _("Name")?></th>
       <th data-field="desc"><?php echo _("Description")?></th>
       <th data-field="id" data-formatter="LocalLinkFormatter"><?php echo _("Actions")?></th>
     </tr>
@@ -29,7 +29,7 @@
 <script>
 function LocalLinkFormatter(value, row, index){
     var html = '<a href="?display=filestore&driver=Local&view=form&id='+value+'"><i class="fa fa-pencil"></i></a>';
-    html += '&nbsp;<a href="?display=filestore&driver=LocalP&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
+    html += '&nbsp;<a href="?display=filestore&driver=Local&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
     return html;
 }
 </script>

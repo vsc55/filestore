@@ -18,6 +18,7 @@ class S3{
 			"desc" => '',
 			"bucket" => '',
 			"region" => '',
+			'immortal' => '',
 		);
 	}
 	//Base actions
@@ -295,7 +296,7 @@ class S3{
 	public function ls($id,$path,$recursive=false){
 		$filesystem = $this->getConnection($id);
 		try {
-			$ret = $filesystem->listContents('some/dir', $recursive);
+			$ret = $filesystem->listContents($path, $recursive);
 		} catch (\Exception $e) {
 			throw $e;
 		}

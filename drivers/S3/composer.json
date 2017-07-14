@@ -1,5 +1,0 @@
-{
-    "require": {
-        "gwk/s3streamwrapper": "^0.3.2"
-    }
-}

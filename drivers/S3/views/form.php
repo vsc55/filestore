@@ -6,7 +6,7 @@ if (!isset($id)) {
 $fstype = isset($fstype)?$fstype:'auto';
 ?>
 <div class="container-fluid">
-	<h1><?php echo _('AWSS3')?></h1>
+	<h1><?php echo _('For Use With AWS S3')?></h1>
 	<div class = "display full-border">
 		<div class="row">
 			<div class="col-sm-12">
@@ -43,6 +43,33 @@ $fstype = isset($fstype)?$fstype:'auto';
             		</div>
             	</div>
             	<!--END Description-->
+              <!--AWS Region-->
+              <div class="element-container">
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-md-3">
+                      <label class="control-label" for="region"><?php echo _("AWS Region") ?></label>
+                      <i class="fa fa-question-circle fpbx-help-icon" data-for="region"></i>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" id="region" name="region">
+                        <?php
+                          foreach ($regions as $v => $k) {
+                            $selected = ($v == $region)?'SELECTED':'';
+                            echo '<option value = "'.$k.'" '.$selected.'>'.$v.' ['.$k.']</option>';
+                          }
+                        ?>
+                        </select>
+                    </div>
+                    </div>
+                  </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <span id="region-help" class="help-block fpbx-help-block"><?php echo _("Region provided in AWS")?></span>
+                  </div>
+                </div>
+              </div>
+              <!--END AWS Region-->
             	<!--AWS Access Key-->
             	<div class="element-container">
             		<div class="row">
@@ -83,7 +110,7 @@ $fstype = isset($fstype)?$fstype:'auto';
 			</div>
 		</div>
 	</div>
-  <p class ="pull-right"> For use with Amazon S3&trade;</p>
+  <p class ="pull-right"> <a href="http://aws.amazon.com" target='_blank'>AWS&trade; and S3&trade; are trademarks of Amazon Web Services Inc</a></p>
 </div>
 <script type="text/javascript">
   var immortal = <?php echo (isset($immortal) && !empty($immortal))?'true':'false';?>;

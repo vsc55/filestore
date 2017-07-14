@@ -1,6 +1,9 @@
 <?php
 namespace FreePBX\modules\Filestore\drivers\S3;
-use S3StreamWrapper\S3StreamWrapper;
+use Aws\S3\S3Client;
+use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FileExistsException;
 
 class S3{
 	public function __construct($freepbx=null){
@@ -8,13 +11,13 @@ class S3{
 		if(!empty($freepbx)){
 			$this->db =  $freepbx->Database;
 		}
-		require __DIR__ . '/vendor/autoload.php';
-		S3StreamWrapper::register();
+		require __DIR__ . '/../../vendor/autoload.php';
 		$this->dbcols = array(
 			"awsaccesskey" => '',
 			"awssecret" => '',
 			"desc" => '',
 			"bucket" => '',
+			"region" => '',
 		);
 	}
 	//Base actions
@@ -40,6 +43,23 @@ class S3{
 	 * @return string html
 	 */
 	public function displayView(){
+		$regions =
+		[
+			'US East (Ohio)' => 'us-east-2',
+			'US East (N. Virginia)' => 'us-east-1',
+			'US West (N. California)' => 'us-west-1',
+			'US West (Oregon)' => 'us-west-2',
+			'Canada (Central)' => 'ca-central-1',
+			'Asia Pacific (Mumbai)' => 'ap-south-1',
+			'Asia Pacific (Seoul)' => 'ap-northeast-2',
+			'Asia Pacific (Singapore)' => 'ap-southeast-1',
+			'Asia Pacific (Sydney)' => 'ap-southeast-2',
+			'Asia Pacific (Tokyo)' => 'ap-northeast-1',
+			'EU (Frankfurt)' => 'eu-central-1',
+			'EU (Ireland)' => 'eu-west-1',
+			'EU (London)' => 'eu-west-2',
+			'South America (São Paulo)' => 'sa-east-1',
+		];
 		if(empty($_GET['view'])){
 			return load_view(__DIR__.'/views/grid.php');
 		}else{
@@ -47,6 +67,7 @@ class S3{
 			if(isset($_GET['id'])){
 				$vars = $this->getItemById($_GET['id']);
 			}
+			$vars['regions'] = $regions;
 			return load_view(__DIR__.'/views/form.php',$vars);
 		}
 	}
@@ -210,6 +231,23 @@ class S3{
 		$items = $this->FreePBX->Filestore->getAll('s3servers');
 		return array_values($items);
 	}
+	//S3 STUFF
+	public function getConnection($id){
+		$item = $this->getItemById($id);
+		dbug($item);
+		$client = new S3Client([
+			'credentials' => [
+				'key'    => trim($item['awsaccesskey']),
+				'secret' => trim($item['awssecret'])
+			],
+			'region' => $item['region'],
+			'version' => 'latest',
+			'signature_version' => 'v4',
+		]);
+		$adapter = new AwsS3Adapter($client, $item['bucket']);
+		$filesystem = new Filesystem($adapter);
+		return $filesystem;
+	}
 
 	//Filestore Actions
 	/**
@@ -219,16 +257,15 @@ class S3{
 	 * @return        File object
 	 */
 	public function get($id,$remote,$local){
-		$item = $this->getItemById($id);
-		$options = array(
-    	'key' => $item['awsaccesskey'],
-    	'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		$rdata = file_get_contents('s3://'.$item['bucket'].'/'.$remote);
-		$fh = fopen($local,"w");
-		fwrite($fh,$rdata);
-		fclose($fh);
+		$filesystem = $this->getConnection($id);
+		try {
+			$contents = $filesystem->read($remote);
+			$fh = fopen($local,"w");
+			fwrite($fh,$contents);
+			fclose($fh);
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -239,15 +276,13 @@ class S3{
 	 * @return bool  object created
 	 */
 	public function put($id,$local,$remote){
-		$item = $this->getItemById($id);
-		$options = array(
-			'key' => $item['awsaccesskey'],
-			'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		$fh = fopen($local,"r");
-		file_put_contents('s3://'.$item['bucket'].'/'.$remote, $fh);
-		fclose($fh);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->put($remote, $local);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -257,14 +292,14 @@ class S3{
 	 * @param  type file/dir Default both.
 	 * @return        File object
 	 */
-	public function ls($id,$path,$type=null){
-		$item = $this->getItemById($id);
-		$options = array(
-			'key' => $item['awsaccesskey'],
-			'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		return scandir('s3://'.$item['bucket'].'/'.$path);
+	public function ls($id,$path,$recursive=false){
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->listContents('some/dir', $recursive);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -275,13 +310,13 @@ class S3{
 	 * @return boolean            Did it delete?
 	 */
 	public function delete($id,$path,$recursive=false){
-		$item = $this->getItemById($id);
-		$options = array(
-			'key' => $item['awsaccesskey'],
-			'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		return unlink('s3://'.$item['bucket'].'/'.$path);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->delete($path);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -292,13 +327,13 @@ class S3{
 	 * @return bool  was the operation successful
 	 */
 	public function move($id,$oldpath,$newpath){
-		$item = $this->getItemById($id);
-		$options = array(
-			'key' => $item['awsaccesskey'],
-			'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		return rename('s3://'.$item['bucket'].'/'.$oldpath,'s3://'.$item['bucket'].'/'.$newpath);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->rename($oldpath, $newpath);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -308,7 +343,19 @@ class S3{
 	* @return mixed $path  path of found item or false
 	*/
 	public function find($id,$filename){
-		$item = $this->getItemById($id);
+		$filesystem = $this->getConnection($id);
+		try {
+			$contents = $filemanager->listContents();
+			foreach ($contents as $object) {
+				if($object['basename'] == $filename){
+					return ['path' => $object['path'], 'file' => $object['basename']];
+				}
+			}
+
+		} catch (\Exception $e) {
+			return false;
+		}
+		return false;
 	}
 	/**
 	* Check if file exists
@@ -317,13 +364,13 @@ class S3{
 	* @return mixed $path  path of found item or false
 	*/
 	public function fileExists($id,$path){
-		$item = $this->getItemById($id);
-		$options = array(
-			'key' => $item['awsaccesskey'],
-			'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		return (@fopen('s3://'.$item['bucket'].'/'.$path,"r")==true);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->has($path);
+		} catch (\Exception $e) {
+			return false;
+		}
+		return $ret;
 	}
 	/**
 	* Check if directory exists
@@ -341,12 +388,12 @@ class S3{
 	* @return mixed $path  path of found item or false
 	*/
 	public function makeDirectory($id,$path){
-		$item = $this->getItemById($id);
-		$options = array(
-			'key' => $item['awsaccesskey'],
-			'secret' => $item['awssecret'],
-		);
-		stream_context_set_default(array('s3' => $options));
-		return mkdir('s3://'.$item['bucket'].'/'.$path);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->createDir($path);
+		} catch (\Exception $e) {
+			return false;
+		}
+		return $ret;
 	}
 }

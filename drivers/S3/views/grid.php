@@ -3,7 +3,7 @@
 ?>
 <br/>
 <div id="toolbar-s3grid">
-  <a href='?display=filestore&driver=S3&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add FTP Instance")?></a>
+  <a href='?display=filestore&driver=S3&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add S3 Bucket")?></a>
 </div>
 <table id="s3grid"
     data-url="<?php echo $dataurl?>"

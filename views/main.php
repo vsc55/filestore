@@ -29,7 +29,7 @@ foreach ($drivers as $driver) {
 ?>
 <ul class="nav nav-tabs">
   <?php echo $tabs ?>
-  <li role="presentation"><a href="#Settings" data-toggle="tab"><?php echo _("Settings")?></a></li>
+  <li role="presentation" class="<?php echo empty($settingtabcontent)?'hidden':'';?>"><a href="#Settings" data-toggle="tab"><?php echo _("Settings")?></a></li>
 </ul>
 <div class="tab-content">
   <?php echo $tabcontent;?>

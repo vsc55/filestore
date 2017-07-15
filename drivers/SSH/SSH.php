@@ -1,19 +1,21 @@
 <?php
 namespace FreePBX\modules\Filestore\drivers\SSH;
-class SSH{
-	public function __construct(){
 
+class SSH{
+	public function __construct($freepbx=null){
+		$this->FreePBX = $freepbx;
+		if(!empty($freepbx)){
+			$this->db =  $freepbx->Database;
+		}
+		require __DIR__ . '/../../vendor/autoload.php';
+		$this->dbcols = array(
+			'name' => '',
+			'desc' => '',
+			'path' => '',
+			'immortal' => '',
+		);
 	}
 	//Base actions
-	/**
-	 * Authentication action. This will process things like oauth flows
-	 * @param  array $request http request
-	 * @return bool action success/fail
-	 */
-	public function authAction($request){
-
-	}
-
 	/**
 	 * Run on install/update
 	 * @return null
@@ -27,23 +29,71 @@ class SSH{
 	 * @return null
 	 */
 	public function uninstall(){
-
 	}
-
-	/**
-	 * The settings page for the module
-	 * @return string html
-	 */
-	public function settingsView(){
-
+	public function generateId(){
+		return \Ramsey\Uuid\Uuid::uuid4()->toString();
 	}
-
 	/**
 	 * The display view for non setting items.
 	 * @return string html
 	 */
 	public function displayView(){
-
+		if(empty($_GET['view'])){
+			return load_view(__DIR__.'/views/grid.php');
+		}else{
+			$vars = array();
+			if(isset($_GET['id'])){
+				$vars = $this->getItemById($_GET['id']);
+			}
+			return load_view(__DIR__.'/views/form.php',$vars);
+		}
+	}
+	public function getActionBar($request) {
+		if(!isset($_GET['view']) || $_GET['view'] != 'form'){
+			return array();
+		}
+		switch($request['driver']) {
+			case 'SSH':
+				$buttons = array(
+					'delete' => array(
+						'name' => 'delete',
+						'id' => 'delete',
+						'value' => _('Delete')
+					),
+					'reset' => array(
+						'name' => 'reset',
+						'id' => 'reset',
+						'value' => _('Reset')
+					),
+					'submit' => array(
+						'name' => 'submit',
+						'id' => 'submit',
+						'value' => _('Submit')
+					)
+				);
+				if (empty($request['id'])) {
+					unset($buttons['delete']);
+				}
+			break;
+		}
+		return $buttons;
+	}
+	public function ajaxHandler(){
+		$req = isset($_REQUEST['command'])?$_REQUEST['command']:'';
+		switch ($req) {
+			case 'getJSON':
+				$data = $this->listItems();
+				return $data;
+			default:
+				return false;
+		}
+	}
+	public function ajaxRequest($req){
+		switch ($req) {
+			case 'getJSON':
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -52,16 +102,48 @@ class SSH{
 	 * @return [type]       [description]
 	 */
 	public function doConfigPageInit($page){
-
+		$req = $_REQUEST;
+		if($req['driver'] == 'SSH'){
+			$action = isset($req['action'])?$req['action']:'';
+			$id = isset($req['id'])?$req['id']:false;
+			switch ($action) {
+				case 'add':
+				case 'save':
+					return $this->addItem($req);
+				break;
+				case 'edit':
+					if($id){
+						return $this->editItem($id, $req);
+					}
+					return array('status' => false, 'message' => _("No id supplied"));
+				break;
+				case 'delete':
+					if($id){
+						return $this->deleteItem($id);
+					}
+					return array('status' => false, 'message' => _("No id supplied"));
+				break;
+				default:
+					return array('status' => false, 'message' => _("Unknown action provided"));
+				break;
+			}
+		}
 	}
 
 	/**
 	 * Weather an implintation is supported in this driver
-	 * @param  string $method the method "all,backuponly,readonly,writeonly"
+	 * @param  string $method the method "all,backup,readonly,writeonly"
 	 * @return bool method is/not supported
 	 */
 	public function methodSupported($method){
-
+		$permissions = array(
+			'all',
+			'read',
+			'write',
+			'backup',
+			'general'
+		);
+		return in_array($method, $permissions);
 	}
 
 	//CRUD actions
@@ -70,7 +152,20 @@ class SSH{
 	 * @param $data array of data for required
 	 */
 	public function addItem($data){
-
+		$id = (isset($data['id']) && !empty($data['id']))?$data['id']:$this->generateId();
+		foreach ($this->dbcols as $key => $val) {
+			switch ($key) {
+				case 'id':
+					continue;
+				default:
+					$value = isset($data[$key])?$data[$key]:$val;
+					$this->FreePBX->Filestore->setConfig($key,$value,$id);
+				break;
+			}
+		}
+		$description = isset($data['desc'])?$data['desc']:$this->dbcols['desc'];
+		$this->FreePBX->Filestore->setConfig($id,array('id' => $id, 'name' => $data['name'], 'desc' => $description),'sshservers');
+		return array('status' => $ret, 'data' => $id);
 	}
 	/**
 	 * Edit Item
@@ -79,7 +174,7 @@ class SSH{
 	 * @return bool       success, failure
 	 */
 	public function editItem($id,$data){
-
+		$this->addItem($data);
 	}
 
 	/**
@@ -88,16 +183,51 @@ class SSH{
 	 * @return bool   success, failure
 	 */
 	public function deleteItem($id){
+		$this->FreePBX->Filestore->setConfig($id,false,'sshservers');
+		$this->FreePBX->Filestore->delById($id);
+	}
 
+	public function getItemById($id){
+		$data = $this->FreePBX->Filestore->getAll($id);
+		$return = array();
+		foreach ($this->dbcols as $key => $value) {
+			switch ($key) {
+				default:
+					$return[$key] = isset($data[$key])?$data[$key]:$value;
+				break;
+			}
+		}
+		return $return;
 	}
 
 	/**
-	 * Git list of items for driver
+	 * Get list of items for driver
 	 * @return array Array of items.
 	 */
 	public function listItems(){
-
+		$items = $this->FreePBX->Filestore->getAll('sshservers');
+		return array_values($items);
 	}
+	//SSH STUFF
+	public function translatePath($path){
+		if(preg_match("/(.*)__(.*)__(.*)/", $path, $matches) !== 1){
+				return $path;
+		}
+		$var = $this->FreePBX->Config->get($matches[2]);
+		var_dump($var);
+		if($var === false){
+			return $path;
+		}
+		return $matches[1].$var.$matches[3];
+	}
+	public function getConnection($id){
+		$item = $this->getItemById($id);
+		$path = $this->translatePath($item['path']);
+		$adapter = new Loc($path);
+		$filesystem = new Filesystem($adapter);
+		return $filesystem;
+	}
+
 	//Filestore Actions
 	/**
 	 * Get file
@@ -105,8 +235,17 @@ class SSH{
 	 * @param  string $path path of item to get
 	 * @return        File object
 	 */
-	public function get($id,$path){
-
+	public function get($id,$remote,$ssh){
+		$ssh = $this->translatePath($ssh);
+		$filesystem = $this->getConnection($id);
+		try {
+			$contents = $filesystem->read($remote);
+			$fh = fopen($ssh,"w");
+			fwrite($fh,$contents);
+			fclose($fh);
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 
 	/**
@@ -116,8 +255,15 @@ class SSH{
 	 * @param file $file to upload
 	 * @return bool  object created
 	 */
-	public function put($id,$path,$file){
-
+	public function put($id,$ssh,$remote){
+		$ssh = $this->translatePath($ssh);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->put($remote, $ssh);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -127,8 +273,15 @@ class SSH{
 	 * @param  type file/dir Default both.
 	 * @return        File object
 	 */
-	public function ls($id,$path,$type=null){
-
+	public function ls($id,$path,$recursive=false){
+		$path = $this->translatePath($path);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->listContents($path, $recursive);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -139,7 +292,14 @@ class SSH{
 	 * @return boolean            Did it delete?
 	 */
 	public function delete($id,$path,$recursive=false){
-
+		$path = $this->translatePath($path);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->delete($path);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -150,7 +310,14 @@ class SSH{
 	 * @return bool  was the operation successful
 	 */
 	public function move($id,$oldpath,$newpath){
-
+		$oldpath = $this->translatePath($newpath);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->rename($oldpath, $newpath);
+		} catch (\Exception $e) {
+			throw $e;
+		}
+		return $ret;
 	}
 
 	/**
@@ -160,6 +327,60 @@ class SSH{
 	* @return mixed $path  path of found item or false
 	*/
 	public function find($id,$filename){
+		$filename = $this->translatePath($filename);
+		$filesystem = $this->getConnection($id);
+		try {
+			$contents = $filemanager->listContents();
+			foreach ($contents as $object) {
+				if($object['basename'] == $filename){
+					return ['path' => $object['path'], 'file' => $object['basename']];
+				}
+			}
 
+		} catch (\Exception $e) {
+			return false;
+		}
+		return false;
+	}
+	/**
+	* Check if file exists
+	* @param  int $id       filestore item $id
+	* @param  string $filename name of file to find
+	* @return mixed $path  path of found item or false
+	*/
+	public function fileExists($id,$path){
+		$path = $this->translatePath($path);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->has($path);
+		} catch (\Exception $e) {
+			return false;
+		}
+		return $ret;
+	}
+	/**
+	* Check if directory exists
+	* @param  int $id       filestore item $id
+	* @param  string $filename name of file to find
+	* @return mixed $path  path of found item or false
+	*/
+	public function directoryExists($id,$path){
+		return $thie->fileExists($id, $path);
+	}
+	/**
+	* Make Directory
+	* @param  int $id       filestore item $id
+	* @param  string $filename name of file to find
+	* @return mixed $path  path of found item or false
+	*/
+	public function makeDirectory($id,$path){
+		$path = $this->translatePath($path);
+		$filesystem = $this->getConnection($id);
+		try {
+			$ret = $filesystem->createDir($path);
+		} catch (\Exception $e) {
+			return false;
+		}
+		return $ret;
 	}
 }

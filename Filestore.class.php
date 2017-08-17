@@ -163,7 +163,7 @@ class Filestore extends \DB_Helper implements \BMO {
 			'filestoreTypes' => array(),
 			'locations'	=> array(),
 		);
-		foreach ($this->drivers as $key) {
+		foreach ($this->drivers as $driver) {
 			if(isset($this->hookdrivers[$driver])){
 				$class = $this->hookdrivers[$driver];
 			}else{
@@ -171,10 +171,12 @@ class Filestore extends \DB_Helper implements \BMO {
 			}
 			$class = new $class($this->FreePBX);
 			if($class->methodSupported($permissions)){
-				$locations['filestoreTypes'][] = $key;
-				$location['locations'][$key] = isset($location['locations'][$key])?$location['locations'][$key]:array();
-				foreach($class->listItems() as $location){
-					$location['locations'][$key][] = array('id' => $location['id'], 'name' => $location['name'], 'description' => $location['desciption']);
+				$locations['filestoreTypes'][] = $driver;
+				$location['locations'][$driver] = isset($location['locations'][$driver])?$location['locations'][$driver]:array();
+				foreach($class->listItems() as $item){
+					$name = isset($item['name'])?$item['name']:$driver.'-'.substr($item['id'], -5);
+					$description = isset($item['description'])?$item['description']:'';
+					$locations['locations'][$driver][] = array('id' => $item['id'], 'name' => $name, 'description' => $description);
 				}
 			}
 		}

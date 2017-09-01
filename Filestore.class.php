@@ -73,8 +73,28 @@ class Filestore extends \DB_Helper implements \BMO {
 		}
 		return false;
 	}
-	public function backup() {}
-	public function restore($backup) {}
+	public function backup($backup) {
+		$kvstoreids = $this->getAllids();
+		$kvstoreids[] = 'noid';
+		$settings = [];
+		foreach ($kvstoreids as $value) {
+			$settings[$value] = $this->getAll($value);
+		}
+		$backup->addSettings($settings);
+	}
+	public function restore($restore) {
+		$settings = $restore->getSettings();
+		$ids = [];
+		if(!$restore->getReplace()){
+			$ids = $this->getAllids()
+		}
+		foreach ($settings as $key => $value) {
+			if(in_array($key, $ids)){
+				continue;
+			}
+			
+		}
+	}
 	public function doConfigPageInit($page) {
 		if(isset($_REQUEST['driver'])){
 			$driver = $_REQUEST['driver'];

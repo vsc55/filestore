@@ -86,13 +86,14 @@ class Filestore extends \DB_Helper implements \BMO {
 		$settings = $restore->getSettings();
 		$ids = [];
 		if(!$restore->getReplace()){
-			$ids = $this->getAllids()
+			$ids = $this->getAllids();
+			$ids = is_array($ids)?$ids:[];
 		}
 		foreach ($settings as $key => $value) {
 			if(in_array($key, $ids)){
 				continue;
 			}
-			
+			$this->setMultiConfig($value,$id);
 		}
 	}
 	public function doConfigPageInit($page) {

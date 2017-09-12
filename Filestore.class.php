@@ -80,10 +80,10 @@ class Filestore extends \DB_Helper implements \BMO {
 		foreach ($kvstoreids as $value) {
 			$settings[$value] = $this->getAll($value);
 		}
-		$backup->addSettings($settings);
+		$backup->addConfigs($settings);
 	}
 	public function restore($restore) {
-		$settings = $restore->getSettings();
+		$settings = $restore->getConfigs();
 		$ids = [];
 		if(!$restore->getReplace()){
 			$ids = $this->getAllids();

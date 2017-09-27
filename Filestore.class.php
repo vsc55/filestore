@@ -162,19 +162,19 @@ class Filestore extends \DB_Helper implements \BMO {
 	public function ajaxHandler(){
 		if(!isset($_REQUEST['driver'])){
 			return false;
-		}else{
-			if(isset($this->hookdrivers[$driver])){
-				$class = $this->hookdrivers[$driver];
-			}else{
-				$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-			}
-			$class = new $class($this->FreePBX);
-			if(method_exists($class,'ajaxHandler')){
-				return $class->ajaxHandler();
-			}else{
-				return false;
-			}
 		}
+		$driver = $_REQUEST['driver'];
+		if(isset($this->hookdrivers[$driver])){
+			$class = $this->hookdrivers[$driver];
+		}
+		if(!isset($this->hookdrivers[$driver])){
+			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
+		}
+		$class = new $class($this->FreePBX);
+		if(method_exists($class,'ajaxHandler')){
+				return $class->ajaxHandler();
+		}
+		return false;
 	}
 	public function getRightNav($request) {
 		return '';

@@ -14,9 +14,14 @@ class ComposerStaticInitb20daa5f25c375b24150cbf55ddf2a1c
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'p' => 
+        array (
+            'phpseclib\\' => 10,
+        ),
         'S' => 
         array (
             'Srmklive\\Dropbox\\' => 17,
@@ -52,6 +57,10 @@ class ComposerStaticInitb20daa5f25c375b24150cbf55ddf2a1c
     );
 
     public static $prefixDirsPsr4 = array (
+        'phpseclib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
+        ),
         'Srmklive\\Dropbox\\' => 
         array (
             0 => __DIR__ . '/..' . '/srmklive/flysystem-dropbox-v2/src',

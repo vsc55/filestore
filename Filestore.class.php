@@ -23,11 +23,17 @@ class Filestore extends \DB_Helper implements \BMO {
 
 	public function listDrivers(){
 		$drivers = array();
+		$disabled = $this->getConfig('disabledFS');
+		$disabled = is_array($disabled)?$disabled:[];
 		foreach (new \DirectoryIterator(__DIR__.'/drivers/') as $dir) {
 			if($dir->isDot() || !$dir->isDir()){
 				continue;
 			}
-			$drivers[] = $dir->getFilename();
+			$driver = $dir->getFilename();
+			if(in_array(strtolower($driver),$disabled)){
+				continue;
+			}
+			$drivers[] = $driver;
 		}
 		$hooks = $this->FreePBX->Hooks->processHooks();
 		$hookdrivers = array();
@@ -498,5 +504,62 @@ class Filestore extends \DB_Helper implements \BMO {
 		}else{
 			throw new \Exception(sprintf(_("The Driver %s doesn't support the method %s"),$driver,'makeDirectory'),501);
 		}
+	}
+	public function runHook($hookname,$params = false){
+		if (!file_exists("/etc/incron.d/sysadmin")) {
+			throw new \Exception("Sysadmin RPM not up to date, or not a known OS. Can not start System Firewall. See http://bit.ly/fpbxfirewall");
+		}
+		$spooldir = $this->FreePBX->Config->get('ASTSPOOLDIR');
+		$basedir = $spooldir."/asterisk/incron";
+		if (!is_dir($basedir)) {
+			throw new \Exception("$basedir is not a directory");
+		}
+		// Does our hook actually exist?
+		if (!file_exists(__DIR__."/hooks/$hookname")) {
+			throw new \Exception("Hook $hookname doesn't exist");
+		}
+		$filename = $basedir.'/filestore'.$hookname;
+
+		// Do I have any params?
+		if ($params) {
+			// Oh. I do. If it's an array, json encode and base64
+			if (is_array($params)) {
+				$b = base64_encode(gzcompress(json_encode($params)));
+				// Note we derp the base64, changing / to _, because filepath.
+				$filename .= ".".str_replace('/', '_', $b);
+			} elseif (is_object($params)) {
+				throw new \Exception("Can't pass objects to hooks");
+			} else {
+				// Cast it to a string if it's anything else, and then make sure
+				// it doesn't have any spaces.
+				$filename .= ".".preg_replace("/[[:blank:]]+/", (string) $params);
+			}
+		}
+
+		$fh = fopen($filename, "w+");
+		if ($fh === false) {
+			// WTF, unable to create file?
+			throw new \Exception("Unable to create hook trigger '$filename'");
+		}
+
+		// As soon as we close it, incron does its thing.
+		fclose($fh);
+
+		// Wait for up to 5 seconds and make sure it's been deleted.
+		$maxloops = 10;
+		$deleted = false;
+		while ($maxloops--) {
+			if (!file_exists($filename)) {
+				$deleted = true;
+				break;
+			}
+			usleep(500000);
+		}
+
+		if (!$deleted) {
+			throw new \Exception("Hook file '$filename' was not picked up by Incron after 5 seconds. Is it not running?");
+		}
+		return true;
+	
 	}
 }

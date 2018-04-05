@@ -36,14 +36,12 @@ include __DIR__.'/../vendor/autoload.php';
             mkdir($outputDir, 0700, true);
         }
         $rsa = new RSA();
-        //$rsa->setPrivateKeyFormat(RSA::PRIVATE_FORMAT_PKCS1);
         $rsa->setPublicKeyFormat(RSA::PUBLIC_FORMAT_OPENSSH);        
         $out = $rsa->createKey(4096);
         $private = fopen($outputDir."/id_rsa","w");
         $public = fopen($outputDir."/id_rsa.pub","w");
         $success1 = fwrite($private,$out['privatekey']);
         $success2 = fwrite($public,$out['publickey']);
-        var_dump([$success1,$success2]);
         fclose($private);
         fclose($public);
         if(!$success1 || !$success2){
@@ -57,8 +55,18 @@ include __DIR__.'/../vendor/autoload.php';
         $scp = new SCP($this->ssh);
         $scp->put($remotePath,$localPath, SCP::SOURCE_LOCAL_FILE);
     }
-    public function sendCommand($command){
-        var_dump($this->ssh->read());
-        return $this->ssh->exec($command);
+    public function sendCommand($command,$returnError = false){
+        if(!$returnError){
+            $this->ssh->ssh->enableQuietMode();
+        }
+        $ret = $this->ssh->exec($command);
+        $this->ssh->disableQuietMode();
+        if($returnError){
+            return [
+                'err' => $this->ssh->getStdError(),
+                'exit' => $this->ssh->getExitStatus(),
+            ];
+        }
+        return $ret;
     }
  }

@@ -69,4 +69,8 @@ include __DIR__.'/../vendor/autoload.php';
         }
         return $ret;
     }
+    //TODO: Validate?
+    public function addTrustedKey($key){
+        return \FreePBX::Filestore()->runHook('addpubkey',$key);
+    }
  }

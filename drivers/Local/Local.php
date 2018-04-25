@@ -216,7 +216,6 @@ class Local{
 				return $path;
 		}
 		$var = $this->FreePBX->Config->get($matches[2]);
-		var_dump($var);
 		if($var === false){
 			return $path;
 		}

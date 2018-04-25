@@ -8,7 +8,7 @@ namespace FreePBX\modules;
  *
  */
 
-class Filestore extends \DB_Helper implements \BMO {
+class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");
@@ -16,29 +16,19 @@ class Filestore extends \DB_Helper implements \BMO {
 		$this->classlist = [];
 		$this->FreePBX = $freepbx;
 		$this->db = $freepbx->Database;
-		$this->hookdrivers = [];
+		$this->hookdrivers = null;
 		$this->drivers = $this->listDrivers();
 
 	}
 
 	public function listDrivers(){
 		$drivers = array();
-		$disabled = $this->getConfig('disabledFS');
-		$disabled = is_array($disabled)?$disabled:[];
 		foreach (new \DirectoryIterator(__DIR__.'/drivers/') as $dir) {
 			if($dir->isDot() || !$dir->isDir()){
 				continue;
 			}
 			$driver = $dir->getFilename();
-			if(in_array(strtolower($driver),$disabled)){
-				continue;
-			}
 			$drivers[] = $driver;
-		}
-		$hooks = $this->FreePBX->Hooks->processHooks();
-		$hookdrivers = array();
-		foreach ($hooks as $hook) {
-			$this->hookdrivers[$hook['name']] = $hook['class'];
 		}
 		return $drivers;
 	}
@@ -58,21 +48,12 @@ class Filestore extends \DB_Helper implements \BMO {
 		}
 	}
 	public function getDisplay($driver){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		$class = new $class($this->FreePBX);
 		return $class->displayView();
 	}
 	public function getSettingDisplay($driver){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		$class = new $class($this->FreePBX);
 		if(method_exists($class, 'settingsView')){
 			return $class->settingsView();
@@ -105,11 +86,7 @@ class Filestore extends \DB_Helper implements \BMO {
 	public function doConfigPageInit($page) {
 		if(isset($_REQUEST['driver'])){
 			$driver = $_REQUEST['driver'];
-			if(isset($this->hookdrivers[$driver])){
-				$class = $this->hookdrivers[$driver];
-			}else{
-				$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-			}
+			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 			$class = new $class($this->FreePBX);
 			if(isset($_REQUEST['authaction'])){
 				$class->authAction($_REQUEST);
@@ -123,12 +100,8 @@ class Filestore extends \DB_Helper implements \BMO {
 			return array();
 		}else{
 			$driver = $_REQUEST['driver'];
-			if(isset($this->hookdrivers[$driver])){
-				$class = $this->hookdrivers[$driver];
-			}else{
-				$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-			}
-			$class = new $class;
+			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
+			$class = new $class($this->FreePBX);
 			if(method_exists($class,'getActionBar')){
 				return $class->getActionBar($request);
 			}else{
@@ -138,17 +111,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	}
 	public function showPage(){
 		if(!isset($_GET['driver'])|| empty($_GET['driver'])){
-			$vars['drivers'] = $this->drivers;
-			$vars['hookdrivers'] = array_keys($this->hookdrivers);
+			$vars['drivers'] = $this->validateDrivers($this->drivers);
 			$vars['fs'] = $this;
 			return load_view(__DIR__.'/views/main.php',$vars);
 		}else{
-			if(isset($this->hookdrivers[$driver])){
-				$class = new $this->hookdrivers[$driver];
-				$class->getDisplay($driver);
-			}else{
-				return $this->getDisplay($_GET['driver']);
-			}
+			return $this->getDisplay($_GET['driver']);
 		}
 	}
 	public function ajaxRequest($req, &$setting) {
@@ -170,12 +137,7 @@ class Filestore extends \DB_Helper implements \BMO {
 			return false;
 		}
 		$driver = $_REQUEST['driver'];
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}
-		if(!isset($this->hookdrivers[$driver])){
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		$class = new $class($this->FreePBX);
 		if(method_exists($class,'ajaxHandler')){
 				return $class->ajaxHandler();
@@ -191,23 +153,33 @@ class Filestore extends \DB_Helper implements \BMO {
 			'locations'	=> array(),
 		);
 		foreach ($this->drivers as $driver) {
-			if(isset($this->hookdrivers[$driver])){
-				$class = $this->hookdrivers[$driver];
-			}else{
-				$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-			}
+			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 			$class = new $class($this->FreePBX);
-			if($class->methodSupported($permissions)){
-				$locations['filestoreTypes'][] = $driver;
-				$location['locations'][$driver] = isset($location['locations'][$driver])?$location['locations'][$driver]:array();
-				foreach($class->listItems() as $item){
-					$name = isset($item['name'])?$item['name']:$driver.'-'.substr($item['id'], -5);
-					$description = isset($item['description'])?$item['description']:'';
-					$locations['locations'][$driver][] = array('id' => $item['id'], 'name' => $name, 'description' => $description);
-				}
+			$locations['filestoreTypes'][] = $driver;
+			$location['locations'][$driver] = isset($location['locations'][$driver])?$location['locations'][$driver]:array();
+			foreach($class->listItems() as $item){
+				$name = isset($item['name'])?$item['name']:$driver.'-'.substr($item['id'], -5);
+				$description = isset($item['description'])?$item['description']:'';
+				$locations['locations'][$driver][] = array('id' => $item['id'], 'name' => $name, 'description' => $description);
 			}
 		}
 		return $locations;
+	}
+
+	/**
+	 * Validates driver list
+	 *
+	 * @param array $drivers
+	 * @return array validated drivers. 
+	 */
+	public function validateDrivers($drivers = []){
+		$final = [];
+		foreach($drivers as $k => $v){
+			if(!$this->getConfig('d'.$v)){
+				$final[$k] = $v;
+			}
+		}
+		return $final;
 	}
 
 	//CRUD actions
@@ -216,11 +188,7 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @param $data array of data for required
 	 */
 	public function addItem($driver,$data){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
@@ -239,11 +207,8 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return bool       success, failure
 	 */
 	public function editItem($driver,$id,$data){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+
+		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
@@ -261,11 +226,7 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return bool   success, failure
 	 */
 	public function deleteItem($id){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
@@ -282,11 +243,7 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return array Array of items.
 	 */
 	public function listItems($driver){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
@@ -306,14 +263,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return        File object
 	 */
 	public function get($driver,$id,$remote,$local){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}		if(!class_exists($class)){
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
+		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'get')){
 			return $class->get($id,$remote,$local);
 		}else{
@@ -329,15 +283,12 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return bool  object created
 	 */
 	public function put($driver,$id,$local,$remote){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'put')){
 			return $class->put($id,$local,$remote);
 		}else{
@@ -353,15 +304,12 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return        File object
 	 */
 	public function ls($driver,$id,$path,$recursive=false){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'ls')){
 			return $class->ls($id,$path,$recursive);
 		}else{
@@ -377,15 +325,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return boolean            Did it delete?
 	 */
 	public function delete($driver,$id,$path,$recursive=false){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'delete')){
 			return $class->delete($id,$path,$recursive);
 		}else{
@@ -401,15 +345,12 @@ class Filestore extends \DB_Helper implements \BMO {
 	 * @return bool  was the operation successful
 	 */
 	public function move($driver,$id,$oldpath,$newpath){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'move')){
 			return $class->move($id,$oldpath,$newpath);
 		}else{
@@ -424,15 +365,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function find($driver,$id,$filename){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'find')){
 			return $class->get($id,$filename);
 		}else{
@@ -447,15 +384,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function fileExists($driver,$id,$path){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'fileExists')){
 			return $class->exists($id,$path);
 		}else{
@@ -469,15 +402,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function directoryExists($driver,$id,$path){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'directoryExists')){
 			return $class->directoryExists($id,$path);
 		}else{
@@ -491,14 +420,11 @@ class Filestore extends \DB_Helper implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function makeDirectory($driver,$id,$path){
-		if(isset($this->hookdrivers[$driver])){
-			$class = $this->hookdrivers[$driver];
-		}else{
-			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		}		if(!class_exists($class)){
+		$class = is_object($driver)?$driver:"\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;			
+		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$driver),404);
 		}
-		$class = new $class($this->FreePBX);
+		$class = is_object($class)?$class:new $class($this->FreePBX);
 		if(method_exists($class,'makeDirectory')){
 			return $class->makeDirectory($id,$path);
 		}else{
@@ -560,6 +486,24 @@ class Filestore extends \DB_Helper implements \BMO {
 			throw new \Exception("Hook file '$filename' was not picked up by Incron after 5 seconds. Is it not running?");
 		}
 		return true;
-	
+	}
+	public function listAllFilesByPath($path){
+		$final = [];
+		$locations = $this->listLocations('all');
+		foreach($locations['locations'] as $driver => $instances ){
+			if($driver == "Email"){
+				continue;
+			}
+			foreach($instances as $instance){
+				$final[$driver][$instance['id']] = $instance;
+				try{
+					$final[$driver][$instance['id']]['results'] = $this->ls($driver,$instance['id'],$path,true);
+				}catch(\Exception $e){
+					dbug($e->getMessage());
+					continue;
+				}
+			}
+		}
+		return $final;
 	}
 }

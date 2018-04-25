@@ -231,6 +231,11 @@ class FTP{
 		$items = $this->FreePBX->Filestore->getAll('ftpservers');
 		return array_values($items);
 	}
+	public function getConnection($id){
+		$item = $this->getItemById($id);
+		return $this->ftpConnection($item['host'], $item['user'], $item['password'], $item['fstype'], $item['port'], $item['transfer']);
+	
+	}
 
 	//TOUKI STUFF
 	public function ftpConnection($host, $username,$password, $fstype = 'auto' ,$port = 21, $transfer = 'passive'){
@@ -297,7 +302,7 @@ class FTP{
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Put file
 	 * @param  int $id  filestore item id
@@ -415,6 +420,4 @@ class FTP{
 		$connection = $this->ftpConnection($item['host'], $item['user'], $item['password'], $item['fstype'], $item['port'], $item['transfer']);
 		return $connection->create(new Directory($path),array(ToukiFTP::RECURSIVE => true));
 	}
-
-
 }

@@ -235,7 +235,6 @@ class S3{
 	//S3 STUFF
 	public function getConnection($id){
 		$item = $this->getItemById($id);
-		dbug($item);
 		$client = new S3Client([
 			'credentials' => [
 				'key'    => trim($item['awsaccesskey']),

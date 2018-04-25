@@ -223,9 +223,9 @@ class Dropbox{
 	}
 	public function getConnection($id){
 		$item = $this->getItemById($id);
-    $client = new DropboxClient($item['token']);
-    $adapter = new DropboxAdapter($client);
-    $filesystem = new Filesystem($adapter);
+    	$client = new DropboxClient($item['token']);
+    	$adapter = new DropboxAdapter($client);
+    	$filesystem = new Filesystem($adapter);
 		return $filesystem;
 	}
 
@@ -241,10 +241,14 @@ class Dropbox{
 		$filesystem = $this->getConnection($id);
 		try {
 			$contents = $filesystem->read($remote);
-			$fh = fopen($dropbox,"w");
+			/*
+			$fh = fopen($dropbox,"wb");
 			fwrite($fh,$contents);
 			fclose($fh);
+			*/
+			file_put_contents($dropbox,$contents);
 		} catch (\Exception $e) {
+			dbug($e->getMessage());
 			return false;
 		}
 	}

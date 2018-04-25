@@ -5,11 +5,13 @@ namespace Srmklive\Dropbox\Client;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException as HttpClientException;
 use GuzzleHttp\Psr7\StreamWrapper;
-use Illuminate\Support\Collection;
 use Srmklive\Dropbox\Exceptions\BadRequest;
+use Srmklive\Dropbox\UploadContent;
 
 class DropboxClient
 {
+    use UploadContent;
+
     const THUMBNAIL_FORMAT_JPEG = 'jpeg';
     const THUMBNAIL_FORMAT_PNG = 'png';
 
@@ -18,6 +20,8 @@ class DropboxClient
     const THUMBNAIL_SIZE_M = 'w128h128';
     const THUMBNAIL_SIZE_L = 'w640h480';
     const THUMBNAIL_SIZE_XL = 'w1024h768';
+
+    const MAX_CHUNK_SIZE = 157286400;
 
     /** @var \GuzzleHttp\Client */
     protected $client;
@@ -56,9 +60,9 @@ class DropboxClient
     protected $content;
 
     /**
-     * Collection containing Dropbox API request data.
+     * Dropbox API request data.
      *
-     * @var \Illuminate\Support\Collection
+     * @var array
      */
     protected $request;
 
@@ -193,6 +197,8 @@ class DropboxClient
 
         $this->apiEndpoint = 'files/download';
 
+        $this->content = null;
+
         $response = $this->doDropboxApiContentRequest();
 
         return StreamWrapper::getResource($response->getBody());
@@ -269,6 +275,8 @@ class DropboxClient
 
         $this->apiEndpoint = 'files/get_thumbnail';
 
+        $this->content = null;
+
         $response = $this->doDropboxApiContentRequest();
 
         return (string) $response->getBody();
@@ -343,7 +351,7 @@ class DropboxClient
             'to_path'   => $this->normalizePath($toPath),
         ]);
 
-        $this->apiEndpoint = 'files/move';
+        $this->apiEndpoint = 'files/move_v2';
 
         return $this->doDropboxApiRequest();
     }
@@ -363,6 +371,10 @@ class DropboxClient
      */
     public function upload($path, $contents, $mode = 'add')
     {
+        if ($this->shouldUploadChunk($contents)) {
+            return $this->uploadChunk($path, $contents, $mode);
+        }
+
         $this->setupRequest([
             'path' => $this->normalizePath($path),
             'mode' => $mode,
@@ -374,10 +386,38 @@ class DropboxClient
 
         $response = $this->doDropboxApiContentRequest();
 
-        $metadata = \GuzzleHttp\json_decode($response->getBody(), true);
+        $metadata = json_decode($response->getBody(), true);
         $metadata['.tag'] = 'file';
 
         return $metadata;
+    }
+
+    /**
+     * Get Account Info for current authenticated user.
+     *
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#users-get_current_account
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getAccountInfo()
+    {
+        $this->apiEndpoint = 'users/get_current_account';
+
+        return $this->doDropboxApiRequest();
+    }
+
+    /**
+     * Revoke current access token.
+     *
+     * @link https://www.dropbox.com/developers/documentation/http/documentation#auth-token-revoke
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function revokeToken()
+    {
+        $this->apiEndpoint = 'auth/token/revoke';
+
+        return $this->doDropboxApiRequest();
     }
 
     /**
@@ -387,7 +427,7 @@ class DropboxClient
      */
     protected function setupRequest($request)
     {
-        $this->request = new Collection($request);
+        $this->request = $request;
     }
 
     /**
@@ -399,15 +439,35 @@ class DropboxClient
      */
     protected function doDropboxApiRequest()
     {
+        $request = empty($this->request) ? [] : ['json' => $this->request];
+
         try {
-            $response = $this->client->post("{$this->apiUrl}{$this->apiEndpoint}", [
-                'json' => $this->request->toArray(),
-            ]);
+            $response = $this->client->post("{$this->apiUrl}{$this->apiEndpoint}", $request);
         } catch (HttpClientException $exception) {
             throw $this->determineException($exception);
         }
 
         return json_decode($response->getBody(), true);
+    }
+
+    /**
+     * Setup headers for Dropbox API request.
+     *
+     * @return array
+     */
+    protected function setupDropboxHeaders()
+    {
+        $headers = [
+            'Dropbox-API-Arg' => json_encode(
+                $this->request
+            ),
+        ];
+
+        if (!empty($this->content)) {
+            $headers['Content-Type'] = 'application/octet-stream';
+        }
+
+        return $headers;
     }
 
     /**
@@ -419,21 +479,10 @@ class DropboxClient
      */
     protected function doDropboxApiContentRequest()
     {
-        $headers = [];
-        $headers['Dropbox-API-Arg'] = json_encode(
-            $this->request->toArray()
-        );
-
-        if (!empty($this->content)) {
-            $headers['Content-Type'] = 'application/octet-stream';
-        }
-
-        $body = !empty($this->content) ? $this->content : '';
-
         try {
             $response = $this->client->post("{$this->apiContentUrl}{$this->apiEndpoint}", [
-                'headers' => $headers,
-                'body'    => $body,
+                'headers' => $this->setupDropboxHeaders(),
+                'body'    => !empty($this->content) ? $this->content : '',
             ]);
         } catch (HttpClientException $exception) {
             throw $this->determineException($exception);

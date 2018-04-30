@@ -61,13 +61,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		return false;
 	}
 	public function backup($backup) {
-		$kvstoreids = $this->getAllids();
-		$kvstoreids[] = 'noid';
-		$settings = [];
-		foreach ($kvstoreids as $value) {
-			$settings[$value] = $this->getAll($value);
-		}
-		$backup->addConfigs($settings);
+
 	}
 	public function restore($restore) {
 		$settings = $restore->getConfigs();

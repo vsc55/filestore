@@ -55,6 +55,10 @@ include __DIR__.'/../vendor/autoload.php';
         $scp = new SCP($this->ssh);
         $scp->put($remotePath,$localPath, SCP::SOURCE_LOCAL_FILE);
     }
+    public function grabFile($remotePath, $localPath){
+        $scp = new SCP($this->ssh);
+        return $scp->get($remotePath, $localPath);
+    }
     public function sendCommand($command,$returnError = false){
         if(!$returnError){
             $this->ssh->ssh->enableQuietMode();

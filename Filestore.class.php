@@ -414,10 +414,10 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	}
 	public function runHook($hookname,$params = false){
 		if (!file_exists("/etc/incron.d/sysadmin")) {
-			throw new \Exception("Sysadmin RPM not up to date, or not a known OS. Can not start System Firewall. See http://bit.ly/fpbxfirewall");
+			throw new \Exception("Sysadmin RPM not up to date, or not a known OS. Can not start System Firewall. See https://bit.ly/fpbxfirewall");
 		}
 		$spooldir = $this->FreePBX->Config->get('ASTSPOOLDIR');
-		$basedir = $spooldir."/asterisk/incron";
+		$basedir = $spooldir."/incron";
 		if (!is_dir($basedir)) {
 			throw new \Exception("$basedir is not a directory");
 		}

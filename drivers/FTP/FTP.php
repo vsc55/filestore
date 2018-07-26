@@ -105,8 +105,7 @@ class FTP{
 		$req = isset($_REQUEST['command'])?$_REQUEST['command']:'';
 		switch ($req) {
 			case 'getJSON':
-				$data = $this->listItems();
-				return $data;
+				return $this->listItems();
 			default:
 				return false;
 		}
@@ -133,22 +132,18 @@ class FTP{
 				case 'add':
 				case 'save':
 					return $this->addItem($req);
-				break;
 				case 'edit':
 					if($id){
 						return $this->editItem($id, $req);
 					}
 					return array('status' => false, 'message' => _("No id supplied"));
-				break;
 				case 'delete':
 					if($id){
 						return $this->deleteItem($id);
 					}
 					return array('status' => false, 'message' => _("No id supplied"));
-				break;
 				default:
 					return array('status' => false, 'message' => _("Unknown action provided"));
-				break;
 			}
 		}
 	}

@@ -64,18 +64,6 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 
 	}
 	public function restore($restore) {
-		$settings = $restore->getConfigs();
-		$ids = [];
-		if(!$restore->getReplace()){
-			$ids = $this->getAllids();
-			$ids = is_array($ids)?$ids:[];
-		}
-		foreach ($settings as $key => $value) {
-			if(in_array($key, $ids)){
-				continue;
-			}
-			$this->setMultiConfig($value,$id);
-		}
 	}
 	public function doConfigPageInit($page) {
 		if(isset($_REQUEST['driver'])){
@@ -108,9 +96,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 			$vars['drivers'] = $this->validateDrivers($this->drivers);
 			$vars['fs'] = $this;
 			return load_view(__DIR__.'/views/main.php',$vars);
-		}else{
-			return $this->getDisplay($_GET['driver']);
 		}
+		return $this->getDisplay($_GET['driver']);
 	}
 	public function ajaxRequest($req, &$setting) {
 		if(!isset($_REQUEST['driver'])){

@@ -1,6 +1,7 @@
 <?php
 namespace FreePBX\modules\Filestore\drivers\SSH;
-
+use League\Flysystem\Sftp\SftpAdapter;
+use League\Flysystem\Filesystem;
 class SSH{
 	public function __construct($freepbx=null){
 		$this->FreePBX = $freepbx;
@@ -8,12 +9,19 @@ class SSH{
 			$this->db =  $freepbx->Database;
 		}
 		require __DIR__ . '/../../vendor/autoload.php';
-		$this->dbcols = array(
+
+		$this->dbcols = [
 			'name' => '',
-			'desc' => '',
+			'desc' => 'SSH Server',
+			'host' => '',
+			'port' => '22',
+			'user' => '',
+			'key' => '',
 			'path' => '',
-			'immortal' => '',
-		);
+			'type' => 'ssh',
+			'readonly' => array(),
+			'immortal' => ''
+		];
 	}
 	//Base actions
 	/**
@@ -223,7 +231,15 @@ class SSH{
 	public function getConnection($id){
 		$item = $this->getItemById($id);
 		$path = $this->translatePath($item['path']);
-		$adapter = new Loc($path);
+		$adapter = new SftpAdapter([
+			'host' => $item['host'],
+			'port' => $item['port'],
+			'username' => $item['user'],
+			'privateKey' => $item['key'],
+			'root' => $item['path'],
+			'timeout' => 10,
+			'directoryPerm' => 0755
+		]);
 		$filesystem = new Filesystem($adapter);
 		return $filesystem;
 	}

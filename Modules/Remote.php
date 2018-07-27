@@ -23,9 +23,9 @@ include __DIR__.'/../vendor/autoload.php';
     }
     public function authenticateSSH($user = 'root', $keyFile = ''){
         $key = new RSA();
-        var_dump(file_get_contents($keyFile));
         $key->loadKey(file_get_contents($keyFile));
         if(!$this->ssh->login($user,$key)){
+            var_dump($this->ssh->getErrors());
             return false;
         }
         return true;
@@ -61,10 +61,10 @@ include __DIR__.'/../vendor/autoload.php';
     }
     public function sendCommand($command,$returnError = false){
         if(!$returnError){
-            $this->ssh->ssh->enableQuietMode();
+            $this->ssh->enableQuietMode();
         }
-        $ret = $this->ssh->exec($command);
-        $this->ssh->disableQuietMode();
+        $callback = function($data){ echo $data; };
+        $ret = $this->ssh->exec($command,$callback);
         if($returnError){
             return [
                 'err' => $this->ssh->getStdError(),

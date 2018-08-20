@@ -2,14 +2,16 @@
 <module>
   <rawname>filestore</rawname>
   <name>Filestore</name>
-  <version>15.0.1alpha1</version>
+  <version>15.0.1</version>
   <publisher>Generated Module</publisher>
   <license>AGPLv3</license>
+  <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+	*15.0.1* Stable Release
 	*15.0.1alpha1* Initial release
   </changelog>
   <category>Settings</category>
-  <description>Filesystem abstraction for FreePBX</description>
+  <description>Filesystem abstraction for your PBX</description>
   <menuitems>
     <filestore>Filestore</filestore>
   </menuitems>

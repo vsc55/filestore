@@ -15,5 +15,7 @@
   <menuitems>
     <filestore>Filestore</filestore>
   </menuitems>
-  <supported>15.0</supported>
+  <supported>
+    <version>15.0</version>
+  </supported>
 </module>

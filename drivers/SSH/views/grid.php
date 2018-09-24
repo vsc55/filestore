@@ -20,7 +20,7 @@
     class="table table-striped">
   <thead>
     <tr>
-      <th data-field="server"><?php echo _("Server")?></th>
+      <th data-field="name"><?php echo _("Server")?></th>
       <th data-field="desc"><?php echo _("Description")?></th>
       <th data-field="id" data-formatter="SSHLinkFormatter"><?php echo _("Actions")?></th>
     </tr>

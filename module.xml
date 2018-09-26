@@ -1,16 +1,16 @@
-
 <module>
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>15.0.1.1</version>
+  <version>15.0.1.2</version>
   <publisher>Generated Module</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+		*15.0.1.2* FREEPBX-18224 Fix local add button 
 	*15.0.1* Stable Release
 	*15.0.1alpha1* Initial release
-  </changelog>
+	</changelog>
   <category>Settings</category>
   <description>Filesystem abstraction for your PBX</description>
   <menuitems>

@@ -575,6 +575,7 @@ return array(
     'League\\Flysystem\\ReadInterface' => $vendorDir . '/league/flysystem/src/ReadInterface.php',
     'League\\Flysystem\\RootViolationException' => $vendorDir . '/league/flysystem/src/RootViolationException.php',
     'League\\Flysystem\\SafeStorage' => $vendorDir . '/league/flysystem/src/SafeStorage.php',
+    'League\\Flysystem\\Sftp\\SftpAdapter' => $vendorDir . '/league/flysystem-sftp/src/SftpAdapter.php',
     'League\\Flysystem\\UnreadableFileException' => $vendorDir . '/league/flysystem/src/UnreadableFileException.php',
     'League\\Flysystem\\Util' => $vendorDir . '/league/flysystem/src/Util.php',
     'League\\Flysystem\\Util\\ContentListingFormatter' => $vendorDir . '/league/flysystem/src/Util/ContentListingFormatter.php',

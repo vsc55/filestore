@@ -30,6 +30,7 @@ class ComposerStaticInitc5769ec6deba79f6f67b39848868fc9f
         ),
         'L' => 
         array (
+            'League\\Flysystem\\Sftp\\' => 22,
             'League\\Flysystem\\AwsS3v3\\' => 25,
             'League\\Flysystem\\' => 17,
         ),
@@ -61,6 +62,10 @@ class ComposerStaticInitc5769ec6deba79f6f67b39848868fc9f
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'League\\Flysystem\\Sftp\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/flysystem-sftp/src',
         ),
         'League\\Flysystem\\AwsS3v3\\' => 
         array (
@@ -662,6 +667,7 @@ class ComposerStaticInitc5769ec6deba79f6f67b39848868fc9f
         'League\\Flysystem\\ReadInterface' => __DIR__ . '/..' . '/league/flysystem/src/ReadInterface.php',
         'League\\Flysystem\\RootViolationException' => __DIR__ . '/..' . '/league/flysystem/src/RootViolationException.php',
         'League\\Flysystem\\SafeStorage' => __DIR__ . '/..' . '/league/flysystem/src/SafeStorage.php',
+        'League\\Flysystem\\Sftp\\SftpAdapter' => __DIR__ . '/..' . '/league/flysystem-sftp/src/SftpAdapter.php',
         'League\\Flysystem\\UnreadableFileException' => __DIR__ . '/..' . '/league/flysystem/src/UnreadableFileException.php',
         'League\\Flysystem\\Util' => __DIR__ . '/..' . '/league/flysystem/src/Util.php',
         'League\\Flysystem\\Util\\ContentListingFormatter' => __DIR__ . '/..' . '/league/flysystem/src/Util/ContentListingFormatter.php',

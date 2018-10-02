@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-27 21:06-0400\n"
+"POT-Creation-Date: 2018-10-01 20:24-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -158,6 +158,10 @@ msgstr ""
 msgid "FTP Instance"
 msgstr ""
 
+#: views/main.php:35
+msgid "File Store"
+msgstr ""
+
 #: drivers/Email/Email.php:247
 #, php-format
 msgid "File from %s, Identifier: %s"
@@ -166,6 +170,12 @@ msgstr ""
 #: filestore.i18n.php:4
 #: filestore.i18n.php:10
 msgid "Filestore"
+msgstr ""
+
+#: views/main.php:44
+msgid ""
+"Filestore is a filesystem abstraction module for your PBX. You can use it to "
+"setup file system destinations that can be used in other modules"
 msgstr ""
 
 #: drivers/FTP/views/form.php:114
@@ -256,7 +266,7 @@ msgstr ""
 msgid "No id supplied"
 msgstr ""
 
-#: views/main.php:43
+#: views/main.php:60
 msgid "No modules support settings"
 msgstr ""
 
@@ -340,7 +350,7 @@ msgid "Server Name"
 msgstr ""
 
 #: filestore.i18n.php:6
-#: views/main.php:32
+#: views/main.php:49
 msgid "Settings"
 msgstr ""
 
@@ -443,6 +453,10 @@ msgstr ""
 
 #: drivers/Local/views/form.php:15
 msgid "Webroot"
+msgstr ""
+
+#: views/main.php:39
+msgid "What is File Store"
 msgstr ""
 
 #: drivers/S3/views/form.php:83

@@ -54,9 +54,9 @@ $fstype = isset($fstype)?$fstype:'auto';
                     <div class="col-md-9">
                         <select class="form-control" id="region" name="region">
 												<?php
-                          foreach ($regions as $v => $k) {
-                            $selected = ( $k == $region)?'SELECTED':'';
-                            echo '<option value = "'.$k.'" '.$selected.'>'.$v.' ['.$k.']</option>';
+                          foreach ($regions as $value => $key) {
+                            $selected = ( $key == $region)?'SELECTED':'';
+                            echo '<option value = "'.$key.'" '.$selected.'>'.$value.' ['.$key.']</option>';
                           }
                         ?>
                         </select>

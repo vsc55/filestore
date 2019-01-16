@@ -3,6 +3,9 @@ $disabled = (isset($readonly) && !empty($readonly))?' disabled ':'';
 if (!isset($id)) {
 	$id = "";
 }
+if(empty($displayname)){
+	$displayname = $bucket;
+}
 $fstype = isset($fstype)?$fstype:'auto';
 ?>
 <div class="container-fluid">
@@ -37,7 +40,7 @@ $fstype = isset($fstype)?$fstype:'auto';
             					<label class="control-label" for="display"><?php echo _("Local Display Name") ?></label>
             				</div>
             				<div class="col-md-9">
-            					<input type="text" class="form-control" id="displayname" name="displayname" value="<?php echo isset($displayname)?displayname:''?>"<?php echo $disabled?>>
+            					<input type="text" class="form-control" id="displayname" name="displayname" value="<?php echo isset($displayname)?$displayname:''?>"<?php echo $disabled?>>
             				</div>
             			</div>
             		</div>

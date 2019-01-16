@@ -238,7 +238,12 @@ class S3{
 	 */
 	public function listItems(){
 		$items = $this->FreePBX->Filestore->getAll('s3servers');
-		return array_values($items);
+		$ret = [];
+		foreach($items as $Key => $item){
+			$item['name'] = !empty($item['displayname'])?$item['displayname']:$item['bucket'];
+			$ret[] = $item;
+		}
+		return $ret;
 	}
 	//S3 STUFF
 	public function getConnection($id){

@@ -3,13 +3,13 @@
 # For licensing information, please see the file named LICENSE located in the module directory
 #
 # FreePBX language template for filestore
-# Copyright (C) 2008-2018 Sangoma Technologies, Inc.
+# Copyright (C) 2008-2019 Sangoma Technologies, Inc.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-05 22:10-0500\n"
+"POT-Creation-Date: 2019-01-17 09:10+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "AGI directory"
 msgstr ""
 
-#: drivers/S3/views/form.php:78
+#: drivers/S3/views/form.php:94
 msgid "AWS Access Key"
 msgstr ""
 
-#: drivers/S3/views/form.php:51
+#: drivers/S3/views/form.php:67
 msgid "AWS Region"
 msgstr ""
 
-#: drivers/S3/views/form.php:95
+#: drivers/S3/views/form.php:111
 msgid "AWS Secret"
 msgstr ""
 
@@ -46,7 +46,7 @@ msgstr ""
 #: drivers/Email/views/grid.php:25
 #: drivers/FTP/views/grid.php:25
 #: drivers/Local/views/grid.php:25
-#: drivers/S3/views/grid.php:25
+#: drivers/S3/views/grid.php:26
 #: drivers/SSH/views/grid.php:25
 msgid "Actions"
 msgstr ""
@@ -87,11 +87,11 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: drivers/S3/views/grid.php:23
+#: drivers/S3/views/grid.php:24
 msgid "Bucket"
 msgstr ""
 
-#: drivers/S3/views/form.php:24
+#: drivers/S3/views/form.php:27
 msgid "Bucket Name"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 #: drivers/Email/Email.php:65
 #: drivers/FTP/FTP.php:84
 #: drivers/Local/Local.php:63
-#: drivers/S3/S3.php:85
+#: drivers/S3/S3.php:93
 #: drivers/SSH/SSH.php:69
 msgid "Delete"
 msgstr ""
@@ -112,8 +112,8 @@ msgstr ""
 #: drivers/FTP/views/grid.php:24
 #: drivers/Local/views/form.php:59
 #: drivers/Local/views/grid.php:24
-#: drivers/S3/views/form.php:37
-#: drivers/S3/views/grid.php:24
+#: drivers/S3/views/form.php:53
+#: drivers/S3/views/grid.php:25
 #: drivers/SSH/views/form.php:41
 #: drivers/SSH/views/grid.php:24
 msgid "Description"
@@ -186,7 +186,7 @@ msgstr ""
 msgid "Filesystem abstraction for your PBX"
 msgstr ""
 
-#: drivers/S3/views/form.php:9
+#: drivers/S3/views/form.php:12
 msgid "For Use With AWS S3"
 msgstr ""
 
@@ -229,6 +229,11 @@ msgstr ""
 msgid "Local Directory"
 msgstr ""
 
+#: drivers/S3/views/form.php:40
+#: drivers/S3/views/grid.php:23
+msgid "Local Display Name"
+msgstr ""
+
 #: drivers/SSH/views/form.php:149
 msgid "Location of ssh private key to be used when connecting to a host"
 msgstr ""
@@ -259,8 +264,8 @@ msgstr ""
 #: drivers/FTP/FTP.php:144
 #: drivers/Local/Local.php:120
 #: drivers/Local/Local.php:126
-#: drivers/S3/S3.php:142
-#: drivers/S3/S3.php:148
+#: drivers/S3/S3.php:150
+#: drivers/S3/S3.php:156
 #: drivers/SSH/SSH.php:126
 #: drivers/SSH/SSH.php:132
 msgid "No id supplied"
@@ -315,7 +320,7 @@ msgstr ""
 msgid "Provide the name for this server"
 msgstr ""
 
-#: drivers/S3/views/form.php:68
+#: drivers/S3/views/form.php:84
 msgid "Region provided in AWS"
 msgstr ""
 
@@ -327,7 +332,7 @@ msgstr ""
 #: drivers/Email/Email.php:70
 #: drivers/FTP/FTP.php:89
 #: drivers/Local/Local.php:68
-#: drivers/S3/S3.php:90
+#: drivers/S3/S3.php:98
 #: drivers/SSH/SSH.php:74
 msgid "Reset"
 msgstr ""
@@ -358,7 +363,7 @@ msgstr ""
 #: drivers/Email/Email.php:75
 #: drivers/FTP/FTP.php:94
 #: drivers/Local/Local.php:73
-#: drivers/S3/S3.php:95
+#: drivers/S3/S3.php:103
 #: drivers/SSH/SSH.php:79
 msgid "Submit"
 msgstr ""
@@ -441,7 +446,7 @@ msgstr ""
 #: drivers/Email/Email.php:130
 #: drivers/FTP/FTP.php:146
 #: drivers/Local/Local.php:129
-#: drivers/S3/S3.php:151
+#: drivers/S3/S3.php:159
 #: drivers/SSH/SSH.php:135
 msgid "Unknown action provided"
 msgstr ""
@@ -459,8 +464,8 @@ msgstr ""
 msgid "What is File Store"
 msgstr ""
 
-#: drivers/S3/views/form.php:83
-#: drivers/S3/views/form.php:100
+#: drivers/S3/views/form.php:99
+#: drivers/S3/views/form.php:116
 msgid "What's this?"
 msgstr ""
 

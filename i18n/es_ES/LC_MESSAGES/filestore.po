@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-01 20:24-0400\n"
+"POT-Creation-Date: 2019-01-17 09:10+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "AGI directory"
 msgstr ""
 
-#: drivers/S3/views/form.php:78
+#: drivers/S3/views/form.php:94
 msgid "AWS Access Key"
 msgstr ""
 
-#: drivers/S3/views/form.php:51
+#: drivers/S3/views/form.php:67
 msgid "AWS Region"
 msgstr ""
 
-#: drivers/S3/views/form.php:95
+#: drivers/S3/views/form.php:111
 msgid "AWS Secret"
 msgstr ""
 
@@ -44,7 +44,7 @@ msgstr ""
 
 #: drivers/Dropbox/views/grid.php:25 drivers/Email/views/grid.php:25
 #: drivers/FTP/views/grid.php:25 drivers/Local/views/grid.php:25
-#: drivers/S3/views/grid.php:25 drivers/SSH/views/grid.php:25
+#: drivers/S3/views/grid.php:26 drivers/SSH/views/grid.php:25
 msgid "Actions"
 msgstr ""
 
@@ -84,16 +84,16 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: drivers/S3/views/grid.php:23
+#: drivers/S3/views/grid.php:24
 msgid "Bucket"
 msgstr ""
 
-#: drivers/S3/views/form.php:24
+#: drivers/S3/views/form.php:27
 msgid "Bucket Name"
 msgstr ""
 
 #: drivers/Dropbox/Dropbox.php:63 drivers/Email/Email.php:65
-#: drivers/FTP/FTP.php:84 drivers/Local/Local.php:63 drivers/S3/S3.php:85
+#: drivers/FTP/FTP.php:84 drivers/Local/Local.php:63 drivers/S3/S3.php:93
 #: drivers/SSH/SSH.php:69
 msgid "Delete"
 msgstr ""
@@ -102,7 +102,7 @@ msgstr ""
 #: drivers/Email/views/form.php:50 drivers/Email/views/grid.php:24
 #: drivers/FTP/views/form.php:38 drivers/FTP/views/grid.php:24
 #: drivers/Local/views/form.php:59 drivers/Local/views/grid.php:24
-#: drivers/S3/views/form.php:37 drivers/S3/views/grid.php:24
+#: drivers/S3/views/form.php:53 drivers/S3/views/grid.php:25
 #: drivers/SSH/views/form.php:41 drivers/SSH/views/grid.php:24
 msgid "Description"
 msgstr ""
@@ -172,7 +172,7 @@ msgstr ""
 msgid "Filesystem abstraction for your PBX"
 msgstr ""
 
-#: drivers/S3/views/form.php:9
+#: drivers/S3/views/form.php:12
 msgid "For Use With AWS S3"
 msgstr ""
 
@@ -214,6 +214,10 @@ msgstr ""
 msgid "Local Directory"
 msgstr ""
 
+#: drivers/S3/views/form.php:40 drivers/S3/views/grid.php:23
+msgid "Local Display Name"
+msgstr ""
+
 #: drivers/SSH/views/form.php:149
 msgid "Location of ssh private key to be used when connecting to a host"
 msgstr ""
@@ -238,7 +242,7 @@ msgstr ""
 #: drivers/Dropbox/Dropbox.php:120 drivers/Dropbox/Dropbox.php:126
 #: drivers/Email/Email.php:121 drivers/Email/Email.php:127
 #: drivers/FTP/FTP.php:139 drivers/FTP/FTP.php:144 drivers/Local/Local.php:120
-#: drivers/Local/Local.php:126 drivers/S3/S3.php:142 drivers/S3/S3.php:148
+#: drivers/Local/Local.php:126 drivers/S3/S3.php:150 drivers/S3/S3.php:156
 #: drivers/SSH/SSH.php:126 drivers/SSH/SSH.php:132
 msgid "No id supplied"
 msgstr ""
@@ -288,7 +292,7 @@ msgstr ""
 msgid "Provide the name for this server"
 msgstr ""
 
-#: drivers/S3/views/form.php:68
+#: drivers/S3/views/form.php:84
 msgid "Region provided in AWS"
 msgstr ""
 
@@ -297,7 +301,7 @@ msgid "Remote SSH Port"
 msgstr ""
 
 #: drivers/Dropbox/Dropbox.php:68 drivers/Email/Email.php:70
-#: drivers/FTP/FTP.php:89 drivers/Local/Local.php:68 drivers/S3/S3.php:90
+#: drivers/FTP/FTP.php:89 drivers/Local/Local.php:68 drivers/S3/S3.php:98
 #: drivers/SSH/SSH.php:74
 msgid "Reset"
 msgstr ""
@@ -323,7 +327,7 @@ msgid "Settings"
 msgstr ""
 
 #: drivers/Dropbox/Dropbox.php:73 drivers/Email/Email.php:75
-#: drivers/FTP/FTP.php:94 drivers/Local/Local.php:73 drivers/S3/S3.php:95
+#: drivers/FTP/FTP.php:94 drivers/Local/Local.php:73 drivers/S3/S3.php:103
 #: drivers/SSH/SSH.php:79
 msgid "Submit"
 msgstr ""
@@ -387,7 +391,7 @@ msgid "Unix/Linux"
 msgstr ""
 
 #: drivers/Dropbox/Dropbox.php:129 drivers/Email/Email.php:130
-#: drivers/FTP/FTP.php:146 drivers/Local/Local.php:129 drivers/S3/S3.php:151
+#: drivers/FTP/FTP.php:146 drivers/Local/Local.php:129 drivers/S3/S3.php:159
 #: drivers/SSH/SSH.php:135
 msgid "Unknown action provided"
 msgstr ""
@@ -404,7 +408,7 @@ msgstr ""
 msgid "What is File Store"
 msgstr ""
 
-#: drivers/S3/views/form.php:83 drivers/S3/views/form.php:100
+#: drivers/S3/views/form.php:99 drivers/S3/views/form.php:116
 msgid "What's this?"
 msgstr ""
 

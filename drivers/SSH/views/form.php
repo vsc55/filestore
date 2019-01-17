@@ -3,7 +3,7 @@ $disabled = (isset($readonly) && !empty($readonly)) ? ' disabled ' : '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 ?>
 <h2><?php echo _("SSH Server") ?></h2>
-<form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" fpbx-delete="?display=filestore&driver=SSH&action=delete&id=<?php echo $id ?>">
+<form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" fpbx-delete="?display=filestore&driver=SSH&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
 	<input type="hidden" name="action" value="save">
 	<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
 	<input type="hidden" name="driver" value="SSH">

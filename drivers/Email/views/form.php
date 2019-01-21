@@ -12,7 +12,7 @@ $fstype = isset($fstype)?$fstype:'auto';
 			<div class="col-sm-12">
 				<div class="fpbx-container">
 					<div class="display full-border">
-						<form class="fpbx-submit" action="?display=filestore&driver=Email" method="post" id="server_form" name="server_form">
+						<form class="fpbx-submit" action="?display=filestore&driver=Email" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&driver=Email&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
 						<input type="hidden" name="action" value="save">
 						<input type="hidden" name="id" value="<?php echo isset($_GET['id'])?$_GET['id']:''?>">
 						<input type="hidden" name="driver" value="Email">

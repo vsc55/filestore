@@ -126,7 +126,19 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		return false;
 	}
 	public function getRightNav($request) {
-		return '';
+		if(!isset($_GET['driver']) || empty($_GET['driver'])){
+			return '';
+		}
+		$ret = '<h2>'._("Filestore").'</h2>';
+		$ret .= '<div class="list-group">';
+		$drivers = $this->validateDrivers($this->drivers);
+
+		foreach ($drivers as $driver) {
+			$class = $driver == $_GET['driver'] ? "active" : "";
+			$ret .= '<a href="?display=filestore&driver=' . $driver . '" class="'.$class.' list-group-item list-group-item-action">' . $driver . '</a>';
+		}
+		$ret .= '</div>'; 
+		return $ret;
 	}
 	public function listLocations($permissions = 'all'){
 		$locations = array(
@@ -487,4 +499,5 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		}
 		return $final;
 	}
+
 }

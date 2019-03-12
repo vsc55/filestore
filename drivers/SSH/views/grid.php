@@ -1,12 +1,8 @@
-<?php
-  $dataurl = "ajax.php?module=filestore&driver=SSH&command=getJSON&jdata=grid";
-?>
-<br/>
 <div id="toolbar-sshgrid">
   <a href='?display=filestore&driver=SSH&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add SSH Server")?></a>
 </div>
 <table id="sshgrid"
-    data-url="<?php echo $dataurl?>"
+    data-url="ajax.php?module=filestore&driver=SSH&command=grid"
     data-cache="false"
     data-cookie="true"
     data-cookie-id-table="sshgrid"

@@ -13,7 +13,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 					<div class="display full-border">
 						<form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form"
 						 fpbx-delete="?display=filestore&driver=SSH&action=delete&id=<?php echo $id ?>">
-							<input type="hidden" name="action" value="save">
+							<input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
 							<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
 							<input type="hidden" name="driver" value="SSH">
 							<!--Server Name-->

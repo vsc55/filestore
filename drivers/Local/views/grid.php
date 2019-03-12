@@ -1,12 +1,8 @@
-<?php
-  $dataurl = "ajax.php?module=filestore&driver=Local&command=getJSON&jdata=grid";
-?>
-<br/>
 <div id="toolbar-localgrid">
   <a href='?display=filestore&driver=Local&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Local Path")?></a>
 </div>
 <table id="localgrid"
-    data-url="<?php echo $dataurl?>"
+    data-url="ajax.php?module=filestore&driver=Local&command=grid"
     data-cache="false"
     data-cookie="true"
     data-cookie-id-table="localgrid"

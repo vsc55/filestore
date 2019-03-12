@@ -1,12 +1,8 @@
-<?php
-  $dataurl = "ajax.php?module=filestore&driver=Email&command=getJSON&jdata=grid";
-?>
-<br/>
 <div id="toolbar-emailgrid">
   <a href='?display=filestore&driver=Email&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Email Instance")?></a>
 </div>
 <table id="emailgrid"
-    data-url="<?php echo $dataurl?>"
+    data-url="ajax.php?module=filestore&driver=Email&command=grid"
     data-cache="false"
     data-cookie="true"
     data-cookie-id-table="emailgrid"

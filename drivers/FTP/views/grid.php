@@ -1,12 +1,8 @@
-<?php
-  $dataurl = "ajax.php?module=filestore&driver=FTP&command=getJSON&jdata=grid";
-?>
-<br/>
 <div id="toolbar-ftpgrid">
   <a href='?display=filestore&driver=FTP&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add FTP Instance")?></a>
 </div>
 <table id="ftpgrid"
-    data-url="<?php echo $dataurl?>"
+    data-url="ajax.php?module=filestore&driver=FTP&command=grid"
     data-cache="false"
     data-cookie="true"
     data-cookie-id-table="ftpgrid"

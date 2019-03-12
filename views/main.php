@@ -11,21 +11,6 @@ foreach ($drivers as $driver) {
 	$tabcontent .= '</div>';
 	$first = false;
 }
-$first = true;
-$settingtabcontent = '';
-$settingstabs = '';
-foreach ($drivers as $driver) {
-	$content = $fs->getSettingDisplay($driver);
-	if(!empty($content)){
-		$class = $first?"active":"";
-		$settingstabs .= '<li role="presentation" class="'.$class.'"><a href="#settings'.$driver.'" data-toggle="tab">'.$driver.'</a></li>';
-		$class = $first?"active":"";
-		$settingtabcontent .= '<div id="settings'.$driver.'" class="tab-pane display '.$class.'">';
-		$settingtabcontent .= $content;
-		$settingtabcontent .= '</div>';
-		$first = false;
-	}
-}
 ?>
 <div class="container-fluid">
 	<div class="row">
@@ -46,19 +31,9 @@ foreach ($drivers as $driver) {
 					</div>
 					<ul class="nav nav-tabs">
 						<?php echo $tabs ?>
-						<li role="presentation" class="<?php echo empty($settingtabcontent)?'hidden':'';?>"><a href="#Settings" data-toggle="tab"><?php echo _("Settings")?></a></li>
 					</ul>
 					<div class="tab-content">
 						<?php echo $tabcontent;?>
-						<div id="Settings" class="tab-pane">
-							<ul class="nav nav-tabs">
-								<?php echo $settingstabs ?>
-							</ul>
-							<div class="tab-content">
-								<?php echo $settingtabcontent ?>
-							</div>
-							<?php echo empty($settingtabcontent)?_("No modules support settings"):''?>
-						</div>
 					</div>
 				</div>
 			</div>

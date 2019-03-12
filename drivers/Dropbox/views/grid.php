@@ -1,12 +1,8 @@
-<?php
-  $dataurl = "ajax.php?module=filestore&driver=Dropbox&command=getJSON&jdata=grid";
-?>
-<br/>
 <div id="toolbar-dropboxgrid">
   <a href='?display=filestore&driver=Dropbox&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Dropbox Account")?></a>
 </div>
 <table id="dropboxgrid"
-    data-url="<?php echo $dataurl?>"
+    data-url="ajax.php?module=filestore&driver=Dropbox&command=grid"
     data-cache="false"
     data-cookie="true"
     data-cookie-id-table="dropboxgrid"

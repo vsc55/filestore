@@ -1,12 +1,8 @@
-<?php
-  $dataurl = "ajax.php?module=filestore&driver=S3&command=getJSON&jdata=grid";
-?>
-<br/>
 <div id="toolbar-s3grid">
   <a href='?display=filestore&driver=S3&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add S3 Bucket")?></a>
 </div>
 <table id="s3grid"
-    data-url="<?php echo $dataurl?>"
+    data-url="ajax.php?module=filestore&driver=S3&command=grid"
     data-cache="false"
     data-cookie="true"
     data-cookie-id-table="s3grid"

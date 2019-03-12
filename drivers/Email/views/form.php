@@ -12,9 +12,9 @@ $fstype = isset($fstype)?$fstype:'auto';
 			<div class="col-sm-12">
 				<div class="fpbx-container">
 					<div class="display full-border">
-						<form class="fpbx-submit" action="?display=filestore&driver=Email" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&driver=Email&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
-						<input type="hidden" name="action" value="save">
-						<input type="hidden" name="id" value="<?php echo isset($_GET['id'])?$_GET['id']:''?>">
+						<form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&driver=Email&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
+						<input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
+						<input type="hidden" name="id" value="<?php echo $id?>">
 						<input type="hidden" name="driver" value="Email">
 						<!--Server Name-->
 						<div class="element-container">
@@ -23,7 +23,7 @@ $fstype = isset($fstype)?$fstype:'auto';
 									<div class="row">
 										<div class="form-group">
 											<div class="col-md-3">
-												<label class="control-label" for="name"><?php echo _("List Name") ?></label>
+												<label class="control-label" for="name"><?php echo _("Email List Name") ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="name"></i>
 											</div>
 											<div class="col-md-9">
@@ -35,7 +35,7 @@ $fstype = isset($fstype)?$fstype:'auto';
 							</div>
 							<div class="row">
 								<div class="col-md-12">
-									<span id="name-help" class="help-block fpbx-help-block"><?php echo _("Name this Server")?></span>
+									<span id="name-help" class="help-block fpbx-help-block"><?php echo _("Name this email list")?></span>
 								</div>
 							</div>
 						</div>
@@ -95,7 +95,7 @@ $fstype = isset($fstype)?$fstype:'auto';
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="addr"></i>
 											</div>
 											<div class="col-md-9">
-												<textarea class="form-control" id="addr" rows="8" name="addr"><?php echo isset($addr)?implode(PHP_EOL,$addr):''?></textarea>
+												<textarea class="form-control" id="addr" rows="8" name="addr"><?php echo $addr?></textarea>
 											</div>
 										</div>
 									</div>

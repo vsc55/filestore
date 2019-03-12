@@ -1,9 +1,6 @@
 <?php
 $disabled = (isset($readonly) && !empty($readonly))?' disabled ':'';
-if (!isset($id)) {
-	$id = "";
-}
-$fstype = isset($fstype)?$fstype:'auto';
+$id = isset($_GET['id'])?$_GET['id']:'';
 ?>
 <div class="container-fluid">
 	<h1><?php echo _('FTP Instance')?></h1>
@@ -12,7 +9,7 @@ $fstype = isset($fstype)?$fstype:'auto';
 			<div class="col-sm-12">
 				<div class="fpbx-container">
 					<div class="display full-border">
-            <form class="fpbx-submit" action="?display=filestore&driver=FTP" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&driver=FTP&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
+            <form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&driver=FTP&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
               <input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
               <input type="hidden" name="id" value="<?php echo $id?>">
               <input type="hidden" name="driver" value="FTP">
@@ -174,6 +171,26 @@ $fstype = isset($fstype)?$fstype:'auto';
                 </div>
               </div>
               <!--END Transfer Mode-->
+              <!--timeout-->
+              <div class="element-container">
+                <div class="row">
+                  <div class="form-group">
+                    <div class="col-md-3">
+                      <label class="control-label" for="timeout"><?php echo _("Timeout") ?></label>
+                      <i class="fa fa-question-circle fpbx-help-icon" data-for="timeout"></i>
+                    </div>
+                    <div class="col-md-9">
+                      <input type="number" class="form-control" id="timeout" name="timeout" value="<?php echo isset($timeout)?$timeout:''?>"<?php echo $disabled?>>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <span id="timeout-help" class="help-block fpbx-help-block"><?php echo _("Timeout on remote server")?></span>
+                  </div>
+                </div>
+              </div>
+              <!--END Path-->
 						</form>
             <br/>
 					</div>

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-12 19:06-0400\n"
+"POT-Creation-Date: 2019-03-13 16:36-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -109,14 +109,14 @@ msgstr ""
 #: drivers/Local/views/grid.php:20
 #: drivers/S3/views/form.php:53
 #: drivers/S3/views/grid.php:21
-#: drivers/SSH/views/form.php:54
+#: drivers/SSH/views/form.php:53
 #: drivers/SSH/views/grid.php:20
 msgid "Description"
 msgstr ""
 
 #: drivers/Dropbox/views/form.php:62
 #: drivers/Local/views/form.php:71
-#: drivers/SSH/views/form.php:68
+#: drivers/SSH/views/form.php:67
 msgid "Description or notes for this server"
 msgstr ""
 
@@ -197,11 +197,11 @@ msgid ""
 msgstr ""
 
 #: drivers/FTP/views/form.php:49
-#: drivers/SSH/views/form.php:81
+#: drivers/SSH/views/form.php:80
 msgid "Hostname"
 msgstr ""
 
-#: drivers/SSH/views/form.php:95
+#: drivers/SSH/views/form.php:94
 msgid "IP address or FQDN of remote SSH server"
 msgstr ""
 
@@ -213,7 +213,7 @@ msgstr ""
 msgid "KB"
 msgstr ""
 
-#: drivers/SSH/views/form.php:162
+#: drivers/SSH/views/form.php:161
 msgid "Key"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Local Display Name"
 msgstr ""
 
-#: drivers/SSH/views/form.php:176
+#: drivers/SSH/views/form.php:175
 msgid "Location of ssh private key to be used when connecting to a host"
 msgstr ""
 
@@ -263,7 +263,7 @@ msgstr ""
 
 #: drivers/FTP/views/form.php:136
 #: drivers/Local/views/form.php:83
-#: drivers/SSH/views/form.php:189
+#: drivers/SSH/views/form.php:188
 msgid "Path"
 msgstr ""
 
@@ -272,7 +272,7 @@ msgid "Path Name"
 msgstr ""
 
 #: drivers/Local/views/form.php:95
-#: drivers/SSH/views/form.php:203
+#: drivers/SSH/views/form.php:202
 msgid "Path on remote server"
 msgstr ""
 
@@ -288,13 +288,13 @@ msgid "Paths supports parameter substitution such as the examples below"
 msgstr ""
 
 #: drivers/FTP/views/form.php:69
-#: drivers/SSH/views/form.php:108
+#: drivers/SSH/views/form.php:107
 msgid "Port"
 msgstr ""
 
 #: drivers/Dropbox/views/form.php:38
 #: drivers/Local/views/form.php:47
-#: drivers/SSH/views/form.php:41
+#: drivers/SSH/views/form.php:40
 msgid "Provide the name for this server"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgstr ""
 msgid "Region provided in AWS"
 msgstr ""
 
-#: drivers/SSH/views/form.php:122
+#: drivers/SSH/views/form.php:121
 msgid "Remote SSH Port"
 msgstr ""
 
@@ -314,7 +314,7 @@ msgstr ""
 msgid "SSH Server"
 msgstr ""
 
-#: drivers/SSH/views/form.php:149
+#: drivers/SSH/views/form.php:148
 msgid "SSH Username"
 msgstr ""
 
@@ -323,7 +323,7 @@ msgid "Server"
 msgstr ""
 
 #: drivers/FTP/views/form.php:21
-#: drivers/SSH/views/form.php:27
+#: drivers/SSH/views/form.php:26
 msgid "Server Name"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgid "Unknown action provided"
 msgstr ""
 
 #: drivers/FTP/views/form.php:83
-#: drivers/SSH/views/form.php:135
+#: drivers/SSH/views/form.php:134
 msgid "Username"
 msgstr ""
 

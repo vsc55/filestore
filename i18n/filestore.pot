@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-13 16:36-0400\n"
+"POT-Creation-Date: 2019-03-14 13:11-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,15 +22,15 @@ msgstr ""
 msgid "AGI directory"
 msgstr ""
 
-#: drivers/S3/views/form.php:94
+#: drivers/S3/views/form.php:92
 msgid "AWS Access Key"
 msgstr ""
 
-#: drivers/S3/views/form.php:67
+#: drivers/S3/views/form.php:65
 msgid "AWS Region"
 msgstr ""
 
-#: drivers/S3/views/form.php:111
+#: drivers/S3/views/form.php:109
 msgid "AWS Secret"
 msgstr ""
 
@@ -91,7 +91,7 @@ msgstr ""
 msgid "Bucket"
 msgstr ""
 
-#: drivers/S3/views/form.php:27
+#: drivers/S3/views/form.php:25
 msgid "Bucket Name"
 msgstr ""
 
@@ -107,7 +107,7 @@ msgstr ""
 #: drivers/FTP/views/grid.php:20
 #: drivers/Local/views/form.php:59
 #: drivers/Local/views/grid.php:20
-#: drivers/S3/views/form.php:53
+#: drivers/S3/views/form.php:51
 #: drivers/S3/views/grid.php:21
 #: drivers/SSH/views/form.php:53
 #: drivers/SSH/views/grid.php:20
@@ -182,7 +182,7 @@ msgstr ""
 msgid "Filesystem abstraction for your PBX"
 msgstr ""
 
-#: drivers/S3/views/form.php:12
+#: drivers/S3/views/form.php:10
 msgid "For Use With AWS S3"
 msgstr ""
 
@@ -221,7 +221,7 @@ msgstr ""
 msgid "Local Directory"
 msgstr ""
 
-#: drivers/S3/views/form.php:40
+#: drivers/S3/views/form.php:38
 #: drivers/S3/views/grid.php:19
 msgid "Local Display Name"
 msgstr ""
@@ -298,7 +298,7 @@ msgstr ""
 msgid "Provide the name for this server"
 msgstr ""
 
-#: drivers/S3/views/form.php:84
+#: drivers/S3/views/form.php:82
 msgid "Region provided in AWS"
 msgstr ""
 
@@ -409,8 +409,8 @@ msgstr ""
 msgid "What is File Store"
 msgstr ""
 
-#: drivers/S3/views/form.php:99
-#: drivers/S3/views/form.php:116
+#: drivers/S3/views/form.php:97
+#: drivers/S3/views/form.php:114
 msgid "What's this?"
 msgstr ""
 

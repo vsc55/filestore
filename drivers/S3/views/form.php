@@ -1,8 +1,6 @@
 <?php
 $disabled = (isset($readonly) && !empty($readonly))?' disabled ':'';
-if (!isset($id)) {
-	$id = isset($_GET['id'])?$_GET['id']:'';
-}
+$id = isset($_GET['id'])?$_GET['id']:'';
 if(empty($displayname)){
 	$displayname = $bucket;
 }
@@ -16,8 +14,8 @@ $fstype = isset($fstype)?$fstype:'auto';
 				<div class="fpbx-container">
 					<div class="display full-border">
             <form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
-            	<input type="hidden" name="action" value="save">
-            	<input type="hidden" name="id" value="<?php echo isset($_GET['id'])?$_GET['id']:''?>">
+            	<input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
+            	<input type="hidden" name="id" value="<?php echo $id?>">
             	<input type="hidden" name="driver" value="S3">
             	<!--Bucket Name-->
             	<div class="element-container">

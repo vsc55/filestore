@@ -36,7 +36,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 
 	public function install() {
 		$keys = ['ftpservers' => 'FTP', 'sshservers' => 'SSH', 's3servers' => 'S3', 'localservers' => 'Local', 'emailservers' => 'Email', 'dropboxservers' => 'Dropbox'];
-		$servers = [];
+		$servers = $this->getConfig('servers');
+		$servers = is_array($servers) ? $servers : [];
 		foreach($keys as $oldkey => $newkey) {
 			foreach($this->getAll($oldkey) as $id => $data) {
 				$data['driver'] = $newkey;

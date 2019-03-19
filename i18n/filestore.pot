@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-15 19:30-0400\n"
+"POT-Creation-Date: 2019-03-19 17:56-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 #: drivers/Email/views/grid.php:21
 #: drivers/FTP/views/grid.php:21
 #: drivers/Local/views/grid.php:21
-#: drivers/S3/views/grid.php:22
+#: drivers/S3/views/grid.php:21
 #: drivers/SSH/views/grid.php:21
 msgid "Actions"
 msgstr ""
@@ -87,11 +87,7 @@ msgstr ""
 msgid "B"
 msgstr ""
 
-#: drivers/S3/views/grid.php:20
-msgid "Bucket"
-msgstr ""
-
-#: drivers/S3/views/form.php:25
+#: drivers/S3/views/form.php:38
 msgid "Bucket Name"
 msgstr ""
 
@@ -108,7 +104,7 @@ msgstr ""
 #: drivers/Local/views/form.php:59
 #: drivers/Local/views/grid.php:20
 #: drivers/S3/views/form.php:51
-#: drivers/S3/views/grid.php:21
+#: drivers/S3/views/grid.php:20
 #: drivers/SSH/views/form.php:53
 #: drivers/SSH/views/grid.php:20
 msgid "Description"
@@ -221,8 +217,7 @@ msgstr ""
 msgid "Local Directory"
 msgstr ""
 
-#: drivers/S3/views/form.php:38
-#: drivers/S3/views/grid.php:19
+#: drivers/S3/views/form.php:25
 msgid "Local Display Name"
 msgstr ""
 
@@ -241,6 +236,7 @@ msgstr ""
 #: drivers/Email/views/grid.php:19
 #: drivers/FTP/views/grid.php:19
 #: drivers/Local/views/grid.php:19
+#: drivers/S3/views/grid.php:19
 msgid "Name"
 msgstr ""
 
@@ -346,12 +342,12 @@ msgid ""
 "than the max size are not sent."
 msgstr ""
 
-#: Filestore.class.php:269
+#: Filestore.class.php:270
 #, php-format
 msgid "The requested driver %s seems invalid"
 msgstr ""
 
-#: Filestore.class.php:265
+#: Filestore.class.php:266
 msgid "The requested driver seems invalid"
 msgstr ""
 

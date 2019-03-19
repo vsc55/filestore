@@ -16,8 +16,7 @@
     class="table table-striped">
   <thead>
     <tr>
-      <th data-field="displayname" data-formatter="S3FriendlyFormatter"><?php echo _("Local Display Name")?></th>
-      <th data-field="bucket"><?php echo _("Bucket")?></th>
+      <th data-field="name"><?php echo _("Name")?></th>
       <th data-field="desc"><?php echo _("Description")?></th>
       <th data-field="id" data-formatter="S3LinkFormatter"><?php echo _("Actions")?></th>
     </tr>
@@ -28,12 +27,5 @@
       var html = '<a href="?display=filestore&driver=S3&view=form&id='+value+'"><i class="fa fa-pencil"></i></a>';
       html += '&nbsp;<a href="?display=filestore&driver=S3&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
       return html;
-  }
-  function S3FriendlyFormatter(value, row, index){
-      var ret = value;
-      if(!ret || 0 === ret.length){
-        ret = row['bucket'];
-      }
-      return ret;
   }
 </script>

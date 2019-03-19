@@ -12,7 +12,7 @@ class S3 extends FlysystemBase {
 		"awsaccesskey" => '',
 		"awssecret" => '',
 		"desc" => '',
-		"displayname" => '',
+		"name" => '',
 		"bucket" => '',
 		"region" => '',
 		'immortal' => '',

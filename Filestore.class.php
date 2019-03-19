@@ -197,7 +197,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function addItem($driver,$data){
 		$id = \Ramsey\Uuid\Uuid::uuid4()->toString();
 		$data['driver'] = $driver;
-		$this->saveConfig($id,$data);
+		return $this->saveConfig($id,$data);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 * @return bool       success, failure
 	 */
 	public function editItem($id,$data){
-		$this->saveConfig($id,$data);
+		return $this->saveConfig($id,$data);
 	}
 
 	/**
@@ -235,6 +235,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$this->setConfig('servers', $servers);
 		$this->delById($id);
 		$this->setMultiConfig($data, $id);
+		return $id;
 	}
 
 	/**

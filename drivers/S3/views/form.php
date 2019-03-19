@@ -17,6 +17,19 @@ $fstype = isset($fstype)?$fstype:'auto';
             	<input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
             	<input type="hidden" name="id" value="<?php echo $id?>">
             	<input type="hidden" name="driver" value="S3">
+							<!--Local Display Name-->
+							<div class="element-container">
+            		<div class="row">
+            			<div class="form-group">
+            				<div class="col-md-3">
+            					<label class="control-label" for="name"><?php echo _("Local Display Name") ?></label>
+            				</div>
+            				<div class="col-md-9">
+            					<input type="text" class="form-control" id="name" name="name" value="<?php echo isset($name)?$name:''?>"<?php echo $disabled?>>
+            				</div>
+            			</div>
+            		</div>
+            	</div>
             	<!--Bucket Name-->
             	<div class="element-container">
             		<div class="row">
@@ -26,19 +39,6 @@ $fstype = isset($fstype)?$fstype:'auto';
             				</div>
             				<div class="col-md-9">
             					<input type="text" class="form-control" id="bucket" name="bucket" value="<?php echo isset($bucket)?$bucket:''?>"<?php echo $disabled?>>
-            				</div>
-            			</div>
-            		</div>
-            	</div>
-            	<!--Local Display Name-->
-            	<div class="element-container">
-            		<div class="row">
-            			<div class="form-group">
-            				<div class="col-md-3">
-            					<label class="control-label" for="display"><?php echo _("Local Display Name") ?></label>
-            				</div>
-            				<div class="col-md-9">
-            					<input type="text" class="form-control" id="displayname" name="displayname" value="<?php echo isset($displayname)?$displayname:''?>"<?php echo $disabled?>>
             				</div>
             			</div>
             		</div>

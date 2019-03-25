@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-19 17:56-0400\n"
+"POT-Creation-Date: 2019-03-25 18:24-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -241,7 +241,8 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: drivers/FTP/views/form.php:136 drivers/Local/views/form.php:83
+#: drivers/Dropbox/views/form.php:96 drivers/FTP/views/form.php:136
+#: drivers/Local/views/form.php:83 drivers/S3/views/form.php:126
 #: drivers/SSH/views/form.php:188
 msgid "Path"
 msgstr ""
@@ -250,7 +251,8 @@ msgstr ""
 msgid "Path Name"
 msgstr ""
 
-#: drivers/Local/views/form.php:95 drivers/SSH/views/form.php:202
+#: drivers/Dropbox/views/form.php:106 drivers/Local/views/form.php:95
+#: drivers/S3/views/form.php:136 drivers/SSH/views/form.php:202
 msgid "Path on remote server"
 msgstr ""
 

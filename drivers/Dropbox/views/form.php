@@ -5,7 +5,7 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 <div class="container-fluid">
 	<h1><?php echo _('Dropbox Directory')?></h1>
 	<div class="alert alert-info">
-    <a href="https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/" target="_blank"><?php echo _("Access Token Information")?></a>
+	<a href="https://blogs.dropbox.com/developers/2014/05/generate-an-access-token-for-your-own-account/" target="_blank"><?php echo _("Access Token Information")?></a>
 	</div>
 	<div class = "display full-border">
 		<div class="row">
@@ -88,6 +88,26 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 								</div>
 							</div>
 							<!--END Token-->
+							<!--Path-->
+							<div class="element-container">
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-3">
+											<label class="control-label" for="path"><?php echo _("Path") ?></label>
+											<i class="fa fa-question-circle fpbx-help-icon" data-for="path"></i>
+										</div>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="path" name="path" value="<?php echo isset($path)?$path:''?>"<?php echo $disabled?>>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<span id="path-help" class="help-block fpbx-help-block"><?php echo _("Path on remote server")?></span>
+									</div>
+								</div>
+							</div>
+							<!--END Path-->
 						</form>
 					</div>
 				</div>

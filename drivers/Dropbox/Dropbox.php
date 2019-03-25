@@ -13,6 +13,7 @@ class Dropbox extends FlysystemBase {
 		'desc' => '',
 		'token' => '',
 		'immortal' => '',
+		'path' => ''
 	];
 
 
@@ -38,9 +39,9 @@ class Dropbox extends FlysystemBase {
 		}
 		$client = new DropboxClient($this->config['token']);
 
-		$adapter = new CachedAdapter(new DropboxAdapter($client), new MemoryStore());
+		$adapter = new CachedAdapter(new DropboxAdapter($client, $this->config['path']), new MemoryStore());
 
-		$this->handler = new Filesystem($adapter);
+		$this->handler = new Filesystem($adapter, ['case_sensitive' => false]);
 		return $this->handler;
 	}
 }

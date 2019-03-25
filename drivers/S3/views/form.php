@@ -118,6 +118,26 @@ $fstype = isset($fstype)?$fstype:'auto';
             		</div>
             	</div>
             	<!--END AWS Secret-->
+							<!--Path-->
+							<div class="element-container">
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-3">
+											<label class="control-label" for="path"><?php echo _("Path") ?></label>
+											<i class="fa fa-question-circle fpbx-help-icon" data-for="path"></i>
+										</div>
+										<div class="col-md-9">
+											<input type="text" class="form-control" id="path" name="path" value="<?php echo isset($path)?$path:''?>"<?php echo $disabled?>>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<span id="path-help" class="help-block fpbx-help-block"><?php echo _("Path on remote server")?></span>
+									</div>
+								</div>
+							</div>
+							<!--END Path-->
             </form>
 					</div>
 				</div>

@@ -16,6 +16,7 @@ class S3 extends FlysystemBase {
 		"bucket" => '',
 		"region" => '',
 		'immortal' => '',
+		'path' => ''
 	];
 
 	/**
@@ -83,12 +84,11 @@ class S3 extends FlysystemBase {
 				'secret' => trim($this->config['awssecret'])
 			],
 			'region' => $this->config['region'],
-			'version' => 'latest',
-			'signature_version' => 'v4',
+			'version' => 'latest'
 		]);
 
 		// Decorate the adapter
-		$adapter = new CachedAdapter(new AwsS3Adapter($client, $this->config['bucket']), new MemoryStore());
+		$adapter = new CachedAdapter(new AwsS3Adapter($client, $this->config['bucket'], $this->config['path']), new MemoryStore());
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;
 	}

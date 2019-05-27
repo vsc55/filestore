@@ -2,25 +2,26 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>15.0.3</version>
+  <version>15.0.3.1</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+	*15.0.3.1* Fixing FREEPBX-20011 Editing a Filestore -Email entry is creating the duplicate entry
 	*15.0.2.4* FREEPBX-19655 Fix S3 naming conventions
 	*15.0.2.3* Dont remove old filestores when upgrading
-    *15.0.2.2* Fix ability to add S3
-    *15.0.2.1* FREEPBX-18248
-		*15.0.2* Update functionality
-		*15.0.1.10* fixing legacy restore
-		*15.0.1.9* FREEPBX-18729 Fix S3 action and general consistency
-		*15.0.1.8* FREEPBX-18248 Fix delete parameter in edit forms
-		*15.0.1.7* Fixing FREEPBX-18651
-		*15.0.1.6* FREEPBX-18652 Fix logic on region to match the actual setting
-		*15.0.1.5* FREEPBX-18249 Fix s3 grid delete link
-		*15.0.1.4* Formatting
-		*15.0.1.3* FREEPBX-18244 Add the SFTP library back.
-		*15.0.1.2* FREEPBX-18224 Fix local add button
+    	*15.0.2.2* Fix ability to add S3
+	*15.0.2.1* FREEPBX-18248
+	*15.0.2* Update functionality
+	*15.0.1.10* fixing legacy restore
+	*15.0.1.9* FREEPBX-18729 Fix S3 action and general consistency
+	*15.0.1.8* FREEPBX-18248 Fix delete parameter in edit forms
+	*15.0.1.7* Fixing FREEPBX-18651
+	*15.0.1.6* FREEPBX-18652 Fix logic on region to match the actual setting
+	*15.0.1.5* FREEPBX-18249 Fix s3 grid delete link
+	*15.0.1.4* Formatting
+	*15.0.1.3* FREEPBX-18244 Add the SFTP library back.
+	*15.0.1.2* FREEPBX-18224 Fix local add button
 	*15.0.1* Stable Release
 	*15.0.1alpha1* Initial release
 	</changelog>

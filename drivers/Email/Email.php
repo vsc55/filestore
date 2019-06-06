@@ -33,7 +33,7 @@ class Email extends DriverBase {
 	public function put($path, $contents) {
 		switch($this->config['maxtype']) {
 			case 'mb':
-				$maxsize = $this->config['maxsize'] * 1000;
+				$maxsize = $this->config['maxsize'] * 1000000;
 			break;
 			case 'kb':
 				$maxsize = $this->config['maxsize'] * 1000;

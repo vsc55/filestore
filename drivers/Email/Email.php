@@ -77,4 +77,25 @@ class Email extends DriverBase {
 	public function putStream($path, $resource) {
 		return $this->put($path, stream_get_contents($resource));
 	}
+  
+  	/**
+	 * @method listContents
+	 *
+	 * @param  string $path
+	 * @param  boolean $recursive
+	 *
+	 * @return array()
+	 */
+	public function listContents($path = '', $recursive = false){
+		$result = [];
+		if($path != '' && is_dir($path) && is_bool($recursive)){
+			if($recursive === false){
+				$result = array_diff(scandir($path), array('..', '.'));
+			}
+			else{
+				$result = \FreePBX::PKCS()->getFileList($path);
+			}			
+		}
+		return $result;
+	}
 }

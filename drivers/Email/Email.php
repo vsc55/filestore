@@ -78,7 +78,17 @@ class Email extends DriverBase {
 		return $this->put($path, stream_get_contents($resource));
 	}
   
-  	/**
+	public function getDirRecursive($dir){
+		$directory = new \RecursiveDirectoryIterator($dir,\FilesystemIterator::SKIP_DOTS|\FilesystemIterator::CURRENT_AS_FILEINFO);
+		$iterator = new \RecursiveIteratorIterator($directory);
+		$results = [];
+		foreach ($iterator as $info) {
+		      $results[] = $info->getPathname();
+		}
+		return $results;
+	}
+
+	/**
 	 * @method listContents
 	 *
 	 * @param  string $path
@@ -93,7 +103,7 @@ class Email extends DriverBase {
 				$result = array_diff(scandir($path), array('..', '.'));
 			}
 			else{
-				$result = \FreePBX::PKCS()->getFileList($path);
+				$result = $this->getDirRecursive($path);
 			}			
 		}
 		return $result;

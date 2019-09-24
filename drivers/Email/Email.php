@@ -68,8 +68,11 @@ class Email extends DriverBase {
 		$mail->setTo($to);
 		$mail->setBody($body);
 
-		$finfo = new \finfo(FILEINFO_MIME);
-		$mail->getMessage()->attach(\Swift_Attachment::newInstance($contents, basename($path),'text/plain'));
+		file_put_contents("/tmp/".$path, $contents);
+		$f_mime = mime_content_type("/tmp/".$path);
+		unlink("/tmp/".$path);
+
+		$mail->getMessage()->attach(\Swift_Attachment::newInstance($contents, basename($path), $f_mime));
 		$ret = $mail->send();
 		return $ret;
 	}

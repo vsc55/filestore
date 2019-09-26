@@ -68,13 +68,47 @@ class Email extends DriverBase {
 		$mail->setTo($to);
 		$mail->setBody($body);
 
-		$finfo = new \finfo(FILEINFO_MIME);
-		$mail->getMessage()->attach(\Swift_Attachment::newInstance($contents, basename($path),'text/plain'));
+		file_put_contents("/tmp/".$path, $contents);
+		$f_mime = mime_content_type("/tmp/".$path);
+		unlink("/tmp/".$path);
+
+		$mail->getMessage()->attach(\Swift_Attachment::newInstance($contents, basename($path), $f_mime));
 		$ret = $mail->send();
 		return $ret;
 	}
 
 	public function putStream($path, $resource) {
 		return $this->put($path, stream_get_contents($resource));
+	}
+  
+	public function getDirRecursive($dir){
+		$directory = new \RecursiveDirectoryIterator($dir,\FilesystemIterator::SKIP_DOTS|\FilesystemIterator::CURRENT_AS_FILEINFO);
+		$iterator = new \RecursiveIteratorIterator($directory);
+		$results = [];
+		foreach ($iterator as $info) {
+		      $results[] = $info->getPathname();
+		}
+		return $results;
+	}
+
+	/**
+	 * @method listContents
+	 *
+	 * @param  string $path
+	 * @param  boolean $recursive
+	 *
+	 * @return array()
+	 */
+	public function listContents($path = '', $recursive = false){
+		$result = [];
+		if($path != '' && is_dir($path) && is_bool($recursive)){
+			if($recursive === false){
+				$result = array_diff(scandir($path), array('..', '.'));
+			}
+			else{
+				$result = $this->getDirRecursive($path);
+			}			
+		}
+		return $result;
 	}
 }

@@ -44,7 +44,7 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<span id="name-help" class="help-block fpbx-help-block"><?php echo _("Provide the name for this server")?></span>
+										<span id="name-help" class="help-block fpbx-help-block"><?php echo _("Provide the name for this File Store")?></span>
 									</div>
 								</div>
 							</div>
@@ -68,7 +68,7 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<span id="desc-help" class="help-block fpbx-help-block"><?php echo _("Description or notes for this server")?></span>
+										<span id="desc-help" class="help-block fpbx-help-block"><?php echo _("Description or notes for this File Store")?></span>
 									</div>
 								</div>
 							</div>
@@ -92,7 +92,7 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<span id="path-help" class="help-block fpbx-help-block"><?php echo _("Path on remote server")?></span>
+										<span id="path-help" class="help-block fpbx-help-block"><?php echo _("Path on this local system")?></span>
 									</div>
 								</div>
 							</div>

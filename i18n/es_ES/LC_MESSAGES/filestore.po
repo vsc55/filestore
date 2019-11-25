@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-27 15:59+0530\n"
+"POT-Creation-Date: 2019-11-25 17:34+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,8 +101,11 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:62 drivers/Local/views/form.php:71
-#: drivers/SSH/views/form.php:67
+#: drivers/Local/views/form.php:71
+msgid "Description or notes for this File Store"
+msgstr ""
+
+#: drivers/Dropbox/views/form.php:62 drivers/SSH/views/form.php:67
 msgid "Description or notes for this server"
 msgstr ""
 
@@ -251,8 +254,8 @@ msgstr ""
 msgid "Path Name"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:106 drivers/Local/views/form.php:95
-#: drivers/S3/views/form.php:136 drivers/SSH/views/form.php:202
+#: drivers/Dropbox/views/form.php:106 drivers/S3/views/form.php:136
+#: drivers/SSH/views/form.php:202
 msgid "Path on remote server"
 msgstr ""
 
@@ -263,6 +266,10 @@ msgid ""
 "not work, and will behave in unexpected ways."
 msgstr ""
 
+#: drivers/Local/views/form.php:95
+msgid "Path on this local system"
+msgstr ""
+
 #: drivers/Local/views/form.php:8
 msgid "Paths supports parameter substitution such as the examples below"
 msgstr ""
@@ -271,8 +278,11 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:38 drivers/Local/views/form.php:47
-#: drivers/SSH/views/form.php:40
+#: drivers/Local/views/form.php:47
+msgid "Provide the name for this File Store"
+msgstr ""
+
+#: drivers/Dropbox/views/form.php:38 drivers/SSH/views/form.php:40
 msgid "Provide the name for this server"
 msgstr ""
 

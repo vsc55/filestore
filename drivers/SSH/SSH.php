@@ -41,12 +41,13 @@ class SSH extends FlysystemBase {
 		if(isset($this->handler)){
 			return $this->handler;
 		}
+      	$home = posix_getpwuid(posix_getuid());
 		$path = $this->translatePath($this->config['path']);
 		$options = [
 			'host' => $this->config['host'],
 			'port' => $this->config['port'],
 			'username' => $this->config['user'],
-			'privateKey' => $this->config['key'],
+			'privateKey' => str_replace("~", $home["dir"], $this->config['key']),
 			'root' => $this->config['path'],
 			'timeout' => 10,
 			'directoryPerm' => 0755

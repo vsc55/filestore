@@ -2,11 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>15.0.3.5</version>
+  <version>15.0.3.6</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+		*15.0.3.6* FREEPBX-20737 SSH backup failed after FreePBX 14 -&amp;gt; 15 upgrade 
 		*15.0.3.5* FREEI-833 File Store: help text for Local Directory items could be better 
 		*15.0.3.4* Bugfix/FREEPBX-20571 getting listcontents method is not implemented 
 		*15.0.3.3* Related to FREEPBX-20414: removed $jobid from runRestore() 

@@ -36,6 +36,7 @@ class Local extends FlysystemBase {
 			return $this->handler;
 		}
 		$path = $this->translatePath($this->config['path']);
+		$path = str_replace("'", "", $path);
 		$adapter = new CachedAdapter(new Loc($path), new MemoryStore());
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;

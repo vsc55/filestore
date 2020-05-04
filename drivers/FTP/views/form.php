@@ -205,8 +205,11 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 			if($("#host").val().length === 0 ) {
 				warnInvalid($("#host"),_("The host cannot be empty"));
 				return false;
-			}else{
-				return true;
 			}
+			if($("#timeout").val() < 1) {
+				warnInvalid($("#timeout"),_("Timeout should not be empty and should greater than zero"));
+				return false;
+			}
+			return true;
 	});
 </script>

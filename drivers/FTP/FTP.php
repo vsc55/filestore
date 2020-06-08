@@ -52,7 +52,7 @@ class FTP extends FlysystemBase {
 			'port' => $this->config['port'],
 			'root' => $this->config['path'],
 			'passive' => ($this->config['transfer'] === 'passive'),
-			'timeout' => $this->config['timeout']
+			'timeout' => (isset($this->config['timeout']) && !empty($this->config['timeout']))?$this->config['timeout']:30
 		];
 
 		if($this->config['fstype'] !== 'auto') {

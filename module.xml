@@ -35,6 +35,7 @@
 	</changelog>
   <category>Settings</category>
   <description>Filesystem abstraction for your PBX</description>
+  <more-info>https://wiki.freepbx.org/display/FPG/Filestore+Module</more-info>
   <menuitems>
     <filestore>Filestore</filestore>
   </menuitems>

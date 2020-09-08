@@ -25,7 +25,7 @@
 <script>
 function FTPLinkFormatter(value, row, index){
     var html = '<a href="?display=filestore&driver=FTP&view=form&id='+value+'"><i class="fa fa-pencil"></i></a>';
-    html += '&nbsp;<a href="?display=filestore&driver=FTP&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
+    html += '&nbsp;<a href="?display=filestore&driver=FTP&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash-o"></i></a>';
     return html;
 }
 </script>

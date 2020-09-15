@@ -25,7 +25,7 @@
 <script>
 function LocalLinkFormatter(value, row, index){
     var html = '<a href="?display=filestore&driver=Local&view=form&id='+value+'"><i class="fa fa-pencil"></i></a>';
-    html += '&nbsp;<a href="?display=filestore&driver=Local&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash"></i></a>';
+    html += '&nbsp;<a href="?display=filestore&driver=Local&action=delete&id='+value+'" class="delAction"><i class="fa fa-trash-o"></i></a>';
     return html;
 }
 </script>

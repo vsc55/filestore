@@ -2,11 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>15.0.3.12</version>
+  <version>15.0.3.13</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+		*15.0.3.13*  
 		*15.0.3.12* FREEI-2062  Restore to 15 from a 13/14 backup not restoring POMPS backup settings 
 		*15.0.3.11* Packaging of ver 15.0.3.11
 		*15.0.3.10* Packaging of ver 15.0.3.10

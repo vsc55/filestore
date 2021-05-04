@@ -56,11 +56,22 @@ class Filestore extends Base {
 					'fetchFilestoreTypes' => [
 						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
 						'resolve' => function($root, $args) {
-                     $res = $this->freepbx->PKCS->fileStoreObj($this->freepbx)->listLocations();
+                     $res = $this->freepbx->filestore->listLocations();
 							if(!empty($res)){
-								return ['message' => _("List of filestore types"), 'status' => true, 'types' => json_encode($res['filestoreTypes'])];
+								return ['message' => _("List of filestore types"), 'status' => true, 'response' => $res['filestoreTypes']];
 							}else{
 								return ['message' => _('Sorry unable to find the filestore types'), 'status' => false];
+							}
+						}
+					],
+					'fetchFilestoreLocations' => [
+						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
+						'resolve' => function($root, $args) {
+                     $res = $this->freepbx->filestore->listLocations();
+							if(!empty($res)){
+								return ['message' => _("List of filestore locations"), 'status' => true, 'response' => $res['locations']];
+							}else{
+								return ['message' => _('Sorry unable to find the filestore locations'), 'status' => false];
 							}
 						}
 					],
@@ -253,13 +264,36 @@ class Filestore extends Base {
 				'description' => _('Status for the request')
 			],
 			'types' =>[
-				'type' => Type::String(),
-				'description' => _('Types of filestore')
+				'type' =>  Type::listOf(Type::String()),
+				'description' => _('Types of filestore'),
+				'resolve' =>  function($root, $args) {
+					$data = array_map(function($row){
+						return $row;
+					},isset($root['response']) ? $root['response'] : []);
+						return $data;
+				}
 			],
 			'regions' => [
-					'type' => Type::String(),
+				'type' => Type::String(),
 				'description' => _('List of regions')
-			]
+			],
+			'locations' => [
+				'type' => Type::listOf(Type::String()),
+				'description' => _('List of filestore locations'),
+				'resolve' => function($root, $args) {
+					$data = array_map(function($row){
+						dbug($row);
+						return $row;
+					},isset($root['response']) ? $root['response'] : []);
+					$finalList = array();
+					foreach($data as $key => $value){
+						foreach($value as $val){
+							array_push($finalList,$key.'_'.$val['id']);
+						}
+					}
+					return $finalList;
+				}
+			],
 		];
 	});
 
@@ -285,7 +319,7 @@ class Filestore extends Base {
 	 * @return void
 	 */
 	private function addInstance($driver,$values){
-		$res = $this->freepbx->PKCS->fileStoreObj($this->freepbx)->addItem($driver,$values);;
+		$res = $this->freepbx->filestore->addItem($driver,$values);;
 		if($res){
 			return ['message' => _($driver." Instance is created successfully"), 'status'=> true, 'id' => $res];
 		}else{

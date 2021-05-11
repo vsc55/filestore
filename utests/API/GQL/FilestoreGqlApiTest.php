@@ -68,7 +68,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('listLocations')
 		->willReturn(array('filestoreTypes' => array('Dropbox','Email','FTP')));
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+    self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("query{
       fetchFilestoreTypes{
@@ -77,7 +77,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     }");
       
     $json = (string)$response->getBody();
-    $this->assertEquals('{"data":{"fetchFilestoreTypes":{"status":true,"message":"List of filestore types","types":"[\"Dropbox\",\"Email\",\"FTP\"]"}}}',$json);
+    $this->assertEquals('{"data":{"fetchFilestoreTypes":{"status":true,"message":"List of filestore types","types":["Dropbox","Email","FTP"]}}}',$json);
       
     $this->assertEquals(200, $response->getStatusCode());
   }
@@ -97,7 +97,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('listLocations')
 		->willReturn('');
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+    self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("query{
       fetchFilestoreTypes{
@@ -126,7 +126,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('addItem')
 		->willReturn('123456789');
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+    self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation{
       addFTPInstance(input : {
@@ -160,7 +160,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('addItem')
 		->willReturn('123456789');
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+   self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation{
       addFTPInstance(input : {
@@ -193,7 +193,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('addItem')
 		->willReturn(null);
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+   self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation{
       addFTPInstance(input : {
@@ -222,7 +222,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('addItem')
 		->willReturn('123456789');
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+   self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation{
         addS3Bucket(input : {
@@ -257,7 +257,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('addItem')
 		->willReturn('123456789');
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+   self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation{
       addS3Bucket(input : {
@@ -283,7 +283,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 	 $mockfilestore->method('addItem')
 		->willReturn(null);
     
-   self::$freepbx->PKCS->setFileStoreObj($mockfilestore); 
+   self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation{
         addS3Bucket(input : {
@@ -301,5 +301,63 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     $this->assertEquals('{"errors":[{"message":"Sorry unable to create S3 Instance","status":false}]}',$json);
       
     $this->assertEquals(400, $response->getStatusCode());
+  }
+  
+  /**
+   * test_fetchFilestoreLocations_when_empty_Should_return_false
+   *
+   * @return void
+   */
+  public function test_fetchFilestoreLocations_when_empty_Should_return_false(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('listLocations'))
+      ->getMock();
+      
+	 $mockfilestore->method('listLocations')
+		->willReturn('');
+    
+   self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("query{
+      fetchFilestoreLocations{
+        status message locations
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Sorry unable to find the filestore locations","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+    
+  /**
+   * test_fetchFilestoreLocations_when_returns_locations_Should_return_true_list_of_locations
+   *
+   * @return void
+   */
+  public function test_fetchFilestoreLocations_when_returns_locations_Should_return_true_list_of_locations(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('listLocations'))
+      ->getMock();
+      
+	 $mockfilestore->method('listLocations')
+		->willReturn(array('locations' => array('Email' => array(array('id' => '123456789')),'SSH' => array(array('id' => '987654321') , array('id' => '1122334455')))));
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("query{
+      fetchFilestoreLocations{
+        status message locations
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchFilestoreLocations":{"status":true,"message":"List of filestore locations","locations":["Email_123456789","SSH_987654321","SSH_1122334455"]}}}',$json);
+      
+    $this->assertEquals(200, $response->getStatusCode());
   }
 }

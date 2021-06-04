@@ -360,4 +360,82 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
       
     $this->assertEquals(200, $response->getStatusCode());
   }
+  public function test_fetchFetchAllFilestores_when_returns_locations_Should_return_true_list_of_name_and_id_and_description(){
+		$mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+    ->disableOriginalConstructor()
+    ->disableOriginalClone()
+    ->setMethods(array('listLocations'))
+    ->getMock();
+		
+		$mockfilestore->method('listLocations')
+					->willReturn(array('locations' => array('Email' => array(array('id' => '123456789','name' => "Testing","description" => "Testing Lorem")))));
+		
+		self::$freepbx->filestore = $mockfilestore; 
+
+		$response = $this->request("query{
+      fetchAllFilestores{
+        status message filestores{
+          id
+          name
+          description
+          filestoreType
+        }
+      }
+    }");
+		
+		$json = (string)$response->getBody();
+	
+		$this->assertEquals('{"data":{"fetchAllFilestores":{"status":true,"message":"List of all filestores","filestores":[{"id":"123456789","name":"Testing","description":"Testing Lorem","filestoreType":"Email"}]}}}',$json);
+		
+		$this->assertEquals(200, $response->getStatusCode());
+	}
+
+	public function test_fetchFetchAllFilestores_when_wrong_parameter_sent_should_return_error_and_false(){
+	
+		$response = $this->request("query{
+      fetchAllFilestores{
+        status message filestores{
+          id
+          name
+          type
+          }
+        }
+      }");
+		
+		$json = (string)$response->getBody();
+	
+		$this->assertEquals('{"errors":[{"message":"Cannot query field \"type\" on type \"filestore\".","status":false}]}',$json);
+		
+		$this->assertEquals(400, $response->getStatusCode());
+	}
+
+	public function test_fetchFetchAllFilestores_when_location_not_return_should_return_false(){
+		$mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+    ->disableOriginalConstructor()
+    ->disableOriginalClone()
+    ->setMethods(array('listLocations'))
+    ->getMock();
+		
+		$mockfilestore->method('listLocations')
+					->willReturn(array('locations' => array()));
+		
+		self::$freepbx->filestore = $mockfilestore; 
+
+		$response = $this->request("query{
+      fetchAllFilestores{
+        status message filestores{
+          id
+          name
+          description
+          filestoreType
+          }
+        }
+      }");
+		
+		$json = (string)$response->getBody();
+	
+		$this->assertEquals('{"errors":[{"message":"Sorry, unable to find any filestore","status":false}]}',$json);
+		
+		$this->assertEquals(400, $response->getStatusCode());
+	}
 }

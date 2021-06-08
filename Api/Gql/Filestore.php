@@ -105,6 +105,29 @@ class Filestore extends Base {
 							return ['message' => _("List of AWS Storage"), 'status' => true, 'regions' => json_encode($regions)];
 						}
 					],
+					'fetchAllFilestores' => [
+						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
+						'args' => Relay::connectionArgs(),
+						'resolve' => function($root, $args) {
+							$res = $this->freepbx->filestore->listLocations();
+							$resultData = array();
+							foreach ($res['locations'] as $key => $locations) {
+								foreach ($locations as $location) {
+									$resultData[] = [
+										"id" =>  isset($location['id']) ? $location['id'] : "",
+										"name"=> $location['name'],
+										"description"=> $location['description'],
+										"filestoreType"=> $key,
+									];
+								}
+							}
+							if(isset($resultData) && $resultData != null){
+								return ['message'=> _("List of all filestores"), 'response'=> $resultData,'status'=>true];
+							}else{
+								return ['message'=> _("Sorry, unable to find any filestore"),'status' => false];
+							}
+						}
+					],
             ];
 			};
 	   }
@@ -239,9 +262,10 @@ class Filestore extends Base {
 
 	$filestore->addFieldCallback(function() {
 		return [
-			'id' => Relay::globalIdField('filestore', function($row) {
-				return isset($row['id']) ? $row['id'] : null;
-			}),
+			'id' => [
+				'type' => Type::string(),
+				'description' => _('Returns filestore id'),
+			],
 			'status' =>[
 				'type' => Type::boolean(),
 				'description' => _('Status of the request'),
@@ -249,7 +273,19 @@ class Filestore extends Base {
 			'message' =>[
 				'type' => Type::String(),
 				'description' => _('Message for the request')
-			]
+			],
+			'name' => [
+				'type' => Type::string(),
+				'description' => _('Returns the filestore name'),
+			],
+			'description' => [
+				'type' => Type::string(),
+				'description' => _('Returns the filestore description'),
+			],	
+			'filestoreType' => [
+				'type' => Type::string(),
+				'description' => _('List the filestore type'),
+			],
 		];
 	});
 
@@ -294,23 +330,20 @@ class Filestore extends Base {
 					return $finalList;
 				}
 			],
+			'filestores' => [
+				'type' => Type::listOf($this->typeContainer->get('filestore')->getObject()),
+				'description' => _('List of filestores'),
+				'resolve' => function($root, $args) {
+					$data = array_map(function($row){
+						return $row;
+					},isset($root['response']) ? $root['response'] : []);
+					return $data;
+				}
+			],
 		];
 	});
 
-   $filestore->addFieldCallback(function() {
-		return [
-			'id' => Relay::globalIdField('filestore', function($row) {
-				return isset($row['id']) ? $row['id'] : null;
-			}),
-			'status' =>[
-				'type' => Type::boolean(),
-				'description' => _('Status of the request'),
-			],
-			'message' =>[
-				'type' => Type::String(),
-				'description' => _('Message for the request')
-			]];
-		});
+ 
 	}
 	
 	/**

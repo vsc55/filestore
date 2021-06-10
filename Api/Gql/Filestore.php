@@ -59,7 +59,7 @@ class Filestore extends Base {
 						],
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
-							$id = ltrim($input['id'],'FTP-');
+							$id = ltrim($input['id'],'FTP_');
 							$response = $this->freepbx->filestore->deleteItem($id);
 							if(!$response){
 								return ['message' => _("Successfully deleted FTP instance"), 'status'=> true];
@@ -85,7 +85,7 @@ class Filestore extends Base {
 					'fetchFilestoreTypes' => [
 						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
 						'resolve' => function($root, $args) {
-                     $res = $this->freepbx->filestore->listLocations();
+							$res = $this->freepbx->filestore->listLocations();
 							if(!empty($res)){
 								return ['message' => _("List of filestore types"), 'status' => true, 'response' => $res['filestoreTypes']];
 							}else{
@@ -96,7 +96,7 @@ class Filestore extends Base {
 					'fetchFilestoreLocations' => [
 						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
 						'resolve' => function($root, $args) {
-                     $res = $this->freepbx->filestore->listLocations();
+							$res = $this->freepbx->filestore->listLocations();
 							if(!empty($res)){
 								return ['message' => _("List of filestore locations"), 'status' => true, 'response' => $res['locations']];
 							}else{
@@ -107,7 +107,7 @@ class Filestore extends Base {
 					'fetchAWSRegion' => [
 						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
 						'resolve' => function($root, $args) {
-                     $res = $this->freepbx->filestore->getDisplay('S3');
+							$res = $this->freepbx->filestore->getDisplay('S3');
 							$regions = [
 								'us-east-2',
 								'us-east-1',
@@ -143,7 +143,7 @@ class Filestore extends Base {
 							foreach ($res['locations'] as $key => $locations) {
 								foreach ($locations as $location) {
 									$resultData[] = [
-										"id" =>  isset($location['id']) ? $key."-".$location['id'] : "",
+										"id" =>  isset($location['id']) ? $key."_".$location['id'] : "",
 										"name"=> $location['name'],
 										"description"=> $location['description'],
 										"filestoreType"=> $key,
@@ -166,7 +166,7 @@ class Filestore extends Base {
 							]
 						],
 						'resolve' => function($root, $args) {
-						   $id = ltrim($args['id'],'FTP-');
+						   $id = ltrim($args['id'],'FTP_');
 							$res = $this->freepbx->filestore->getItemById($id);
 							if(!empty($res)){
 								return ['response' => $res, 'status' => true, 'message' => _('FTP instance found successfully')];
@@ -572,7 +572,7 @@ class Filestore extends Base {
 	 * @return void
 	 */
 	private function FTPUpdateFields($input){
-		$id = ltrim($input['id'],'FTP-');
+		$id = ltrim($input['id'],'FTP_');
 		$res = $this->freepbx->filestore->getItemById($id);
 
 		$input['name']  = isset($input['serverName']) ? $input['serverName'] : $res['name'];

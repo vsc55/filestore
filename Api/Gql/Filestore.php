@@ -114,7 +114,7 @@ class Filestore extends Base {
 							foreach ($res['locations'] as $key => $locations) {
 								foreach ($locations as $location) {
 									$resultData[] = [
-										"id" =>  isset($location['id']) ? $location['id'] : "",
+										"id" =>  isset($location['id']) ? $key."-".$location['id'] : "",
 										"name"=> $location['name'],
 										"description"=> $location['description'],
 										"filestoreType"=> $key,

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-10 13:10+0000\n"
+"POT-Creation-Date: 2021-06-10 13:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,8 +18,12 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Api/Gql/Filestore.php:357
+#: Api/Gql/Filestore.php:526
 msgid " Instance is created successfully"
+msgstr ""
+
+#: Api/Gql/Filestore.php:602
+msgid " Instance is updated successfully"
 msgstr ""
 
 #: drivers/Local/views/form.php:10
@@ -38,11 +42,11 @@ msgstr ""
 msgid "AWS Secret"
 msgstr ""
 
-#: Api/Gql/Filestore.php:199
+#: Api/Gql/Filestore.php:300
 msgid "AWS bucket name"
 msgstr ""
 
-#: Api/Gql/Filestore.php:207
+#: Api/Gql/Filestore.php:308
 msgid "AWS hosting Region"
 msgstr ""
 
@@ -115,6 +119,10 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
+#: Api/Gql/Filestore.php:54
+msgid "Delete a existing FTP instance"
+msgstr ""
+
 #: drivers/Dropbox/views/form.php:50
 #: drivers/Dropbox/views/grid.php:20
 #: drivers/Email/views/form.php:50
@@ -130,7 +138,11 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: Api/Gql/Filestore.php:203
+#: Api/Gql/Filestore.php:460
+msgid "Description for this conncetion."
+msgstr ""
+
+#: Api/Gql/Filestore.php:304
 msgid "Description of the AWS S3"
 msgstr ""
 
@@ -172,15 +184,22 @@ msgstr ""
 msgid "Email address where backups should be emailed to"
 msgstr ""
 
-#: Api/Gql/Filestore.php:153
+#: Api/Gql/Filestore.php:200
+#: Api/Gql/Filestore.php:254
 msgid "Enter a description for this conncetion."
 msgstr ""
 
-#: Api/Gql/Filestore.php:149
+#: Api/Gql/Filestore.php:242
+msgid "Enter the ID for FTP"
+msgstr ""
+
+#: Api/Gql/Filestore.php:196
+#: Api/Gql/Filestore.php:250
 msgid "Enter the name for FTP Host"
 msgstr ""
 
-#: Api/Gql/Filestore.php:145
+#: Api/Gql/Filestore.php:192
+#: Api/Gql/Filestore.php:246
 msgid "Enter the name for FTP connection"
 msgstr ""
 
@@ -188,8 +207,21 @@ msgstr ""
 msgid "FTP Instance"
 msgstr ""
 
-#: Api/Gql/Filestore.php:157
+#: Api/Gql/Filestore.php:467
+msgid "FTP Port"
+msgstr ""
+
+#: Api/Gql/Filestore.php:204
+#: Api/Gql/Filestore.php:258
 msgid "FTP Port default is \"22\""
+msgstr ""
+
+#: Api/Gql/Filestore.php:174
+msgid "FTP instance does not exists"
+msgstr ""
+
+#: Api/Gql/Filestore.php:172
+msgid "FTP instance found successfully"
 msgstr ""
 
 #: views/main.php:20
@@ -240,6 +272,10 @@ msgstr ""
 msgid "Hostname"
 msgstr ""
 
+#: Api/Gql/Filestore.php:453
+msgid "Hostname for FTP Host"
+msgstr ""
+
 #: drivers/SSH/views/form.php:94
 msgid "IP address or FQDN of remote SSH server"
 msgstr ""
@@ -256,32 +292,32 @@ msgstr ""
 msgid "Key"
 msgstr ""
 
-#: Api/Gql/Filestore.php:105
+#: Api/Gql/Filestore.php:134
 msgid "List of AWS Storage"
 msgstr ""
 
-#: Api/Gql/Filestore.php:125
+#: Api/Gql/Filestore.php:154
 msgid "List of all filestores"
 msgstr ""
 
-#: Api/Gql/Filestore.php:72
-#: Api/Gql/Filestore.php:318
+#: Api/Gql/Filestore.php:101
+#: Api/Gql/Filestore.php:419
 msgid "List of filestore locations"
 msgstr ""
 
-#: Api/Gql/Filestore.php:61
+#: Api/Gql/Filestore.php:90
 msgid "List of filestore types"
 msgstr ""
 
-#: Api/Gql/Filestore.php:335
+#: Api/Gql/Filestore.php:436
 msgid "List of filestores"
 msgstr ""
 
-#: Api/Gql/Filestore.php:314
+#: Api/Gql/Filestore.php:415
 msgid "List of regions"
 msgstr ""
 
-#: Api/Gql/Filestore.php:287
+#: Api/Gql/Filestore.php:388
 msgid "List the filestore type"
 msgstr ""
 
@@ -289,7 +325,7 @@ msgstr ""
 msgid "Local Directory"
 msgstr ""
 
-#: Api/Gql/Filestore.php:195
+#: Api/Gql/Filestore.php:296
 #: drivers/S3/views/form.php:25
 msgid "Local Display Name"
 msgstr ""
@@ -306,8 +342,8 @@ msgstr ""
 msgid "Max Email Size"
 msgstr ""
 
-#: Api/Gql/Filestore.php:275
-#: Api/Gql/Filestore.php:296
+#: Api/Gql/Filestore.php:376
+#: Api/Gql/Filestore.php:397
 msgid "Message for the request"
 msgstr ""
 
@@ -316,6 +352,10 @@ msgstr ""
 #: drivers/Local/views/grid.php:19
 #: drivers/S3/views/grid.php:19
 msgid "Name"
+msgstr ""
+
+#: Api/Gql/Filestore.php:446
+msgid "Name for FTP connection"
 msgstr ""
 
 #: drivers/Email/views/form.php:38
@@ -347,14 +387,16 @@ msgstr ""
 msgid "Path Name"
 msgstr ""
 
-#: Api/Gql/Filestore.php:219
+#: Api/Gql/Filestore.php:320
 #: drivers/Dropbox/views/form.php:106
 #: drivers/S3/views/form.php:136
 #: drivers/SSH/views/form.php:202
 msgid "Path on remote server"
 msgstr ""
 
-#: Api/Gql/Filestore.php:173
+#: Api/Gql/Filestore.php:220
+#: Api/Gql/Filestore.php:274
+#: Api/Gql/Filestore.php:495
 msgid ""
 "Path on remote server. This must be a COMPLETE PATH, starting with a / - for "
 "example, /home/backups/freepbx. A path without a leading slash will not "
@@ -402,15 +444,15 @@ msgstr ""
 msgid "Reset"
 msgstr ""
 
-#: Api/Gql/Filestore.php:267
+#: Api/Gql/Filestore.php:368
 msgid "Returns filestore id"
 msgstr ""
 
-#: Api/Gql/Filestore.php:283
+#: Api/Gql/Filestore.php:384
 msgid "Returns the filestore description"
 msgstr ""
 
-#: Api/Gql/Filestore.php:279
+#: Api/Gql/Filestore.php:380
 msgid "Returns the filestore name"
 msgstr ""
 
@@ -431,16 +473,20 @@ msgstr ""
 msgid "Server Name"
 msgstr ""
 
-#: Api/Gql/Filestore.php:211
+#: Api/Gql/Filestore.php:312
 msgid "Set aws access key"
 msgstr ""
 
-#: Api/Gql/Filestore.php:165
-#: Api/Gql/Filestore.php:215
+#: Api/Gql/Filestore.php:212
+#: Api/Gql/Filestore.php:266
+#: Api/Gql/Filestore.php:316
+#: Api/Gql/Filestore.php:481
 msgid "Set the password"
 msgstr ""
 
-#: Api/Gql/Filestore.php:161
+#: Api/Gql/Filestore.php:208
+#: Api/Gql/Filestore.php:262
+#: Api/Gql/Filestore.php:474
 msgid "Set user name"
 msgstr ""
 
@@ -448,27 +494,35 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: Api/Gql/Filestore.php:359
+#: Api/Gql/Filestore.php:528
 msgid "Sorry unable to create "
 msgstr ""
 
-#: Api/Gql/Filestore.php:74
+#: Api/Gql/Filestore.php:103
 msgid "Sorry unable to find the filestore locations"
 msgstr ""
 
-#: Api/Gql/Filestore.php:63
+#: Api/Gql/Filestore.php:92
 msgid "Sorry unable to find the filestore types"
 msgstr ""
 
-#: Api/Gql/Filestore.php:127
+#: Api/Gql/Filestore.php:604
+msgid "Sorry unable to update "
+msgstr ""
+
+#: Api/Gql/Filestore.php:156
 msgid "Sorry, unable to find any filestore"
 msgstr ""
 
-#: Api/Gql/Filestore.php:300
+#: Api/Gql/Filestore.php:67
+msgid "Sorry, unable to process your delete request"
+msgstr ""
+
+#: Api/Gql/Filestore.php:401
 msgid "Status for the request"
 msgstr ""
 
-#: Api/Gql/Filestore.php:271
+#: Api/Gql/Filestore.php:372
 msgid "Status of the request"
 msgstr ""
 
@@ -476,12 +530,22 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
+#: Api/Gql/Filestore.php:65
+msgid "Successfully deleted FTP instance"
+msgstr ""
+
 #: drivers/FTP/views/form.php:126
 msgid "The FTP Server's file system type. If you are unsure set this to Auto"
 msgstr ""
 
-#: Api/Gql/Filestore.php:169
+#: Api/Gql/Filestore.php:216
+#: Api/Gql/Filestore.php:270
+#: Api/Gql/Filestore.php:488
 msgid "The FTP Servers file system type. If you are unsure set this to Auto"
+msgstr ""
+
+#: Api/Gql/Filestore.php:165
+msgid "The id to fetch a particualr filestore details"
 msgstr ""
 
 #: drivers/Email/views/form.php:142
@@ -500,7 +564,9 @@ msgstr ""
 msgid "The requested driver seems invalid"
 msgstr ""
 
-#: Api/Gql/Filestore.php:177
+#: Api/Gql/Filestore.php:224
+#: Api/Gql/Filestore.php:278
+#: Api/Gql/Filestore.php:502
 msgid ""
 "This defaults to \"Passive\". If your FTP server is behind a seperate NAT or "
 "Firewall to this VoIP server, you should select \"Active\". In \"Active\" "
@@ -530,7 +596,9 @@ msgstr ""
 msgid "Timeout on remote server"
 msgstr ""
 
-#: Api/Gql/Filestore.php:181
+#: Api/Gql/Filestore.php:228
+#: Api/Gql/Filestore.php:282
+#: Api/Gql/Filestore.php:509
 msgid "Timeout on remote server, default is 30"
 msgstr ""
 
@@ -546,11 +614,11 @@ msgstr ""
 msgid "Transfer Mode"
 msgstr ""
 
-#: Api/Gql/Filestore.php:304
+#: Api/Gql/Filestore.php:405
 msgid "Types of filestore"
 msgstr ""
 
-#: Api/Gql/Filestore.php:245
+#: Api/Gql/Filestore.php:346
 msgid "UUid for the instance"
 msgstr ""
 
@@ -602,4 +670,8 @@ msgstr ""
 
 #: drivers/Local/views/form.php:14
 msgid "spool directory"
+msgstr ""
+
+#: Api/Gql/Filestore.php:44
+msgid "update a existing FTP instance"
 msgstr ""

@@ -2,11 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>15.0.3.16</version>
+  <version>15.0.3.17</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+		*15.0.3.17* FREEI-3434 GQL api's for update and delete ftp instance along with unit tests 
 		*15.0.3.16* Modified fetchAllFilestores gql to return combined key of filestore type and id 
 		*15.0.3.15* FREEI-3392 Created GQL API to fetchAllFilestores and Unit tests 
 		*15.0.3.14* FREEI-3296 GQL API lo list filestore location with unit test 

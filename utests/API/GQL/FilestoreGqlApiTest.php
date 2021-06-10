@@ -368,7 +368,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     ->getMock();
 		
 		$mockfilestore->method('listLocations')
-					->willReturn(array('locations' => array('Email' => array(array('id' => '123456789','name' => "Testing","description" => "Testing Lorem")))));
+    ->willReturn(array('locations' => array('FTP' => array(array('id' => '123456789', 'name' => "Testing", "description" => "Testing Lorem")))));
 		
 		self::$freepbx->filestore = $mockfilestore; 
 
@@ -384,8 +384,8 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     }");
 		
 		$json = (string)$response->getBody();
-	
-		$this->assertEquals('{"data":{"fetchAllFilestores":{"status":true,"message":"List of all filestores","filestores":[{"id":"123456789","name":"Testing","description":"Testing Lorem","filestoreType":"Email"}]}}}',$json);
+
+    $this->assertEquals('{"data":{"fetchAllFilestores":{"status":true,"message":"List of all filestores","filestores":[{"id":"FTP-123456789","name":"Testing","description":"Testing Lorem","filestoreType":"FTP"}]}}}', $json);
 		
 		$this->assertEquals(200, $response->getStatusCode());
 	}

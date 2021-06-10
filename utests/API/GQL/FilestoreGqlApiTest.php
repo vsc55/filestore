@@ -438,4 +438,238 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 		
 		$this->assertEquals(400, $response->getStatusCode());
 	}
+  
+  /**
+   * test_updateFTPInstance_all_good_Should_return_true
+   *
+   * @return void
+   */
+  public function test_updateFTPInstance_all_good_Should_return_true(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('editItem','getItemById'))
+      ->getMock();
+      
+	 $mockfilestore->method('editItem')
+		->willReturn(true);
+   
+  $mockfilestore->method('getItemById')
+		->willReturn(array('desc' => "description", 'driver' => 'FTP', 'fstype' => 'auto', 'host' => '100.100.100.100', 'id' => '12324', 'name' => 'test' ,'password' => 'password' , 'path' => '\tmp' , 'port' => 100, 'timeout' => 20, 'transfer' => 'active', 'user' =>'user'));
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("mutation{
+      updateFTPInstance(input : {
+          id : \"FTP-12324\"
+          serverName: \"testGql\"
+          hostName: \"100.100.100.100\"
+          userName: \"testGql\"
+          password: \"testGql\"    
+      }){
+        status message
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"updateFTPInstance":{"status":true,"message":"FTP-12324 Instance is updated successfully"}}}',$json);
+      
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+  
+  /**
+   * test_updateFTPInstance_required_field_not_passed_should_return_false
+   *
+   * @return void
+   */
+  public function test_updateFTPInstance_required_field_not_passed_should_return_false(){
+    $response = $this->request("mutation{
+      updateFTPInstance(input : {
+          serverName: \"testGql\"
+          hostName: \"100.100.100.100\"
+          userName: \"testGql\"
+          password: \"testGql\"    
+      }){
+        status message
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Field updateFTPInstanceInput.id of required type String! was not provided.","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+  
+  /**
+   * test_updateFTPInstance_when_unable_to_update_should_return_false
+   *
+   * @return void
+   */
+  public function test_updateFTPInstance_when_unable_to_update_should_return_false(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('editItem','getItemById'))
+      ->getMock();
+      
+	 $mockfilestore->method('editItem')
+		->willReturn(false);
+   
+  $mockfilestore->method('getItemById')
+		->willReturn(array('desc' => "description", 'driver' => 'FTP', 'fstype' => 'auto', 'host' => '100.100.100.100', 'id' => '12324', 'name' => 'test' ,'password' => 'password' , 'path' => '\tmp' , 'port' => 100, 'timeout' => 20, 'transfer' => 'active', 'user' =>'user'));
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("mutation{
+      updateFTPInstance(input : {
+          id : \"FTP-12324\"
+          serverName: \"testGql\"
+          hostName: \"100.100.100.100\"
+          userName: \"testGql\"
+          password: \"testGql\"    
+      }){
+        status message
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Sorry unable to update FTP-12324 Instance","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+  
+  /**
+   * test_deleteFTPInstance_when_unable_to_delete_should_return_false
+   *
+   * @return void
+   */
+  public function test_deleteFTPInstance_when_unable_to_delete_should_return_false(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('deleteItem'))
+      ->getMock();
+      
+	 $mockfilestore->method('deleteItem')
+		->willReturn(true);
+   
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("mutation {
+      deleteFTPInstance(input: { id : \"FTP-124234\"}){
+        status
+        message
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Sorry, unable to process your delete request","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+  
+  /**
+   * test_deleteFTPInstance_when_delete_should_return_true
+   *
+   * @return void
+   */
+  public function test_deleteFTPInstance_when_delete_should_return_true(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('deleteItem'))
+      ->getMock();
+      
+	 $mockfilestore->method('deleteItem')
+		->willReturn(false);
+   
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("mutation {
+      deleteFTPInstance(input: { id : \"FTP-124234\"}){
+        status
+        message
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"deleteFTPInstance":{"status":true,"message":"Successfully deleted FTP instance"}}}',$json);
+      
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+  
+  /**
+   * test_fetchFileStoreDetails_all_good_Should_return_true
+   *
+   * @return void
+   */
+  public function test_fetchFileStoreDetails_all_good_Should_return_true(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('getItemById'))
+      ->getMock();
+   
+    $mockfilestore->method('getItemById')
+  		->willReturn(array('desc' => "description", 'driver' => 'FTP', 'fstype' => 'auto', 'host' => '100.100.100.100', 'id' => '12324', 'name' => 'test' ,'password' => 'password' , 'path' => 'tmp' , 'port' => 100, 'timeout' => 20, 'transfer' => 'active', 'user' =>'user'));
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("{
+        fetchFileStoreDetails(id: \"FTP-12324\") {
+          status
+          message
+          serverName
+          hostName
+          description
+          port
+          userName
+          password
+          fileStoreType
+          path
+          transferMode
+          timeout
+          }
+      }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchFileStoreDetails":{"status":true,"message":"FTP instance found successfully","serverName":"test","hostName":"100.100.100.100","description":"description","port":"100","userName":"user","password":"password","fileStoreType":"auto","path":"tmp","transferMode":"active","timeout":"20"}}}',$json);
+      
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+
+  public function test_fetchFileStoreDetails_when_instance_does_not_exists_should_retuen_false(){
+   $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+		->disableOriginalConstructor()
+		->disableOriginalClone()
+		->setMethods(array('getItemById'))
+      ->getMock();
+   
+    $mockfilestore->method('getItemById')
+  		->willReturn(false);
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("{
+        fetchFileStoreDetails(id: \"FTP-12324\") {
+          status
+          message
+          serverName
+          hostName
+          description
+          port
+          userName
+          password
+          fileStoreType
+          path
+          transferMode
+          timeout
+          }
+      }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"FTP instance does not exists","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
 }

@@ -39,6 +39,35 @@ class Filestore extends Base {
 							return $this->addInstance('S3',$input);
 						}
 					]),
+					'updateFTPInstance' => Relay::mutationWithClientMutationId([
+						'name' => 'updateFTPInstance',
+						'description' => _('update a existing FTP instance'),
+						'inputFields' => $this->getFTPUpdateFields(),
+						'outputFields' => $this->getOutputFields(),
+						'mutateAndGetPayload' => function ($input) {
+							$input = $this->FTPUpdateFields($input);
+							return $this->updateInstance($input);
+						}
+					]),
+					'deleteFTPInstance' => Relay::mutationWithClientMutationId([
+						'name' => 'deleteFTPInstance',
+						'description' => _('Delete a existing FTP instance'),
+						'inputFields' => [
+							'id' => [
+								'type' => Type::nonNull(Type::string())
+							]
+						],
+						'outputFields' => $this->getOutputFields(),
+						'mutateAndGetPayload' => function ($input) {
+							$id = ltrim($input['id'],'FTP-');
+							$response = $this->freepbx->filestore->deleteItem($id);
+							if(!$response){
+								return ['message' => _("Successfully deleted FTP instance"), 'status'=> true];
+							}else{
+								return ['message' => _("Sorry, unable to process your delete request"),'status' => false];
+							}
+						}
+					]),
 				];
 			};
 		}
@@ -128,6 +157,24 @@ class Filestore extends Base {
 							}
 						}
 					],
+					'fetchFileStoreDetails' => [
+						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
+						'args' => [
+							'id' => [
+								'type' => Type::nonNull(Type::string()),
+								'description' => _('The id to fetch a particualr filestore details'),
+							]
+						],
+						'resolve' => function($root, $args) {
+						   $id = ltrim($args['id'],'FTP-');
+							$res = $this->freepbx->filestore->getItemById($id);
+							if(!empty($res)){
+								return ['response' => $res, 'status' => true, 'message' => _('FTP instance found successfully')];
+							}else{
+								return ['status' => false, 'message' => _('FTP instance does not exists')];
+							}
+						}
+					],
             ];
 			};
 	   }
@@ -182,7 +229,61 @@ class Filestore extends Base {
 			]
 		];
 	}
-	
+		
+	/**
+	 * getFTPUpdateFields
+	 *
+	 * @return void
+	 */
+	private function getFTPUpdateFields() {
+		return [
+			'id' => [
+				'type' => Type::nonNull(Type::string()),
+				'description' => _('Enter the ID for FTP')
+			],
+			'serverName' => [
+				'type' => Type::string(),
+				'description' => _('Enter the name for FTP connection')
+			],
+			'hostName' => [
+				'type' => Type::string(),
+				'description' => _('Enter the name for FTP Host')
+			],
+			'description' => [
+				'type' => Type::string(),
+				'description' => _('Enter a description for this conncetion.')
+			],
+			'port' => [
+				'type' => Type::id(),
+				'description' => _('FTP Port default is "22"')
+			],
+			'userName' => [
+				'type' => Type::nonNull(Type::string()),
+				'description' => _('Set user name')
+			],
+			'password' => [
+				'type' => Type::nonNull(Type::string()),
+				'description' => _('Set the password')
+			],
+			'fileStoreType' => [
+				'type' => Type::string(),
+				'description' => _('The FTP Servers file system type. If you are unsure set this to Auto')
+			],
+			'path' => [
+				'type' => Type::string(),
+				'description' => _('Path on remote server. This must be a COMPLETE PATH, starting with a / - for example, /home/backups/freepbx. A path without a leading slash will not work, and will behave in unexpected ways.')
+			],
+			'transferMode' => [
+				'type' => Type::string(),
+				'description' => _('This defaults to "Passive". If your FTP server is behind a seperate NAT or Firewall to this VoIP server, you should select "Active". In "Active" mode, the FTP server establishes a connection back to the VoIP server to receive the data. In "Passive" mode, the VoIP server connects to the FTP Server to send data.')
+			],
+			'timeout' => [
+				'type' => Type::id(),
+				'description' => _('Timeout on remote server, default is 30')
+			]
+		];
+	}
+
 	/**
 	 * getS3InputFields
 	 *
@@ -340,11 +441,79 @@ class Filestore extends Base {
 					return $data;
 				}
 			],
+			'serverName' => [
+				'type' => Type::string(),
+				'description' => _('Name for FTP connection'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['name'] : '';
+				}
+			],
+			'hostName' => [
+				'type' => Type::string(),
+				'description' => _('Hostname for FTP Host'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['host'] : '';
+				}
+			],
+			'description' => [
+				'type' => Type::string(),
+				'description' => _('Description for this conncetion.'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['desc'] : '';
+				}
+			],
+			'port' => [
+				'type' => Type::id(),
+				'description' => _('FTP Port'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['port'] : '';
+				}
+			],
+			'userName' => [
+				'type' => Type::string(),
+				'description' => _('Set user name'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['user'] : '';
+				}
+			],
+			'password' => [
+				'type' => Type::nonNull(Type::string()),
+				'description' => _('Set the password'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['password'] : '';
+				}
+			],
+			'fileStoreType' => [
+				'type' => Type::string(),
+				'description' => _('The FTP Servers file system type. If you are unsure set this to Auto'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['fstype'] : '';
+				}
+			],
+			'path' => [
+				'type' => Type::string(),
+				'description' => _('Path on remote server. This must be a COMPLETE PATH, starting with a / - for example, /home/backups/freepbx. A path without a leading slash will not work, and will behave in unexpected ways.'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['path'] : '';
+				}
+			],
+			'transferMode' => [
+				'type' => Type::string(),
+				'description' => _('This defaults to "Passive". If your FTP server is behind a seperate NAT or Firewall to this VoIP server, you should select "Active". In "Active" mode, the FTP server establishes a connection back to the VoIP server to receive the data. In "Passive" mode, the VoIP server connects to the FTP Server to send data.'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['transfer'] : '';
+				}
+			],
+			'timeout' => [
+				'type' => Type::id(),
+				'description' => _('Timeout on remote server, default is 30'),
+				'resolve' => function($root, $args) {
+					return isset($root['response']) ? $root['response']['timeout'] : '';
+				}
+			]
 		];
 	});
-
- 
-	}
+}
 	
 	/**
 	 * addInstance
@@ -394,5 +563,45 @@ class Filestore extends Base {
 		$input['awssecret']  = $input['AWSSecret'];
 
 		return $input;
+	}
+	
+	/**
+	 * FTPUpdateFields
+	 *
+	 * @param  mixed $input
+	 * @return void
+	 */
+	private function FTPUpdateFields($input){
+		$id = ltrim($input['id'],'FTP-');
+		$res = $this->freepbx->filestore->getItemById($id);
+
+		$input['name']  = isset($input['serverName']) ? $input['serverName'] : $res['name'];
+		$input['host']  = isset($input['hostName']) ? $input['hostName'] : $res['host'];
+		$input['user']  = isset($input['userName']) ? $input['userName'] : $res['user'];
+		$input['desc']  = isset($input['description']) ? $input['description'] : $res['desc'];
+		$input['port']  = isset($input['port']) ? $input['port'] : $res['port'];
+		$input['path']  = isset($input['path']) ? $input['path'] : $res['path'];
+		$input['transfer']  = isset($input['transferMode']) ? $input['transferMode'] : $res['transfer'];
+		$input['timeout']  = isset($input['timeout']) ? $input['timeout'] : $res['timeout'];
+		$input['driver'] = 'FTP';
+
+		return $input;
+	}
+	
+	/**
+	 * updateInstance
+	 *
+	 * @param  mixed $id
+	 * @param  mixed $inputs
+	 * @return void
+	 */
+	private function updateInstance($inputs){
+		$id = $inputs['id'];
+		$res = $this->freepbx->filestore->editItem($id,$inputs);
+		if($res){
+			return ['message' => _($id." Instance is updated successfully"), 'status'=> true];
+		}else{
+			return ['message' => _("Sorry unable to update ".$id." Instance"), 'status' => false];
+		}
 	}
 }

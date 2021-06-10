@@ -385,7 +385,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 		
 		$json = (string)$response->getBody();
 
-    $this->assertEquals('{"data":{"fetchAllFilestores":{"status":true,"message":"List of all filestores","filestores":[{"id":"FTP-123456789","name":"Testing","description":"Testing Lorem","filestoreType":"FTP"}]}}}', $json);
+    $this->assertEquals('{"data":{"fetchAllFilestores":{"status":true,"message":"List of all filestores","filestores":[{"id":"FTP_123456789","name":"Testing","description":"Testing Lorem","filestoreType":"FTP"}]}}}', $json);
 		
 		$this->assertEquals(200, $response->getStatusCode());
 	}
@@ -461,7 +461,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 
     $response = $this->request("mutation{
       updateFTPInstance(input : {
-          id : \"FTP-12324\"
+          id : \"FTP_12324\"
           serverName: \"testGql\"
           hostName: \"100.100.100.100\"
           userName: \"testGql\"
@@ -472,7 +472,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     }");
       
     $json = (string)$response->getBody();
-    $this->assertEquals('{"data":{"updateFTPInstance":{"status":true,"message":"FTP-12324 Instance is updated successfully"}}}',$json);
+    $this->assertEquals('{"data":{"updateFTPInstance":{"status":true,"message":"FTP_12324 Instance is updated successfully"}}}',$json);
       
     $this->assertEquals(200, $response->getStatusCode());
   }
@@ -522,7 +522,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
 
     $response = $this->request("mutation{
       updateFTPInstance(input : {
-          id : \"FTP-12324\"
+          id : \"FTP_12324\"
           serverName: \"testGql\"
           hostName: \"100.100.100.100\"
           userName: \"testGql\"
@@ -533,7 +533,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     }");
       
     $json = (string)$response->getBody();
-    $this->assertEquals('{"errors":[{"message":"Sorry unable to update FTP-12324 Instance","status":false}]}',$json);
+    $this->assertEquals('{"errors":[{"message":"Sorry unable to update FTP_12324 Instance","status":false}]}',$json);
       
     $this->assertEquals(400, $response->getStatusCode());
   }
@@ -556,7 +556,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation {
-      deleteFTPInstance(input: { id : \"FTP-124234\"}){
+      deleteFTPInstance(input: { id : \"FTP_124234\"}){
         status
         message
       }
@@ -586,7 +586,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("mutation {
-      deleteFTPInstance(input: { id : \"FTP-124234\"}){
+      deleteFTPInstance(input: { id : \"FTP_124234\"}){
         status
         message
       }
@@ -616,7 +616,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("{
-        fetchFileStoreDetails(id: \"FTP-12324\") {
+        fetchFileStoreDetails(id: \"FTP_12324\") {
           status
           message
           serverName
@@ -651,7 +651,7 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
     self::$freepbx->filestore = $mockfilestore; 
 
     $response = $this->request("{
-        fetchFileStoreDetails(id: \"FTP-12324\") {
+        fetchFileStoreDetails(id: \"FTP_12324\") {
           status
           message
           serverName

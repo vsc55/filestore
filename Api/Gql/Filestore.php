@@ -46,7 +46,7 @@ class Filestore extends Base {
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
 							$input = $this->FTPUpdateFields($input);
-							return $this->updateInstance($input);
+							return $this->updateInstance($input,'FTP');
 						}
 					]),
 					'deleteFTPInstance' => Relay::mutationWithClientMutationId([
@@ -572,8 +572,8 @@ class Filestore extends Base {
 	 * @return void
 	 */
 	private function FTPUpdateFields($input){
-		$id = ltrim($input['id'],'FTP_');
-		$res = $this->freepbx->filestore->getItemById($id);
+		$input['id'] = ltrim($input['id'],'FTP_');
+		$res = $this->freepbx->filestore->getItemById($input['id']);
 
 		$input['name']  = isset($input['serverName']) ? $input['serverName'] : $res['name'];
 		$input['host']  = isset($input['hostName']) ? $input['hostName'] : $res['host'];
@@ -595,13 +595,13 @@ class Filestore extends Base {
 	 * @param  mixed $inputs
 	 * @return void
 	 */
-	private function updateInstance($inputs){
+	private function updateInstance($inputs,$type){
 		$id = $inputs['id'];
 		$res = $this->freepbx->filestore->editItem($id,$inputs);
 		if($res){
-			return ['message' => _($id." Instance is updated successfully"), 'status'=> true];
+			return ['message' => _($type . '_' .$id." Instance is updated successfully"), 'status'=> true];
 		}else{
-			return ['message' => _("Sorry unable to update ".$id." Instance"), 'status' => false];
+			return ['message' => _("Sorry unable to update " . $type . '_' .$id." Instance"), 'status' => false];
 		}
 	}
 }

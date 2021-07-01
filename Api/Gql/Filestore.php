@@ -540,7 +540,7 @@ class Filestore extends Base {
 		$input['host']  = $input['hostName'];
 		$input['user']  = $input['userName'];
 		$input['desc']  = isset($input['description']) ? $input['description'] : '';
-		$input['port']  = isset($input['port']) ? $input['port'] : 22;
+		$input['port']  = isset($input['port']) ? $input['port'] : 21;
 		$input['path']  = isset($input['path']) ? $input['path'] : '/';
 		$input['transfer']  = isset($input['transfer']) ? $input['transfer'] : 'passive';
 		$input['timeout']  = isset($input['timeout']) ? $input['timeout'] : 30;

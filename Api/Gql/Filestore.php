@@ -364,7 +364,7 @@ class Filestore extends Base {
 	$filestore->addFieldCallback(function() {
 		return [
 			'id' => [
-				'type' => Type::string(),
+				'type' => Type::nonNull(Type::Id()),
 				'description' => _('Returns filestore id'),
 			],
 			'status' =>[

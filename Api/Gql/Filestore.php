@@ -363,10 +363,9 @@ class Filestore extends Base {
 
 	$filestore->addFieldCallback(function() {
 		return [
-			'id' => [
-				'type' => Type::nonNull(Type::Id()),
-				'description' => _('Returns filestore id'),
-			],
+			'id' => Relay::globalIdField('filestore', function($row) {
+				return isset($row['id']) ? $row['id'] : null;
+			}),
 			'status' =>[
 				'type' => Type::boolean(),
 				'description' => _('Status of the request'),

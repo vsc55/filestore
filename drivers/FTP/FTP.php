@@ -1,11 +1,15 @@
 <?php
+
 namespace FreePBX\modules\Filestore\drivers\FTP;
+
 use League\Flysystem\Adapter\Ftp as FTPAdaptor;
 use League\Flysystem\Filesystem;
 use FreePBX\modules\Filestore\drivers\FlysystemBase;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\Storage\Memory as MemoryStore;
-class FTP extends FlysystemBase {
+
+class FTP extends FlysystemBase
+{
 	protected static $path = __DIR__;
 	protected static $validKeys = [
 		"id" => '',
@@ -13,6 +17,7 @@ class FTP extends FlysystemBase {
 		"desc" => '',
 		"host" => '',
 		"port" => 21,
+		"usetls" => 'no',
 		"user" => 'anonymous',
 		"password" => 'anonymous',
 		"timeout" => 30,
@@ -27,7 +32,8 @@ class FTP extends FlysystemBase {
 	 * @param  string $method the method "all,backup,readonly,writeonly"
 	 * @return bool method is/not supported
 	 */
-	public function methodSupported($method){
+	public function methodSupported($method)
+	{
 		$permissions = array(
 			'all',
 			'read',
@@ -38,8 +44,9 @@ class FTP extends FlysystemBase {
 		return in_array($method, $permissions);
 	}
 
-	public function getHandler(){
-		if(isset($this->handler)){
+	public function getHandler()
+	{
+		if (isset($this->handler)) {
 			return $this->handler;
 		}
 
@@ -52,10 +59,11 @@ class FTP extends FlysystemBase {
 			'port' => $this->config['port'],
 			'root' => $this->config['path'],
 			'passive' => ($this->config['transfer'] === 'passive'),
-			'timeout' => (isset($this->config['timeout']) && !empty($this->config['timeout']))?$this->config['timeout']:30
+			'timeout' => (isset($this->config['timeout']) && !empty($this->config['timeout'])) ? $this->config['timeout'] : 30,
+			'ssl' => isset($this->config['usetls']) && $this->config['usetls'] === 'yes',
 		];
 
-		if($this->config['fstype'] !== 'auto') {
+		if ($this->config['fstype'] !== 'auto') {
 			$options['systemType'] = $this->config['fstype'];
 		}
 

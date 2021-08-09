@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 11:20+0000\n"
+"POT-Creation-Date: 2021-08-09 17:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: drivers/FTP/views/form.php:161
+#: drivers/FTP/views/form.php:186
 msgid "Active"
 msgstr ""
 
@@ -99,7 +99,7 @@ msgstr ""
 msgid "Add a new FTP instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:116
+#: drivers/FTP/views/form.php:141
 msgid "Auto"
 msgstr ""
 
@@ -154,6 +154,10 @@ msgstr ""
 #: drivers/Email/views/form.php:62
 msgid ""
 "Description or notes for this server. This will be used as the email subject."
+msgstr ""
+
+#: drivers/FTP/views/form.php:98
+msgid "Does this connection use tls? Make sure the port is set correctly."
 msgstr ""
 
 #: drivers/Dropbox/views/grid.php:19
@@ -241,7 +245,7 @@ msgid ""
 "setup file system destinations that can be used in other modules"
 msgstr ""
 
-#: drivers/FTP/views/form.php:111
+#: drivers/FTP/views/form.php:136
 msgid "Filesystem Type"
 msgstr ""
 
@@ -358,21 +362,25 @@ msgstr ""
 msgid "Name this email list"
 msgstr ""
 
+#: drivers/FTP/views/form.php:91
+msgid "No"
+msgstr ""
+
 #: Filestore.class.php:82
 #: Filestore.class.php:88
 msgid "No id supplied"
 msgstr ""
 
-#: drivers/FTP/views/form.php:163
+#: drivers/FTP/views/form.php:188
 msgid "Passive"
 msgstr ""
 
-#: drivers/FTP/views/form.php:97
+#: drivers/FTP/views/form.php:122
 msgid "Password"
 msgstr ""
 
 #: drivers/Dropbox/views/form.php:96
-#: drivers/FTP/views/form.php:136
+#: drivers/FTP/views/form.php:161
 #: drivers/Local/views/form.php:83
 #: drivers/S3/views/form.php:126
 #: drivers/SSH/views/form.php:188
@@ -399,7 +407,7 @@ msgid ""
 "work, and will behave in unexpected ways."
 msgstr ""
 
-#: drivers/FTP/views/form.php:146
+#: drivers/FTP/views/form.php:171
 msgid ""
 "Path on remote server. This must be a COMPLETE PATH, starting with a / - for "
 "example, <tt>/home/backups/freepbx</tt>. A path without a leading slash will "
@@ -526,7 +534,7 @@ msgstr ""
 msgid "Successfully deleted FTP instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:126
+#: drivers/FTP/views/form.php:151
 msgid "The FTP Server's file system type. If you are unsure set this to Auto"
 msgstr ""
 
@@ -567,7 +575,7 @@ msgid ""
 "Server to send data."
 msgstr ""
 
-#: drivers/FTP/views/form.php:169
+#: drivers/FTP/views/form.php:194
 msgid ""
 "This defaults to 'Passive'. If your FTP server is behind a seperate NAT or "
 "Firewall to this VoIP server, you should select 'Active'. In 'Active' mode, "
@@ -580,11 +588,11 @@ msgstr ""
 msgid "This has a maximum size of 25MB."
 msgstr ""
 
-#: drivers/FTP/views/form.php:179
+#: drivers/FTP/views/form.php:204
 msgid "Timeout"
 msgstr ""
 
-#: drivers/FTP/views/form.php:189
+#: drivers/FTP/views/form.php:214
 msgid "Timeout on remote server"
 msgstr ""
 
@@ -602,7 +610,7 @@ msgstr ""
 msgid "Token on remote server"
 msgstr ""
 
-#: drivers/FTP/views/form.php:156
+#: drivers/FTP/views/form.php:181
 msgid "Transfer Mode"
 msgstr ""
 
@@ -614,7 +622,7 @@ msgstr ""
 msgid "UUid for the instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:118
+#: drivers/FTP/views/form.php:143
 msgid "Unix/Linux"
 msgstr ""
 
@@ -623,6 +631,10 @@ msgid "Unknown action provided"
 msgstr ""
 
 #: drivers/FTP/views/form.php:83
+msgid "Use TLS"
+msgstr ""
+
+#: drivers/FTP/views/form.php:108
 #: drivers/SSH/views/form.php:134
 msgid "Username"
 msgstr ""
@@ -640,8 +652,12 @@ msgstr ""
 msgid "What's this?"
 msgstr ""
 
-#: drivers/FTP/views/form.php:120
+#: drivers/FTP/views/form.php:145
 msgid "Windows"
+msgstr ""
+
+#: drivers/FTP/views/form.php:89
+msgid "Yes"
 msgstr ""
 
 #: drivers/Email/views/form.php:106

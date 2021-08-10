@@ -82,6 +82,25 @@ class Filestore extends Base {
 		if($this->checkAllReadScope()) {
 			return function() {
 				return [
+					'fetchFTPInstances' => [
+						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
+						'resolve' => function ($root, $args) {
+							$response = $this->freepbx->filestore->listItems('FTP');
+							$response = array_map(function($res) {
+								return array(
+									'id' => $res['id'],
+									'name' => $res['name'],
+									'description' => $res['desc'],
+									'driver' => $res['driver'],
+								);
+							}, $response);
+							if (!empty($response)) {
+								return ['message' => _("List of FTP instances"), 'status' => true, 'response' => $response];
+							} else {
+								return ['message' => _('Sorry unable to find the FTP instances'), 'status' => false];
+							}
+						}
+					],
 					'fetchFilestoreTypes' => [
 						'type' => $this->typeContainer->get('filestore')->getConnectionType(),
 						'resolve' => function($root, $args) {
@@ -179,7 +198,7 @@ class Filestore extends Base {
 			};
 	   }
 	}
-	
+
 	/**
 	 * getFTPInputFields
 	 *
@@ -363,9 +382,10 @@ class Filestore extends Base {
 
 	$filestore->addFieldCallback(function() {
 		return [
-			'id' => Relay::globalIdField('filestore', function($row) {
-				return isset($row['id']) ? $row['id'] : null;
-			}),
+			'id' => [
+				'type' => Type::nonNull(Type::Id()),
+				'description' => _('Returns filestore id'),
+			],
 			'status' =>[
 				'type' => Type::boolean(),
 				'description' => _('Status of the request'),
@@ -418,7 +438,6 @@ class Filestore extends Base {
 				'description' => _('List of filestore locations'),
 				'resolve' => function($root, $args) {
 					$data = array_map(function($row){
-						dbug($row);
 						return $row;
 					},isset($root['response']) ? $root['response'] : []);
 					$finalList = array();
@@ -428,6 +447,16 @@ class Filestore extends Base {
 						}
 					}
 					return $finalList;
+				}
+			],
+			'instances' => [
+				'type' => Type::listOf($this->typeContainer->get('filestore')->getObject()),
+				'description' => _('List of filestore locations'),
+				'resolve' => function($root, $args) {
+					$data = array_map(function($row){
+						return $row;
+					},isset($root['response']) ? $root['response'] : []);
+					return $data;
 				}
 			],
 			'filestores' => [
@@ -573,7 +602,6 @@ class Filestore extends Base {
 	private function FTPUpdateFields($input){
 		$input['id'] = ltrim($input['id'],'FTP_');
 		$res = $this->freepbx->filestore->getItemById($input['id']);
-
 		$input['name']  = isset($input['serverName']) ? $input['serverName'] : $res['name'];
 		$input['host']  = isset($input['hostName']) ? $input['hostName'] : $res['host'];
 		$input['user']  = isset($input['userName']) ? $input['userName'] : $res['user'];

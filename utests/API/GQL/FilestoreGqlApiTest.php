@@ -672,4 +672,116 @@ class FilestoreGqlApiTest extends ApiBaseTestCase {
       
     $this->assertEquals(400, $response->getStatusCode());
   }
+  
+  /**
+   * test_fetchFTPInstances_all_Good_Should_return_true
+   *
+   * @return void
+   */
+  public function test_fetchFTPInstances_all_Good_Should_return_true(){
+
+    $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+                          ->disableOriginalConstructor()
+                          ->disableOriginalClone()
+                          ->setMethods(array('listItems'))
+                          ->getMock();
+      
+  	$mockfilestore->method('listItems')
+                  ->willReturn(array(array(
+                          'id' => '123122',
+                          'name' => 'FTP-testing-10.10.12.196',
+                          'desc' => 'testing',
+                          'driver' => 'FTP'
+                  )));
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("query{
+      fetchFTPInstances{
+        status message instances{
+          name
+          id
+          description
+        }
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchFTPInstances":{"status":true,"message":"List of FTP instances","instances":[{"name":"FTP-testing-10.10.12.196","id":"123122","description":"testing"}]}}}',$json);
+      
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+  
+  /**
+   * test_fetchFTPInstances_when_empty_Should_return_false
+   *
+   * @return void
+   */
+  public function test_fetchFTPInstances_when_empty_Should_return_false(){
+    $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+                          ->disableOriginalConstructor()
+                          ->disableOriginalClone()
+                          ->setMethods(array('listItems'))
+                          ->getMock();
+      
+    $mockfilestore->method('listItems')
+                  ->willReturn([]);
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("query{
+      fetchFTPInstances{
+        status message instances{
+          name
+          id
+          description
+        }
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Sorry unable to find the FTP instances","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+
+  /**
+   * test_fetchFTPInstances_when_invalid_field_is_queried_should_return_false
+   *
+   * @return void
+   */
+  public function test_fetchFTPInstances_when_invalid_field_is_queried_should_return_false(){
+
+    $mockfilestore = $this->getMockBuilder(\FreePBX\modules\filestore\Filestore::class)
+                          ->disableOriginalConstructor()
+                          ->disableOriginalClone()
+                          ->setMethods(array('listItems'))
+                          ->getMock();
+      
+  	$mockfilestore->method('listItems')
+                  ->willReturn(array(array(
+                          'id' => '123122',
+                          'name' => 'FTP-testing-10.10.12.196',
+                          'desc' => 'testing',
+                          'driver' => 'FTP'
+                  )));
+    
+    self::$freepbx->filestore = $mockfilestore; 
+
+    $response = $this->request("query{
+      fetchFTPInstances{
+        status message instances{
+          name
+          id
+          desc
+        }
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Cannot query field \"desc\" on type \"filestore\".","status":false}]}',$json);
+      
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+  
 }

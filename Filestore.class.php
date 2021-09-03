@@ -255,12 +255,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 
 	public function getItemById($id) {
 		$config =  $this->FreePBX->Filestore->getAll($id);
-		if(count($config) > 0){
-			$config['id'] = $id;
-			return $config;
-		}else{
-			throw new \Exception(("The given id seems invalid"),404);
-		}
+		$config['id'] = $id;
+		return $config;
 	}
 
 	public function getDriverObjectById($id) {

@@ -1,12 +1,16 @@
 <?php
+
 namespace FreePBX\modules\Filestore\drivers\S3;
+
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
 use \FreePBX\modules\Filestore\drivers\FlysystemBase;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\Storage\Memory as MemoryStore;
-class S3 extends FlysystemBase {
+
+class S3 extends FlysystemBase
+{
 	protected static $path = __DIR__;
 	protected static $validKeys = [
 		"awsaccesskey" => '',
@@ -16,43 +20,46 @@ class S3 extends FlysystemBase {
 		"bucket" => '',
 		"region" => '',
 		'immortal' => '',
-		'path' => ''
+		'path' => '',
+		'customendpoint' => '',
+		'customregion' => '',
 	];
 
 	/**
 	 * The display view for non setting items.
 	 * @return string html
 	 */
-	public static function getDisplay($freepbx, $config){
+	public static function getDisplay($freepbx, $config)
+	{
 		$regions =
-		[
-			'US East (Ohio)' => 'us-east-2',
-			'US East (N. Virginia)' => 'us-east-1',
-			'AWS GovCloud (US-East)' => 'us-gov-east-1',
-			'US West (N. California)' => 'us-west-1',
-			'US West (Oregon)' => 'us-west-2',
-			'AWS GovCloud (US)' => 'us-gov-west-1',
-			'Canada (Central)' => 'ca-central-1',
-			'Asia Pacific (Mumbai)' => 'ap-south-1',
-			'Asia Pacific (Osaka-Local)' => 'ap-northeast-3',
-			'Asia Pacific (Seoul)' => 'ap-northeast-2',
-			'Asia Pacific (Singapore)' => 'ap-southeast-1',
-			'Asia Pacific (Sydney)' => 'ap-southeast-2',
-			'Asia Pacific (Tokyo)' => 'ap-northeast-1',
-			'China (Beijing)' => 'cn-north-1',
-			'China (Ningxia)' => 'cn-northwest-1',
-			'EU (Frankfurt)' => 'eu-central-1',
-			'EU (Ireland)' => 'eu-west-1',
-			'EU (London)' => 'eu-west-2',
-			'EU (Paris)' => 'eu-west-3',
-			'EU (Stockholm)' => 'eu-north-1	',
-			'South America (São Paulo)' => 'sa-east-1',
-		];
-		if(empty($_GET['view'])){
-			return load_view(__DIR__.'/views/grid.php');
-		}else{
+			[
+				'US East (Ohio)' => 'us-east-2',
+				'US East (N. Virginia)' => 'us-east-1',
+				'AWS GovCloud (US-East)' => 'us-gov-east-1',
+				'US West (N. California)' => 'us-west-1',
+				'US West (Oregon)' => 'us-west-2',
+				'AWS GovCloud (US)' => 'us-gov-west-1',
+				'Canada (Central)' => 'ca-central-1',
+				'Asia Pacific (Mumbai)' => 'ap-south-1',
+				'Asia Pacific (Osaka-Local)' => 'ap-northeast-3',
+				'Asia Pacific (Seoul)' => 'ap-northeast-2',
+				'Asia Pacific (Singapore)' => 'ap-southeast-1',
+				'Asia Pacific (Sydney)' => 'ap-southeast-2',
+				'Asia Pacific (Tokyo)' => 'ap-northeast-1',
+				'China (Beijing)' => 'cn-north-1',
+				'China (Ningxia)' => 'cn-northwest-1',
+				'EU (Frankfurt)' => 'eu-central-1',
+				'EU (Ireland)' => 'eu-west-1',
+				'EU (London)' => 'eu-west-2',
+				'EU (Paris)' => 'eu-west-3',
+				'EU (Stockholm)' => 'eu-north-1	',
+				'South America (São Paulo)' => 'sa-east-1',
+			];
+		if (empty($_GET['view'])) {
+			return load_view(__DIR__ . '/views/grid.php');
+		} else {
 			$config['regions'] = $regions;
-			return load_view(__DIR__.'/views/form.php',$config);
+			return load_view(__DIR__ . '/views/form.php', $config);
 		}
 	}
 
@@ -61,7 +68,8 @@ class S3 extends FlysystemBase {
 	 * @param  string $method the method "all,backup,readonly,writeonly"
 	 * @return bool method is/not supported
 	 */
-	public function methodSupported($method){
+	public function methodSupported($method)
+	{
 		$permissions = array(
 			'all',
 			'read',
@@ -74,18 +82,27 @@ class S3 extends FlysystemBase {
 
 
 	//S3 STUFF
-	public function getHandler(){
-		if(isset($this->handler)){
+	public function getHandler()
+	{
+		if (isset($this->handler)) {
 			return $this->handler;
 		}
-		$client = new S3Client([
+		$region = !empty($this->config['customregion']) ? $this->config['customregion'] : $this->config['region'];
+
+		$config = [
 			'credentials' => [
 				'key'    => trim($this->config['awsaccesskey']),
 				'secret' => trim($this->config['awssecret'])
 			],
-			'region' => $this->config['region'],
+			'region' => $region,
 			'version' => 'latest'
-		]);
+		];
+		/** Set an endpoint if the user has specified one. */
+		if (!empty($this->config['customendpoint'])) {
+			$config['endpoint'] = $this->config['customendpoint'];
+		}
+
+		$client = new S3Client($config);
 
 		// Decorate the adapter
 		$adapter = new CachedAdapter(new AwsS3Adapter($client, $this->config['bucket'], $this->config['path']), new MemoryStore());

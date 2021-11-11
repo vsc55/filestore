@@ -90,13 +90,19 @@ class S3 extends FlysystemBase
 		$region = !empty($this->config['customregion']) ? $this->config['customregion'] : $this->config['region'];
 
 		$config = [
-			'credentials' => [
-				'key'    => trim($this->config['awsaccesskey']),
-				'secret' => trim($this->config['awssecret'])
-			],
 			'region' => $region,
 			'version' => 'latest'
 		];
+
+		/** Use default credential provider chain unless user has provided credentials */
+		$accessKey = $this->config['awsaccesskey'];
+		if (!empty($accessKey)) {
+        	$config['credentials'] = [
+				'key'	 => $accessKey,
+				'secret' => trim($this->config['awssecret'])
+			];
+		}
+
 		/** Set an endpoint if the user has specified one. */
 		if (!empty($this->config['customendpoint'])) {
 			$config['endpoint'] = $this->config['customendpoint'];

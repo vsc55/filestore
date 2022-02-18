@@ -38,8 +38,12 @@ class S3 extends FlysystemBase
 				'AWS GovCloud (US-East)' => 'us-gov-east-1',
 				'US West (N. California)' => 'us-west-1',
 				'US West (Oregon)' => 'us-west-2',
-				'AWS GovCloud (US)' => 'us-gov-west-1',
+				'AWS GovCloud West (US)' => 'us-gov-west-1',
+				'AWS GovCloud East (US)' => 'us-gov-east-1',
 				'Canada (Central)' => 'ca-central-1',
+				'Africa (Cape Town)' => 'af-south-1',
+				'Asia Pacific (Hong Kong)' => 'ap-east-1',
+				'Asia Pacific (Jakarta)' => 'ap-southeast-3',
 				'Asia Pacific (Mumbai)' => 'ap-south-1',
 				'Asia Pacific (Osaka-Local)' => 'ap-northeast-3',
 				'Asia Pacific (Seoul)' => 'ap-northeast-2',
@@ -51,9 +55,11 @@ class S3 extends FlysystemBase
 				'EU (Frankfurt)' => 'eu-central-1',
 				'EU (Ireland)' => 'eu-west-1',
 				'EU (London)' => 'eu-west-2',
+				'EU (Milan)' => 'eu-south-1',
 				'EU (Paris)' => 'eu-west-3',
-				'EU (Stockholm)' => 'eu-north-1	',
+				'EU (Stockholm)' => 'eu-north-1',
 				'South America (São Paulo)' => 'sa-east-1',
+				'Middle East (Bahrain)' => 'me-south-1',
 			];
 		if (empty($_GET['view'])) {
 			return load_view(__DIR__ . '/views/grid.php');
@@ -97,7 +103,7 @@ class S3 extends FlysystemBase
 		/** Use default credential provider chain unless user has provided credentials */
 		$accessKey = $this->config['awsaccesskey'];
 		if (!empty($accessKey)) {
-        	$config['credentials'] = [
+			$config['credentials'] = [
 				'key'	 => $accessKey,
 				'secret' => trim($this->config['awssecret'])
 			];

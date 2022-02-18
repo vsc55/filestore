@@ -2,11 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>16.0.10.7</version>
+  <version>16.0.10.8</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+		*16.0.10.8* FREEPBX-23323 S3 Region Updates 
 		*16.0.10.7* Packaging of ver 16.0.10.7
 		*16.0.10.6* FREEPBX-22759 
 		*16.0.10.5* FREEI-3770 GQL API fix - Added condition to throw error if invalid Id is given 

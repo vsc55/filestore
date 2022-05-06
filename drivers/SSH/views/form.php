@@ -19,8 +19,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="name">
 														<?php echo _("Server Name") ?></label>
@@ -46,8 +46,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="desc">
 														<?php echo _("Description") ?></label>
@@ -73,8 +73,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="host">
 														<?php echo _("Hostname") ?></label>
@@ -100,8 +100,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="port">
 														<?php echo _("Port") ?></label>
@@ -127,8 +127,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="user">
 														<?php echo _("Username") ?></label>
@@ -154,8 +154,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="key">
 														<?php echo _("Key") ?></label>
@@ -181,8 +181,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="row">
-											<div class="form-group">
+										<div class="">
+											<div class="row form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="path">
 														<?php echo _("Path") ?></label>

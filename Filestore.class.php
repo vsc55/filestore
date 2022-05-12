@@ -336,7 +336,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function fileExists($id,$path){
-		return $this->getDriverObjectById($id)->fileExists(path);
+		return $this->getDriverObjectById($id)->fileExists($path);
 	}
 
 	/**
@@ -412,14 +412,37 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		foreach($locations['locations'] as $driver => $instances){
 			foreach($instances as $instance){
 				$final[$driver][$instance['id']] = $instance;
-				try{
-					$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
-				}catch(\Exception $e){
-					continue;
+				
+				if($driver == 'FTP'){
+					$path = "";
+
+					try{
+						$presult = $this->ls($instance['id']);
+					}catch(\Exception $e){
+						continue;
+					}
+
+					foreach($presult as $result){
+						if($result["type"] == "dir" && !empty($result["path"])){
+							$path = $result["path"];
+						}
+
+						try{
+							$final[$driver][$instance['id']]['results'] = $this->ls($instance['id'], $path);
+						}catch(\Exception $e){
+							continue;
+						}					
+					}
+				}
+				else{
+					try{
+						$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
+					}catch(\Exception $e){
+						continue;
+					}					
 				}
 			}
 		}
 		return $final;
 	}
-
 }

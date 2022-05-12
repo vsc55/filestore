@@ -411,10 +411,10 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$locations = $this->listLocations('all');
 		foreach($locations['locations'] as $driver => $instances){
 			foreach($instances as $instance){
-				$final[$driver][$instance['id']] = $instance;
-				
+				$final[$driver][$instance['id']] = $instance;				
 				if($driver == 'FTP'){
 					$path = "";
+					$dir_files = $files = [];
 
 					try{
 						$presult = $this->ls($instance['id']);
@@ -422,16 +422,26 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 						continue;
 					}
 
-					foreach($presult as $result){
-						if($result["type"] == "dir" && !empty($result["path"])){
+					foreach($presult as $result){						
+						if($result["type"] === "dir"){
 							$path = $result["path"];
+
+							try{
+								$dir_files = $this->ls($instance['id'], $path);
+							}catch(\Exception $e){
+								continue;
+							}	
 						}
 
-						try{
-							$final[$driver][$instance['id']]['results'] = $this->ls($instance['id'], $path);
-						}catch(\Exception $e){
-							continue;
-						}					
+						if($result["type"] == "file"){
+							try{
+								$files = $this->ls($instance['id']);
+							}catch(\Exception $e){
+								continue;
+							}	
+						}
+
+						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);
 					}
 				}
 				else{

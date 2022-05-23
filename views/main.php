@@ -4,7 +4,7 @@ $tabs = '';
 $tabcontent = '';
 foreach ($drivers as $driver) {
 	$class = $first?"active":"";
-	$tabs .= '<li role="presentation"><a href="#'.$driver.'" data-toggle="tab" class="'.$class.' nav-link">'.$driver.'</a></li>';
+	$tabs .= '<li role="presentation" class="'.$class.'"><a href="#'.$driver.'" data-toggle="tab">'.$driver.'</a></li>';
 	$class = $first?"active":"";
 	$tabcontent .= '<div id="'.$driver.'" class="tab-pane display '.$class.'">';
 	$tabcontent .= $fs->getDisplay($driver);
@@ -21,7 +21,7 @@ foreach ($drivers as $driver) {
 					<div class="panel panel-info">
 						<div class="panel-heading">
 							<div class="panel-title">
-								<a href="#" data-toggle="collapse" data-target="#moreinfo"><i class="fa fa-info-circle"></i></a>&nbsp;&nbsp;&nbsp;<?php echo _("What is File Store")?>
+								<a href="#" data-toggle="collapse" data-target="#moreinfo"><i class="glyphicon glyphicon-info-sign"></i></a>&nbsp;&nbsp;&nbsp;<?php echo _("What is File Store")?>
 							</div>
 						</div>
 						<!--At some point we can probably kill this... Maybe make is a 1 time panel that may be dismissed-->

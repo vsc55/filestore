@@ -20,8 +20,8 @@ $fstype = isset($fstype)?$fstype:'auto';
 						<div class="element-container">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="">
-										<div class="row form-group">
+									<div class="row">
+										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="name"><?php echo _("Email List Name") ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="name"></i>
@@ -44,8 +44,8 @@ $fstype = isset($fstype)?$fstype:'auto';
 						<div class="element-container">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="">
-										<div class="row form-group">
+									<div class="row">
+										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="desc"><?php echo _("Description") ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="desc"></i>
@@ -66,8 +66,8 @@ $fstype = isset($fstype)?$fstype:'auto';
 						<!--END Description-->
 						<!--From Email-->
 						<div class="element-container">
-							<div class="">
-								<div class="row form-group">
+							<div class="row">
+								<div class="form-group">
 									<div class="col-md-3">
 										<label class="control-label" for="from"><?php echo _("From Email") ?></label>
 										<i class="fa fa-question-circle fpbx-help-icon" data-for="from"></i>
@@ -88,8 +88,8 @@ $fstype = isset($fstype)?$fstype:'auto';
 						<div class="element-container">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="">
-										<div class="row form-group">
+									<div class="row">
+										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="addr"><?php echo _("Email Address") ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="addr"></i>
@@ -112,8 +112,8 @@ $fstype = isset($fstype)?$fstype:'auto';
 						<div class="element-container">
 							<div class="row">
 								<div class="col-md-12">
-									<div class="">
-										<div class="row form-group">
+									<div class="row">
+										<div class="form-group">
 											<div class="col-md-3">
 												<label class="control-label" for="maxsize"><?php echo _("Max Email Size") ?></label>
 												<i class="fa fa-question-circle fpbx-help-icon" data-for="maxsize"></i>

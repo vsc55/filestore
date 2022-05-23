@@ -2,30 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>16.0.10.9</version>
+  <version>17.0.1</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
-		*16.0.10.9* FREEI-4793 
-		*16.0.10.8* FREEPBX-23323 S3 Region Updates 
-		*16.0.10.7* Packaging of ver 16.0.10.7
-		*16.0.10.6* FREEPBX-22759 
-		*16.0.10.5* FREEI-3770 GQL API fix - Added condition to throw error if invalid Id is given 
-		*16.0.10.4* FREEPBX-22683 Add the functionality to implement the ssl flag in filestore ftp 
-		*16.0.10.3* Packaging of ver 16.0.10.3
-		*16.0.10.2* FREEI-3442 
-		*16.0.10.1* Packaging of ver 16.0.10.1
-		*16.0.10* Packaging of ver 16.0.10
-		*16.0.9* Packaging of ver 16.0.9
-		*16.0.8* Packaging of ver 16.0.8
-		*16.0.7* FREEI-3296 
-		*16.0.6* Packaging of ver 16.0.6
-		*16.0.5* Packaging of ver 16.0.5
-		*16.0.4* FREEI-2062  Restore to 15 from a 13/14 backup not restoring POMPS backup settings 
-		*16.0.3* Packaging of ver 16.0.3
-		*16.0.2* Fixing FREEI-1715 Adding FTP timeout default value 
-	*16.0.1alpha1* Initial release
+	*17.0.1alpha1* Initial release
 	</changelog>
   <category>Settings</category>
   <description>Filesystem abstraction for your PBX</description>
@@ -34,6 +16,6 @@
     <filestore>Filestore</filestore>
   </menuitems>
   <supported>
-    <version>16.0</version>
+    <version>17.0</version>
   </supported>
 </module>

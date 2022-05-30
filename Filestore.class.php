@@ -336,7 +336,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function fileExists($id,$path){
-		return $this->getDriverObjectById($id)->fileExists(path);
+		return $this->getDriverObjectById($id)->fileExists($path);
 	}
 
 	/**
@@ -455,5 +455,4 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		}
 		return $final;
 	}
-
 }

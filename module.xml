@@ -2,11 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>16.0.10.11</version>
+  <version>16.0.10.12</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
+		*16.0.10.12* FREEPBX-23252 
 		*16.0.10.11* Bugfix/FREEPBX-23252 restore does not display ftp backups created with a subdirectory 
 		*16.0.10.10* Reverting Bootstrap and dependent libs fixes 
 		*16.0.10.9* FREEI-4793 

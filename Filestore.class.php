@@ -427,18 +427,20 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 							$path = $result["path"];
 
 							try{
-								$dir_files = $this->ls($instance['id'], $path);
+								$dir_files_new = $this->ls($instance['id'], $path);
 							}catch(\Exception $e){
 								continue;
-							}	
+							}
+							$dir_files = array_merge($dir_files, $dir_files_new);
 						}
 
 						if($result["type"] == "file"){
 							try{
-								$files = $this->ls($instance['id']);
+								$files_new = $this->ls($instance['id']);
 							}catch(\Exception $e){
 								continue;
-							}	
+							}
+							$files = array_merge($files, $files_new);
 						}
 
 						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);

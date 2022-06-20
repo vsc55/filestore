@@ -338,7 +338,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function fileExists($id,$path){
-		return $this->getDriverObjectById($id)->fileExists(path);
+		return $this->getDriverObjectById($id)->fileExists($path);
 	}
 
 	/**
@@ -413,15 +413,50 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$locations = $this->listLocations('all');
 		foreach($locations['locations'] as $driver => $instances){
 			foreach($instances as $instance){
-				$final[$driver][$instance['id']] = $instance;
-				try{
-					$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
-				}catch(\Exception $e){
-					continue;
+				$final[$driver][$instance['id']] = $instance;				
+				if($driver == 'FTP'){
+					$path = "";
+					$dir_files = $files = [];
+
+					try{
+						$presult = $this->ls($instance['id']);
+					}catch(\Exception $e){
+						continue;
+					}
+
+					foreach($presult as $result){						
+						if($result["type"] === "dir"){
+							$path = $result["path"];
+
+							try{
+								$dir_files_new = $this->ls($instance['id'], $path);
+							}catch(\Exception $e){
+								continue;
+							}
+							$dir_files = array_merge($dir_files, $dir_files_new);
+						}
+
+						if($result["type"] == "file"){
+							try{
+								$files_new = $this->ls($instance['id']);
+							}catch(\Exception $e){
+								continue;
+							}
+							$files = array_merge($files, $files_new);
+						}
+
+						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);
+					}
+				}
+				else{
+					try{
+						$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
+					}catch(\Exception $e){
+						continue;
+					}					
 				}
 			}
 		}
 		return $final;
 	}
-
 }

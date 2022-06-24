@@ -221,6 +221,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 */
 	private function saveConfig($id,$data) {
 		$driver = $data['driver'];
+		$data['path'] = rtrim($data['path'], '/') . '/';
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		$data = $class::filterConfig($this->FreePBX, $data);
 		$data['driver'] = $driver;

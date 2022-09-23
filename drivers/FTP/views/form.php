@@ -15,8 +15,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<input type="hidden" name="driver" value="FTP">
 							<!--Server Name-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="name"><?php echo _("Server Name") ?></label>
 										</div>
@@ -29,8 +29,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Server Name-->
 							<!--Description-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="desc"><?php echo _("Description") ?></label>
 										</div>
@@ -43,8 +43,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Description-->
 							<!--Hostname-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="host"><?php echo _("Hostname") ?></label>
 											<i class="fa fa-question-circle fpbx-help-icon" data-for="host"></i>
@@ -63,8 +63,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Hostname-->
 							<!--Port-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="port"><?php echo _("Port") ?></label>
 										</div>
@@ -77,8 +77,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Port-->
 							<!--Use TLS-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="usetls"><?php echo _("Use TLS") ?></label>
 											<i class="fa fa-question-circle fpbx-help-icon" data-for="usetls"></i>
@@ -102,8 +102,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Use TLS-->
 							<!--Username-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="user"><?php echo _("Username") ?></label>
 										</div>
@@ -116,8 +116,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Username-->
 							<!--Password-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="password"><?php echo _("Password") ?></label>
 										</div>
@@ -130,8 +130,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Password-->
 							<!--Filesystem Type-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="fstype"><?php echo _("Filesystem Type") ?></label>
 											<i class="fa fa-question-circle fpbx-help-icon" data-for="fstype"></i>
@@ -155,8 +155,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Filesystem Type-->
 							<!--Path-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="path"><?php echo _("Path") ?></label>
 											<i class="fa fa-question-circle fpbx-help-icon" data-for="path"></i>
@@ -175,8 +175,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Path-->
 							<!--Transfer Mode-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="transfer"><?php echo _("Transfer Mode") ?></label>
 											<i class="fa fa-question-circle fpbx-help-icon" data-for="transfer"></i>
@@ -198,8 +198,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<!--END Transfer Mode-->
 							<!--timeout-->
 							<div class="element-container">
-								<div class="">
-									<div class="row form-group">
+								<div class="row">
+									<div class="form-group">
 										<div class="col-md-3">
 											<label class="control-label" for="timeout"><?php echo _("Timeout") ?></label>
 											<i class="fa fa-question-circle fpbx-help-icon" data-for="timeout"></i>

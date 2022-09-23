@@ -197,7 +197,13 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function addItem($driver,$data){
 		$id = \Ramsey\Uuid\Uuid::uuid4()->toString();
 		$data['driver'] = $driver;
-		return $this->saveConfig($id,$data);
+		$fsdata = array_map(function($val){
+			if(!is_array($val)) {
+				return trim($val);
+			}
+			return $val;
+		},$data);
+		return $this->saveConfig($id,$fsdata);
 	}
 
 	/**
@@ -207,7 +213,13 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 * @return bool       success, failure
 	 */
 	public function editItem($id,$data){
-		return $this->saveConfig($id,$data);
+		$fsdata = array_map(function($val){
+			if(!is_array($val)) {
+				return trim($val);
+			}
+			return $val;
+		},$data);
+		return $this->saveConfig($id,$fsdata);
 	}
 
 	/**
@@ -219,6 +231,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 */
 	private function saveConfig($id,$data) {
 		$driver = $data['driver'];
+		$data['path'] = rtrim($data['path'], '/') . '/';
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		$data = $class::filterConfig($this->FreePBX, $data);
 		$data['driver'] = $driver;
@@ -336,7 +349,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	* @return mixed $path  path of found item or false
 	*/
 	public function fileExists($id,$path){
-		return $this->getDriverObjectById($id)->fileExists(path);
+		return $this->getDriverObjectById($id)->fileExists($path);
 	}
 
 	/**
@@ -411,15 +424,50 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$locations = $this->listLocations('all');
 		foreach($locations['locations'] as $driver => $instances){
 			foreach($instances as $instance){
-				$final[$driver][$instance['id']] = $instance;
-				try{
-					$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
-				}catch(\Exception $e){
-					continue;
+				$final[$driver][$instance['id']] = $instance;				
+				if($driver == 'FTP'){
+					$path = "";
+					$dir_files = $files = [];
+
+					try{
+						$presult = $this->ls($instance['id']);
+					}catch(\Exception $e){
+						continue;
+					}
+
+					foreach($presult as $result){						
+						if($result["type"] === "dir"){
+							$path = $result["path"];
+
+							try{
+								$dir_files_new = $this->ls($instance['id'], $path);
+							}catch(\Exception $e){
+								continue;
+							}
+							$dir_files = array_merge($dir_files, $dir_files_new);
+						}
+
+						if($result["type"] == "file"){
+							try{
+								$files_new = $this->ls($instance['id']);
+							}catch(\Exception $e){
+								continue;
+							}
+							$files = array_merge($files, $files_new);
+						}
+
+						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);
+					}
+				}
+				else{
+					try{
+						$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
+					}catch(\Exception $e){
+						continue;
+					}					
 				}
 			}
 		}
 		return $final;
 	}
-
 }

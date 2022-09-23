@@ -14,8 +14,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 				<div class="fpbx-container">
 					<div class="display full-border">
 						<ul class="nav nav-tabs list" role="tablist">
-							<li data-name="general" class="change-tab"><a href="#general" aria-controls="general" role="tab" data-toggle="tab" class="active nav-link"><?php echo _("General") ?></a></li>
-							<li data-name="advanced" class="change-tab"><a href="#advanced" aria-controls="advanced" role="tab" data-toggle="tab" class="nav-link"><?php echo _("Advanced") ?></a></li>
+							<li data-name="general" class="change-tab active"><a href="#general" aria-controls="general" role="tab" data-toggle="tab"><?php echo _("General") ?></a></li>
+							<li data-name="advanced" class="change-tab"><a href="#advanced" aria-controls="advanced" role="tab" data-toggle="tab"><?php echo _("Advanced") ?></a></li>
 						</ul>
 						<form class="fpbx-submit" action="?display=filestore" method="post" id="server_form" name="server_form" data-fpbx-delete="?display=filestore&action=delete&id=<?php echo isset($_GET['id']) ? $_GET['id'] : '' ?>">
 							<input type="hidden" name="action" value="<?php echo empty($id) ? 'add' : 'edit' ?>">
@@ -25,8 +25,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 								<div role="tabpanel" class="tab-pane active" id="general">
 									<!--Local Display Name-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="name"><?php echo _("Local Display Name") ?></label>
 												</div>
@@ -38,8 +38,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									</div>
 									<!--Bucket Name-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="bucket"><?php echo _("Bucket Name") ?></label>
 												</div>
@@ -51,8 +51,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									</div>
 									<!--Description-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="desc"><?php echo _("Description") ?></label>
 												</div>
@@ -65,8 +65,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									<!--END Description-->
 									<!--AWS Region-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="region"><?php echo _("AWS Region") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="region"></i>
@@ -92,8 +92,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									<!--END AWS Region-->
 									<!--AWS Access Key-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="awsaccesskey"><?php echo _("AWS Access Key") ?></label>
 												</div>
@@ -109,8 +109,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									<!--END AWS Access Key-->
 									<!--AWS Secret-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="awssecret"><?php echo _("AWS Secret") ?></label>
 												</div>
@@ -126,8 +126,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									<!--END AWS Secret-->
 									<!--Path-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="path"><?php echo _("Path") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="path"></i>
@@ -156,8 +156,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									</div>
 									<!--Custom Endpoint-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="customendpoint"><?php echo _("Custom Endpoint") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="customendpoint"></i>
@@ -176,8 +176,8 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 									<!--END Custom Endpoint-->
 									<!--Custom Region-->
 									<div class="element-container">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="customregion"><?php echo _("Custom Region") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="customregion"></i>

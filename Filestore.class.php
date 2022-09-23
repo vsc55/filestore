@@ -129,8 +129,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		if(!isset($_GET['driver']) || empty($_GET['driver'])){
 			return '';
 		}
-		$ret = '<h2>'._("Filestore").'</h2>';
-		$ret .= '<div class="list-group">';
+		$ret = '<h2 class="mt-2">'._("Filestore").'</h2>';
+		$ret .= '<div class="list-group mb-2">';
 		$drivers = $this->validateDrivers($this->drivers);
 
 		foreach ($drivers as $driver) {

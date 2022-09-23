@@ -4,7 +4,7 @@ $tabs = '';
 $tabcontent = '';
 foreach ($drivers as $driver) {
 	$class = $first?"active":"";
-	$tabs .= '<li role="presentation"><a href="#'.$driver.'" data-toggle="tab" class="'.$class.' nav-link">'.$driver.'</a></li>';
+	$tabs .= '<li role="presentation" class="'.$class.'"><a href="#'.$driver.'" data-toggle="tab">'.$driver.'</a></li>';
 	$class = $first?"active":"";
 	$tabcontent .= '<div id="'.$driver.'" class="tab-pane display '.$class.'">';
 	$tabcontent .= $fs->getDisplay($driver);

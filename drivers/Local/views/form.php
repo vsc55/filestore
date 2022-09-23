@@ -29,8 +29,8 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="name"><?php echo _("Path Name") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="name"></i>
@@ -53,8 +53,8 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="desc"><?php echo _("Description") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="desc"></i>
@@ -77,8 +77,8 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 							<div class="element-container">
 								<div class="row">
 									<div class="col-md-12">
-										<div class="">
-											<div class="row form-group">
+										<div class="row">
+											<div class="form-group">
 												<div class="col-md-3">
 													<label class="control-label" for="path"><?php echo _("Path") ?></label>
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="path"></i>

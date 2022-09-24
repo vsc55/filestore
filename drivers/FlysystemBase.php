@@ -155,6 +155,10 @@ class FlysystemBase extends DriverBase {
 		return $this->getHandler()->fileExists($path);
 	}
 
+	public function isEnabled() {
+		return !empty($this->config['enabled']) && $this->config['enabled'] == "no"  ? false : true;
+	}
+
 	public function getHandler(){
 		throw new \Exception("Handler not declared!");
 	}

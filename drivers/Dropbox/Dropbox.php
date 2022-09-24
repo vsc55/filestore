@@ -13,7 +13,8 @@ class Dropbox extends FlysystemBase {
 		'desc' => '',
 		'token' => '',
 		'immortal' => '',
-		'path' => ''
+		'path' => '',
+		'enabled' => 'yes',
 	];
 
 

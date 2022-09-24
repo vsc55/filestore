@@ -288,4 +288,8 @@ abstract class DriverBase{
 	public function fileExists($path){
 		throw new \Exception("find method is not implemented!");
 	}
+	
+	public function isEnabled(){
+		throw new \Exception("find method is not implemented!");
+	}
 }

@@ -51,18 +51,27 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 
 		foreach ($this->drivers as $key) {
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$key.'\\'.$key;
+			if (!class_exists($class)) {
+				continue;
+			}
 			$class::install($this->FreePBX);
 		}
 	}
 	public function uninstall() {
 		foreach ($this->drivers as $key) {
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$key.'\\'.$key;
+			if (!class_exists($class)) {
+				continue;
+			}
 			$class::uninstall($this->FreePBX);
 		}
 	}
 	public function getDisplay($driver){
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
-		$config = isset($_GET['id']) ? $this->getItemById($_GET['id']) : [];
+		if (!class_exists($class)) {
+			return sprintf(_("Driver (%s) not found!"), $driver);
+		}
+		$config = isset($_REQUEST['id']) ? $this->getItemById($_REQUEST['id']) : [];
 		return $class::getDisplay($this->FreePBX, $config);
 	}
 
@@ -99,10 +108,18 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		}else{
 			$driver = $_REQUEST['driver'];
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
+			if (!class_exists($class)) {
+				return array();
+			}
 			return $class::getActionBar();
 		}
 	}
 	public function showPage(){
+		// WARNING: Do not change _GET for _REQUEST since giving submit in the creation/edition/deletion of a 
+		// storage entails that doConfigPageInit is executed and the main page is subsequently loaded. This 
+		// causes the "device" variable to exist since it is sent to doConfigPageInit via POST and when the 
+		// "driver" variable exists, the page does not load the tabs of all the supported "drivers" and only 
+		// shows the list of the driver that was specified via POST variable.
 		if(!isset($_GET['driver'])|| empty($_GET['driver'])){
 			$vars['drivers'] = $this->validateDrivers($this->drivers);
 			$vars['fs'] = $this;
@@ -111,6 +128,12 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		return $this->getDisplay($_GET['driver']);
 	}
 	public function ajaxRequest($req, &$setting) {
+		// ** Allow remote consultation with Postman **
+		// ********************************************
+		// $setting['authenticate'] = false;
+		// $setting['allowremote'] = true;
+		// return true;
+		// ********************************************
 		switch($req) {
 			case 'grid':
 				return true;
@@ -121,24 +144,24 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function ajaxHandler(){
 		switch($_REQUEST['command']) {
 			case 'grid':
-				return $this->listItems($_GET['driver']);
+				return $this->listItems($_REQUEST['driver'], true);
 			break;
 		}
 	}
 	public function getRightNav($request) {
-		if(!isset($_GET['driver']) || empty($_GET['driver'])){
+		// WARNING: Do not change _GET for _REQUEST since giving submit in the creation/edition/deletion of a 
+		// storage entails that doConfigPageInit is executed and the main page is subsequently loaded. This makes 
+		// the "device" variable exist since it is sent to doConfigPageInit via POST and when the "device" variable
+		// exists, the page loads the side navigation panel that does not have to be loaded when the "drivers" tabs
+		// are being shown .
+		if(empty($_GET['driver'])){
 			return '';
 		}
-		$ret = '<h2>'._("Filestore").'</h2>';
-		$ret .= '<div class="list-group">';
-		$drivers = $this->validateDrivers($this->drivers);
-
-		foreach ($drivers as $driver) {
-			$class = $driver == $_GET['driver'] ? "active" : "";
-			$ret .= '<a href="?display=filestore&driver=' . $driver . '" class="'.$class.' list-group-item list-group-item-action">' . $driver . '</a>';
-		}
-		$ret .= '</div>';
-		return $ret;
+		$vars = array(
+			'drivers' => $this->validateDrivers($this->drivers),
+			'current'  => $_REQUEST['driver'],
+		);
+		return load_view(__DIR__.'/views/rnav.php', $vars);
 	}
 	public function listLocations($permissions = 'all'){
 		$locations = array(
@@ -147,6 +170,9 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		);
 		foreach ($this->drivers as $driver) {
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
+			if (!class_exists($class)) {
+				continue;
+			}
 			$class = new $class($this->FreePBX);
 			$locations['filestoreTypes'][] = $driver;
 			$location['locations'][$driver] = isset($location['locations'][$driver])?$location['locations'][$driver]:array();
@@ -163,14 +189,21 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 * Git list of items for driver
 	 * @return array Array of items.
 	 */
-	public function listItems($driver) {
-		$items = $this->FreePBX->Filestore->getConfig('servers');
+	public function listItems($driver, $includeDisabled = false) {
+		$items = $this->getConfig('servers');
 		if(empty($items)) {
 			return [];
 		}
-		return array_values(array_filter($items, function($item) use($driver){
+		$check_driver = array_values(array_filter($items, function($item) use($driver){
 			return ($item['driver'] === $driver);
 		}));
+		if (! empty($check_driver)) {
+			$item_value = $check_driver[array_key_first($check_driver)];
+			if ($includeDisabled == false && (! empty($item_value['enabled']) && $item_value['enabled'] == 'no' )) {
+				return [];
+			}
+		}
+		return $check_driver;
 	}
 
 	/**
@@ -233,6 +266,9 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$driver = $data['driver'];
 		$data['path'] = rtrim($data['path'], '/') . '/';
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
+		if (!class_exists($class)) {
+			return false;
+		}
 		$data = $class::filterConfig($this->FreePBX, $data);
 		$data['driver'] = $driver;
 		$servers = $this->getConfig('servers');
@@ -243,7 +279,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 			'id' => $id,
 			'name' => $data['name'],
 			'desc' => $data['desc'],
-			'driver' => $data['driver']
+			'driver' => $data['driver'],
+			'enabled' => $data['enabled'],
 		];
 		$this->setConfig('servers', $servers);
 		$this->delById($id);
@@ -267,12 +304,18 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	}
 
 	public function getItemById($id) {
-		$config =  $this->FreePBX->Filestore->getAll($id);
+		$config =  $this->getAll($id);
 		$config['id'] = $id;
 		return $config;
 	}
 
-	public function getDriverObjectById($id) {
+	/**
+	 * Get object file by ID
+	 * @param string $id  filestore item id
+	 * @param bool 	 $forceGet If we set it to true, it will force fetch the object even though it is marked disabled, but it won't add it to the cache.
+	 * @return 		file object
+	 */
+	public function getDriverObjectById($id, $forceGet = false) {
 		if(isset($this->driverCache[$id])) {
 			return $this->driverCache[$id];
 		}
@@ -284,7 +327,14 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		if(!class_exists($class)){
 			throw new \Exception(sprintf(_("The requested driver %s seems invalid"),$config['driver']),404);
 		}
-		$this->driverCache[$id] = new $class($this->FreePBX, $config);
+		$newClass = new $class($this->FreePBX, $config);
+		if (! $forceGet && ! $newClass->isEnabled()) {
+			throw new \Exception(sprintf(_("The requested driver %s is disabled"),$config['driver']),405);
+		}
+		if ($forceGet) {
+			return $newClass;
+		}
+		$this->driverCache[$id] = $newClass;
 		return $this->driverCache[$id];
 	}
 

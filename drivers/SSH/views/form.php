@@ -15,6 +15,31 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<input type="hidden" name="action" value="<?php echo empty($id)?'add':'edit'?>">
 							<input type="hidden" name="id" value="<?php echo isset($id) ? $id : '' ?>">
 							<input type="hidden" name="driver" value="SSH">
+							<!--Enabled-->
+							<div class="element-container">
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-3">
+											<label class="control-label" for="enabled"><?php echo _("Enabled") ?></label>
+											<i class="fa fa-question-circle fpbx-help-icon" data-for="enabled"></i>
+										</div>
+										<div class="col-md-9">
+											<span class="radioset">
+												<input type="radio" name="enabled" id="enabledyes" value="yes" <?php echo $enabled != "no" ? "CHECKED" : "" ?>>
+												<label for="enabledyes"><?php echo _("Yes"); ?></label>
+												<input type="radio" name="enabled" id="enabledno" value="no" <?php echo $enabled == "no" ? "CHECKED" : "" ?>>
+												<label for="enabledno"><?php echo _("No"); ?></label>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<span id="enabled-help" class="help-block fpbx-help-block"><?php echo _("We define if this storage is enabled or disabled.") ?></span>
+									</div>
+								</div>
+							</div>
+							<!--END Enabled-->
 							<!--Server Name-->
 							<div class="element-container">
 								<div class="row">

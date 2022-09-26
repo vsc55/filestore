@@ -12,6 +12,7 @@ class Local extends FlysystemBase {
 		'desc' => '',
 		'path' => '',
 		'immortal' => '',
+		'enabled' => 'yes',
 	];
 
 	/**

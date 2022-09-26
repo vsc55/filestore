@@ -1,5 +1,5 @@
 <div id="toolbar-dropboxgrid">
-  <a href='?display=filestore&driver=Dropbox&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Dropbox Account")?></a>
+    <a href='?display=filestore&driver=Dropbox&view=form' class='btn btn-default'><i class="fa fa-plus"></i>&nbsp;<?php echo _("Add Dropbox Account")?></a>
 </div>
 <table id="dropboxgrid"
     data-url="ajax.php?module=filestore&driver=Dropbox&command=grid"
@@ -13,14 +13,16 @@
     data-toggle="table"
     data-pagination="true"
     data-search="true"
+    data-show-refresh="true"
     class="table table-striped">
-  <thead>
-    <tr>
-      <th data-field="name"><?php echo _("Dropbox Account")?></th>
-      <th data-field="desc"><?php echo _("Description")?></th>
-      <th data-field="id" data-formatter="DropboxLinkFormatter"><?php echo _("Actions")?></th>
-    </tr>
-  </thead>
+    <thead>
+        <tr>
+            <th data-field="name"><?php echo _("Dropbox Account")?></th>
+            <th data-field="desc"><?php echo _("Description")?></th>
+            <th data-field="enabled" data-formatter="GridEnabledFormatter" class="col_enabled"><?php echo _("Enabled")?></th>
+            <th data-field="id" data-formatter="DropboxLinkFormatter" class="col_actions"><?php echo _("Actions")?></th>
+        </tr>
+    </thead>
 </table>
 <script>
 function DropboxLinkFormatter(value, row, index){

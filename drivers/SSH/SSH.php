@@ -17,7 +17,8 @@ class SSH extends FlysystemBase {
 		'path' => '',
 		'type' => 'ssh',
 		'readonly' => array(),
-		'immortal' => ''
+		'immortal' => '',
+		'enabled' => 'yes',
 	];
 
 	/**

@@ -11,7 +11,8 @@ class Email extends DriverBase {
 		"maxsize" => '25',
 		"maxtype" => 'mb',
 		"from" => '',
-		"body" => ''
+		"body" => '',
+		'enabled' => 'yes',
 	];
 
 	/**

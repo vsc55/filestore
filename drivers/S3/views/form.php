@@ -23,6 +23,31 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 							<input type="hidden" name="driver" value="S3">
 							<div class="tab-content">
 								<div role="tabpanel" class="tab-pane active" id="general">
+									<!--Enabled-->
+									<div class="element-container">
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-3">
+													<label class="control-label" for="enabled"><?php echo _("Enabled") ?></label>
+													<i class="fa fa-question-circle fpbx-help-icon" data-for="enabled"></i>
+												</div>
+												<div class="col-md-9">
+													<span class="radioset">
+														<input type="radio" name="enabled" id="enabledyes" value="yes" <?php echo $enabled != "no" ? "CHECKED" : "" ?>>
+														<label for="enabledyes"><?php echo _("Yes"); ?></label>
+														<input type="radio" name="enabled" id="enabledno" value="no" <?php echo $enabled == "no" ? "CHECKED" : "" ?>>
+														<label for="enabledno"><?php echo _("No"); ?></label>
+													</span>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<span id="enabled-help" class="help-block fpbx-help-block"><?php echo _("We define if this storage is enabled or disabled.") ?></span>
+											</div>
+										</div>
+									</div>
+									<!--END Enabled-->
 									<!--Local Display Name-->
 									<div class="element-container">
 										<div class="row">

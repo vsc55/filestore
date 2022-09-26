@@ -352,6 +352,11 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		return $this->getDriverObjectById($id)->fileExists($path);
 	}
 
+	
+	public function getSize($id,$path){
+		return $this->getDriverObjectById($id)->getSize($path);
+	}
+
 	/**
 	* create directory
 	* @param  int $id       filestore item $id
@@ -464,7 +469,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 						$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
 					}catch(\Exception $e){
 						continue;
-					}					
+					}
 				}
 			}
 		}

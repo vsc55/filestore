@@ -156,7 +156,7 @@ class FlysystemBase extends DriverBase {
 	}
 
 	public function isEnabled() {
-		return !empty($this->config['enabled']) && $this->config['enabled'] == "no"  ? false : true;
+		return $this->getHandler()->isEnabled();
 	}
 
 	public function getHandler(){

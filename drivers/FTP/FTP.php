@@ -25,6 +25,7 @@ class FTP extends FlysystemBase
 		"transfer" => 'passive',
 		"fstype" => "auto",
 		'immortal' => '',
+		'enabled' => 'yes',
 	];
 
 	/**

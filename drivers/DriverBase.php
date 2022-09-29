@@ -4,7 +4,9 @@ namespace FreePBX\modules\Filestore\drivers;
 abstract class DriverBase{
 	protected $databasekey;
 	protected $config = [];
-	protected static $validKeys = [];
+	protected static $validKeys = [
+		'enabled' => 'yes',
+	];
 	protected static $path = __DIR__;
 
 	public function __construct($freepbx, $config=[]){
@@ -236,7 +238,7 @@ abstract class DriverBase{
 	 * @return integer timestamp of modification
 	 */
 	public function getTimestamps($path) {
-		throw new \Exception("getTimestampes");
+		throw new \Exception("getTimestampes method is not implemented!");
 	}
 
 	/**
@@ -286,6 +288,10 @@ abstract class DriverBase{
 	 * @return bool whether the file exists
 	 */
 	public function fileExists($path){
-		throw new \Exception("find method is not implemented!");
+		throw new \Exception("fileExists method is not implemented!");
+	}
+	
+	public function isEnabled(){
+		return !empty($this->config['enabled']) && $this->config['enabled'] == "no"  ? false : true;
 	}
 }

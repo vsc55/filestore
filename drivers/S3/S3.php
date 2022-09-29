@@ -23,6 +23,7 @@ class S3 extends FlysystemBase
 		'path' => '',
 		'customendpoint' => '',
 		'customregion' => '',
+		'enabled' => 'yes',
 	];
 
 	/**

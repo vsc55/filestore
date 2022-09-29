@@ -13,12 +13,14 @@
     data-toggle="table"
     data-pagination="true"
     data-search="true"
+    data-show-refresh="true"
     class="table table-striped">
   <thead>
     <tr>
       <th data-field="name"><?php echo _("Name")?></th>
       <th data-field="desc"><?php echo _("Description")?></th>
-      <th data-field="id" data-formatter="LocalLinkFormatter"><?php echo _("Actions")?></th>
+      <th data-field="enabled" data-formatter="GridEnabledFormatter" class="col_enabled"><?php echo _("Enabled")?></th>
+      <th data-field="id" data-formatter="LocalLinkFormatter" class="col_actions"><?php echo _("Actions")?></th>
     </tr>
   </thead>
 </table>

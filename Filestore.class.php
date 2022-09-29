@@ -474,51 +474,48 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		return true;
 	}
 
-	public function listAllFiles(){
+	public function listAllFiles($subdir = false){
 		$final = [];
 		$locations = $this->listLocations('all');
 		foreach($locations['locations'] as $driver => $instances){
 			foreach($instances as $instance){
-				$final[$driver][$instance['id']] = $instance;				
-				if($driver == 'FTP'){
-					$path = "";
-					$dir_files = $files = [];
+				$final[$driver][$instance['id']] = $instance;
 
-					try{
-						$presult = $this->ls($instance['id']);
-					}catch(\Exception $e){
-						continue;
-					}
-
-					foreach($presult as $result){						
-						if($result["type"] === "dir"){
-							$path = $result["path"];
-
-							try{
-								$dir_files_new = $this->ls($instance['id'], $path);
-							}catch(\Exception $e){
-								continue;
-							}
-							$dir_files = array_merge($dir_files, $dir_files_new);
-						}
-
-						if($result["type"] == "file"){
-							try{
-								$files_new = $this->ls($instance['id']);
-							}catch(\Exception $e){
-								continue;
-							}
-							$files = array_merge($files, $files_new);
-						}
-
-						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);
-					}
+				// Get files and dirs from driver
+				try {
+					$presult = $this->ls($instance['id']);
 				}
-				else{
-					try{
-						$final[$driver][$instance['id']]['results'] = $this->ls($instance['id']);
-					}catch(\Exception $e){
-						continue;
+				catch(\Exception $e) {
+					continue;
+				}
+
+				// If subdir is false, return list files and dirs
+				if ($subdir == false)
+				{
+					$final[$driver][$instance['id']]['results'] = $presult;
+				}
+				else
+				{
+					$dir_files = $files = [];
+					foreach($presult as $result)
+					{
+						switch($result["type"])
+						{
+							case "dir":	// If type is dir, get a list of files and directories inside the folder
+								try {
+									$dir_files_new = $this->ls($instance['id'], $result["path"]);
+								}
+								catch(\Exception $e) {
+									continue 2;
+								}
+								$dir_files = array_merge($dir_files, $dir_files_new);
+								break;
+
+							case "file": // If type is file, set info directly
+								$files[] = $result;
+								break;
+						}
+						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);
 					}
 				}
 			}

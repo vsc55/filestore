@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-18 13:00+0000\n"
+"POT-Creation-Date: 2022-09-29 07:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,15 +26,15 @@ msgstr ""
 msgid "AGI directory"
 msgstr ""
 
-#: drivers/S3/views/form.php:98
+#: drivers/S3/views/form.php:123
 msgid "AWS Access Key"
 msgstr ""
 
-#: drivers/S3/views/form.php:71
+#: drivers/S3/views/form.php:96
 msgid "AWS Region"
 msgstr ""
 
-#: drivers/S3/views/form.php:115
+#: drivers/S3/views/form.php:140
 msgid "AWS Secret"
 msgstr ""
 
@@ -50,20 +50,20 @@ msgstr ""
 msgid "Access Token Information"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:26
+#: drivers/Dropbox/views/form.php:51
 msgid "Account Name"
 msgstr ""
 
-#: drivers/Dropbox/views/grid.php:21
-#: drivers/Email/views/grid.php:21
-#: drivers/FTP/views/grid.php:21
-#: drivers/Local/views/grid.php:21
-#: drivers/S3/views/grid.php:21
-#: drivers/SSH/views/grid.php:21
+#: drivers/Dropbox/views/grid.php:23
+#: drivers/Email/views/grid.php:23
+#: drivers/FTP/views/grid.php:23
+#: drivers/Local/views/grid.php:23
+#: drivers/S3/views/grid.php:23
+#: drivers/SSH/views/grid.php:23
 msgid "Actions"
 msgstr ""
 
-#: drivers/FTP/views/form.php:186
+#: drivers/FTP/views/form.php:211
 msgid "Active"
 msgstr ""
 
@@ -103,36 +103,36 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: drivers/FTP/views/form.php:141
+#: drivers/FTP/views/form.php:166
 msgid "Auto"
 msgstr ""
 
-#: drivers/Email/views/form.php:128
+#: drivers/Email/views/form.php:153
 msgid "B"
 msgstr ""
 
-#: drivers/S3/views/form.php:44
+#: drivers/S3/views/form.php:69
 msgid "Bucket Name"
 msgstr ""
 
-#: drivers/S3/views/form.php:162
+#: drivers/S3/views/form.php:187
 msgid "Custom Endpoint"
 msgstr ""
 
-#: drivers/S3/views/form.php:182
-#: drivers/S3/views/form.php:192
+#: drivers/S3/views/form.php:207
+#: drivers/S3/views/form.php:217
 msgid "Custom Region"
 msgstr ""
 
-#: drivers/S3/views/form.php:172
+#: drivers/S3/views/form.php:197
 msgid "Custom S3 compatable endpoint"
 msgstr ""
 
-#: drivers/S3/views/form.php:151
+#: drivers/S3/views/form.php:176
 msgid "Danger"
 msgstr ""
 
-#: drivers/DriverBase.php:86
+#: drivers/DriverBase.php:88
 msgid "Delete"
 msgstr ""
 
@@ -140,18 +140,18 @@ msgstr ""
 msgid "Delete a existing FTP instance"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:50
-#: drivers/Dropbox/views/grid.php:20
-#: drivers/Email/views/form.php:50
-#: drivers/Email/views/grid.php:20
-#: drivers/FTP/views/form.php:35
-#: drivers/FTP/views/grid.php:20
-#: drivers/Local/views/form.php:59
-#: drivers/Local/views/grid.php:20
-#: drivers/S3/views/form.php:57
-#: drivers/S3/views/grid.php:20
-#: drivers/SSH/views/form.php:53
-#: drivers/SSH/views/grid.php:20
+#: drivers/Dropbox/views/form.php:75
+#: drivers/Dropbox/views/grid.php:21
+#: drivers/Email/views/form.php:75
+#: drivers/Email/views/grid.php:21
+#: drivers/FTP/views/form.php:60
+#: drivers/FTP/views/grid.php:21
+#: drivers/Local/views/form.php:84
+#: drivers/Local/views/grid.php:21
+#: drivers/S3/views/form.php:82
+#: drivers/S3/views/grid.php:21
+#: drivers/SSH/views/form.php:78
+#: drivers/SSH/views/grid.php:21
 msgid "Description"
 msgstr ""
 
@@ -163,25 +163,30 @@ msgstr ""
 msgid "Description of the AWS S3"
 msgstr ""
 
-#: drivers/Local/views/form.php:71
+#: drivers/Local/views/form.php:96
 msgid "Description or notes for this File Store"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:62
-#: drivers/SSH/views/form.php:67
+#: drivers/Dropbox/views/form.php:87
+#: drivers/SSH/views/form.php:92
 msgid "Description or notes for this server"
 msgstr ""
 
-#: drivers/Email/views/form.php:62
+#: drivers/Email/views/form.php:87
 msgid ""
 "Description or notes for this server. This will be used as the email subject."
 msgstr ""
 
-#: drivers/FTP/views/form.php:98
+#: drivers/FTP/views/form.php:123
 msgid "Does this connection use tls? Make sure the port is set correctly."
 msgstr ""
 
-#: drivers/Dropbox/views/grid.php:19
+#: Filestore.class.php:72
+#, php-format
+msgid "Driver (%s) not found!"
+msgstr ""
+
+#: drivers/Dropbox/views/grid.php:20
 msgid "Dropbox Account"
 msgstr ""
 
@@ -189,7 +194,7 @@ msgstr ""
 msgid "Dropbox Directory"
 msgstr ""
 
-#: drivers/Email/views/form.php:94
+#: drivers/Email/views/form.php:119
 msgid "Email Address"
 msgstr ""
 
@@ -197,12 +202,27 @@ msgstr ""
 msgid "Email List"
 msgstr ""
 
-#: drivers/Email/views/form.php:26
+#: drivers/Email/views/form.php:51
 msgid "Email List Name"
 msgstr ""
 
-#: drivers/Email/views/form.php:106
+#: drivers/Email/views/form.php:131
 msgid "Email address where backups should be emailed to"
+msgstr ""
+
+#: drivers/Dropbox/views/form.php:24
+#: drivers/Dropbox/views/grid.php:22
+#: drivers/Email/views/form.php:24
+#: drivers/Email/views/grid.php:22
+#: drivers/FTP/views/form.php:21
+#: drivers/FTP/views/grid.php:22
+#: drivers/Local/views/form.php:33
+#: drivers/Local/views/grid.php:22
+#: drivers/S3/views/form.php:31
+#: drivers/S3/views/grid.php:22
+#: drivers/SSH/views/form.php:23
+#: drivers/SSH/views/grid.php:22
+msgid "Enabled"
 msgstr ""
 
 #: Api/Gql/Filestore.php:200
@@ -249,40 +269,34 @@ msgstr ""
 msgid "File Store"
 msgstr ""
 
-#: drivers/Email/Email.php:64
+#: drivers/Email/Email.php:65
 #, php-format
 msgid "File from %s, Identifier: %s"
 msgstr ""
 
-#: Filestore.class.php:132
-#: filestore.i18n.php:4
-#: filestore.i18n.php:10
+#: views/rnav.php:1
 msgid "Filestore"
 msgstr ""
 
-#: views/main.php:29
+#: views/main.php:23
 msgid ""
 "Filestore is a filesystem abstraction module for your PBX. You can use it to "
 "setup file system destinations that can be used in other modules"
 msgstr ""
 
-#: drivers/FTP/views/form.php:136
+#: drivers/FTP/views/form.php:161
 msgid "Filesystem Type"
-msgstr ""
-
-#: filestore.i18n.php:8
-msgid "Filesystem abstraction for your PBX"
 msgstr ""
 
 #: drivers/S3/views/form.php:10
 msgid "For Use With AWS S3"
 msgstr ""
 
-#: drivers/Email/views/form.php:72
+#: drivers/Email/views/form.php:97
 msgid "From Email"
 msgstr ""
 
-#: drivers/Email/views/form.php:82
+#: drivers/Email/views/form.php:107
 msgid ""
 "From Email. If this is blank the system will try and determine an "
 "appropriate from address"
@@ -292,8 +306,8 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: drivers/FTP/views/form.php:49
-#: drivers/SSH/views/form.php:80
+#: drivers/FTP/views/form.php:74
+#: drivers/SSH/views/form.php:105
 msgid "Hostname"
 msgstr ""
 
@@ -301,19 +315,19 @@ msgstr ""
 msgid "Hostname for FTP Host"
 msgstr ""
 
-#: drivers/SSH/views/form.php:94
+#: drivers/SSH/views/form.php:119
 msgid "IP address or FQDN of remote SSH server"
 msgstr ""
 
-#: drivers/FTP/views/form.php:59
+#: drivers/FTP/views/form.php:84
 msgid "IP address or FQDN of remote ftp host"
 msgstr ""
 
-#: drivers/Email/views/form.php:130
+#: drivers/Email/views/form.php:155
 msgid "KB"
 msgstr ""
 
-#: drivers/SSH/views/form.php:161
+#: drivers/SSH/views/form.php:186
 msgid "Key"
 msgstr ""
 
@@ -351,19 +365,19 @@ msgid "Local Directory"
 msgstr ""
 
 #: Api/Gql/Filestore.php:296
-#: drivers/S3/views/form.php:31
+#: drivers/S3/views/form.php:56
 msgid "Local Display Name"
 msgstr ""
 
-#: drivers/SSH/views/form.php:175
+#: drivers/SSH/views/form.php:200
 msgid "Location of ssh private key to be used when connecting to a host"
 msgstr ""
 
-#: drivers/Email/views/form.php:132
+#: drivers/Email/views/form.php:157
 msgid "MB"
 msgstr ""
 
-#: drivers/Email/views/form.php:118
+#: drivers/Email/views/form.php:143
 msgid "Max Email Size"
 msgstr ""
 
@@ -372,10 +386,10 @@ msgstr ""
 msgid "Message for the request"
 msgstr ""
 
-#: drivers/Email/views/grid.php:19
-#: drivers/FTP/views/grid.php:19
-#: drivers/Local/views/grid.php:19
-#: drivers/S3/views/grid.php:19
+#: drivers/Email/views/grid.php:20
+#: drivers/FTP/views/grid.php:20
+#: drivers/Local/views/grid.php:20
+#: drivers/S3/views/grid.php:20
 msgid "Name"
 msgstr ""
 
@@ -383,43 +397,49 @@ msgstr ""
 msgid "Name for FTP connection"
 msgstr ""
 
-#: drivers/Email/views/form.php:38
+#: drivers/Email/views/form.php:63
 msgid "Name this email list"
 msgstr ""
 
-#: drivers/FTP/views/form.php:91
+#: drivers/Dropbox/views/form.php:32
+#: drivers/Email/views/form.php:32
+#: drivers/FTP/views/form.php:29
+#: drivers/FTP/views/form.php:116
+#: drivers/Local/views/form.php:41
+#: drivers/S3/views/form.php:39
+#: drivers/SSH/views/form.php:31
 msgid "No"
 msgstr ""
 
-#: Filestore.class.php:82
-#: Filestore.class.php:88
+#: Filestore.class.php:91
+#: Filestore.class.php:97
 msgid "No id supplied"
 msgstr ""
 
-#: drivers/FTP/views/form.php:188
+#: drivers/FTP/views/form.php:213
 msgid "Passive"
 msgstr ""
 
-#: drivers/FTP/views/form.php:122
+#: drivers/FTP/views/form.php:147
 msgid "Password"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:96
-#: drivers/FTP/views/form.php:161
-#: drivers/Local/views/form.php:83
-#: drivers/S3/views/form.php:132
-#: drivers/SSH/views/form.php:188
+#: drivers/Dropbox/views/form.php:121
+#: drivers/FTP/views/form.php:186
+#: drivers/Local/views/form.php:108
+#: drivers/S3/views/form.php:157
+#: drivers/SSH/views/form.php:213
 msgid "Path"
 msgstr ""
 
-#: drivers/Local/views/form.php:35
+#: drivers/Local/views/form.php:60
 msgid "Path Name"
 msgstr ""
 
 #: Api/Gql/Filestore.php:320
-#: drivers/Dropbox/views/form.php:106
-#: drivers/S3/views/form.php:142
-#: drivers/SSH/views/form.php:202
+#: drivers/Dropbox/views/form.php:131
+#: drivers/S3/views/form.php:167
+#: drivers/SSH/views/form.php:227
 msgid "Path on remote server"
 msgstr ""
 
@@ -432,14 +452,14 @@ msgid ""
 "work, and will behave in unexpected ways."
 msgstr ""
 
-#: drivers/FTP/views/form.php:171
+#: drivers/FTP/views/form.php:196
 msgid ""
 "Path on remote server. This must be a COMPLETE PATH, starting with a / - for "
 "example, <tt>/home/backups/freepbx</tt>. A path without a leading slash will "
 "not work, and will behave in unexpected ways."
 msgstr ""
 
-#: drivers/Local/views/form.php:95
+#: drivers/Local/views/form.php:120
 msgid "Path on this local system"
 msgstr ""
 
@@ -447,29 +467,29 @@ msgstr ""
 msgid "Paths supports parameter substitution such as the examples below"
 msgstr ""
 
-#: drivers/FTP/views/form.php:69
-#: drivers/SSH/views/form.php:107
+#: drivers/FTP/views/form.php:94
+#: drivers/SSH/views/form.php:132
 msgid "Port"
 msgstr ""
 
-#: drivers/Local/views/form.php:47
+#: drivers/Local/views/form.php:72
 msgid "Provide the name for this File Store"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:38
-#: drivers/SSH/views/form.php:40
+#: drivers/Dropbox/views/form.php:63
+#: drivers/SSH/views/form.php:65
 msgid "Provide the name for this server"
 msgstr ""
 
-#: drivers/S3/views/form.php:88
+#: drivers/S3/views/form.php:113
 msgid "Region provided in AWS"
 msgstr ""
 
-#: drivers/SSH/views/form.php:121
+#: drivers/SSH/views/form.php:146
 msgid "Remote SSH Port"
 msgstr ""
 
-#: drivers/DriverBase.php:91
+#: drivers/DriverBase.php:93
 msgid "Reset"
 msgstr ""
 
@@ -489,16 +509,16 @@ msgstr ""
 msgid "SSH Server"
 msgstr ""
 
-#: drivers/SSH/views/form.php:148
+#: drivers/SSH/views/form.php:173
 msgid "SSH Username"
 msgstr ""
 
-#: drivers/SSH/views/grid.php:19
+#: drivers/SSH/views/grid.php:20
 msgid "Server"
 msgstr ""
 
-#: drivers/FTP/views/form.php:21
-#: drivers/SSH/views/form.php:26
+#: drivers/FTP/views/form.php:46
+#: drivers/SSH/views/form.php:51
 msgid "Server Name"
 msgstr ""
 
@@ -519,11 +539,7 @@ msgstr ""
 msgid "Set user name"
 msgstr ""
 
-#: filestore.i18n.php:6
-msgid "Settings"
-msgstr ""
-
-#: drivers/S3/views/form.php:154
+#: drivers/S3/views/form.php:179
 msgid ""
 "Settings here will override settings in the general tab. Only make changes "
 "here if you know what you are doing. These settings are not validated and "
@@ -562,7 +578,7 @@ msgstr ""
 msgid "Status of the request"
 msgstr ""
 
-#: drivers/DriverBase.php:96
+#: drivers/DriverBase.php:98
 msgid "Submit"
 msgstr ""
 
@@ -570,7 +586,7 @@ msgstr ""
 msgid "Successfully deleted FTP instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:151
+#: drivers/FTP/views/form.php:176
 msgid "The FTP Server's file system type. If you are unsure set this to Auto"
 msgstr ""
 
@@ -584,19 +600,24 @@ msgstr ""
 msgid "The id to fetch a particualr filestore details"
 msgstr ""
 
-#: drivers/Email/views/form.php:142
+#: drivers/Email/views/form.php:167
 msgid ""
 "The maximum size a backup can be and still be emailed. Some email servers "
 "limit the size of email attachments, this will make sure that files larger "
 "than the max size are not sent."
 msgstr ""
 
-#: Filestore.class.php:285
+#: Filestore.class.php:332
+#, php-format
+msgid "The requested driver %s is disabled"
+msgstr ""
+
+#: Filestore.class.php:328
 #, php-format
 msgid "The requested driver %s seems invalid"
 msgstr ""
 
-#: Filestore.class.php:281
+#: Filestore.class.php:324
 msgid "The requested driver seems invalid"
 msgstr ""
 
@@ -611,7 +632,7 @@ msgid ""
 "Server to send data."
 msgstr ""
 
-#: drivers/FTP/views/form.php:194
+#: drivers/FTP/views/form.php:219
 msgid ""
 "This defaults to 'Passive'. If your FTP server is behind a seperate NAT or "
 "Firewall to this VoIP server, you should select 'Active'. In 'Active' mode, "
@@ -620,15 +641,15 @@ msgid ""
 "send data."
 msgstr ""
 
-#: drivers/Email/views/form.php:147
+#: drivers/Email/views/form.php:172
 msgid "This has a maximum size of 25MB."
 msgstr ""
 
-#: drivers/FTP/views/form.php:204
+#: drivers/FTP/views/form.php:229
 msgid "Timeout"
 msgstr ""
 
-#: drivers/FTP/views/form.php:214
+#: drivers/FTP/views/form.php:239
 msgid "Timeout on remote server"
 msgstr ""
 
@@ -638,15 +659,15 @@ msgstr ""
 msgid "Timeout on remote server, default is 30"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:74
+#: drivers/Dropbox/views/form.php:99
 msgid "Token"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:86
+#: drivers/Dropbox/views/form.php:111
 msgid "Token on remote server"
 msgstr ""
 
-#: drivers/FTP/views/form.php:181
+#: drivers/FTP/views/form.php:206
 msgid "Transfer Mode"
 msgstr ""
 
@@ -658,45 +679,60 @@ msgstr ""
 msgid "UUid for the instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:143
+#: drivers/FTP/views/form.php:168
 msgid "Unix/Linux"
 msgstr ""
 
-#: Filestore.class.php:91
+#: Filestore.class.php:100
 msgid "Unknown action provided"
 msgstr ""
 
-#: drivers/FTP/views/form.php:83
+#: drivers/FTP/views/form.php:108
 msgid "Use TLS"
 msgstr ""
 
-#: drivers/FTP/views/form.php:108
-#: drivers/SSH/views/form.php:134
+#: drivers/FTP/views/form.php:133
+#: drivers/SSH/views/form.php:159
 msgid "Username"
+msgstr ""
+
+#: drivers/Dropbox/views/form.php:39
+#: drivers/Email/views/form.php:39
+#: drivers/FTP/views/form.php:36
+#: drivers/Local/views/form.php:48
+#: drivers/S3/views/form.php:46
+#: drivers/SSH/views/form.php:38
+msgid "We define if this storage is enabled or disabled."
 msgstr ""
 
 #: drivers/Local/views/form.php:15
 msgid "Webroot"
 msgstr ""
 
-#: views/main.php:24
-msgid "What is File Store"
+#: views/main.php:23
+msgid "What is File Store?"
 msgstr ""
 
-#: drivers/S3/views/form.php:103
-#: drivers/S3/views/form.php:120
+#: drivers/S3/views/form.php:128
+#: drivers/S3/views/form.php:145
 msgid "What's this?"
 msgstr ""
 
-#: drivers/FTP/views/form.php:145
+#: drivers/FTP/views/form.php:170
 msgid "Windows"
 msgstr ""
 
-#: drivers/FTP/views/form.php:89
+#: drivers/Dropbox/views/form.php:30
+#: drivers/Email/views/form.php:30
+#: drivers/FTP/views/form.php:27
+#: drivers/FTP/views/form.php:114
+#: drivers/Local/views/form.php:39
+#: drivers/S3/views/form.php:37
+#: drivers/SSH/views/form.php:29
 msgid "Yes"
 msgstr ""
 
-#: drivers/Email/views/form.php:106
+#: drivers/Email/views/form.php:131
 msgid "You may enter 1 address per line."
 msgstr ""
 

@@ -37,17 +37,28 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function install() {
 		$keys = ['ftpservers' => 'FTP', 'sshservers' => 'SSH', 's3servers' => 'S3', 'localservers' => 'Local', 'emailservers' => 'Email', 'dropboxservers' => 'Dropbox'];
 		$servers = $this->getConfig('servers');
-		$servers = is_array($servers) ? $servers : [];
-		foreach($keys as $oldkey => $newkey) {
-			foreach($this->getAll($oldkey) as $id => $data) {
-				$data['driver'] = $newkey;
-				$this->setConfig('driver', $data['driver'], $id);
-				$servers[$id] = $data;
+		if(!empty($servers)){
+			$servers = is_array($servers) ? $servers : [];
+			foreach($keys as $oldkey => $newkey) {
+				foreach($this->getAll($oldkey) as $id => $data) {
+					$data['driver'] = $newkey;
+					$this->setConfig('driver', $data['driver'], $id);
+					$servers[$id] = $data;
+				}
+				$this->delById($oldkey);
 			}
-			$this->delById($oldkey);
+			$this->setConfig('servers',$servers);			
 		}
-		$this->setConfig('servers',$servers);
-
+		else{
+			$data= [
+				"id" 		=> Null,
+				"driver" 	=> "Local",
+				"name" 		=> "Local backup storage",
+				"desc" 		=> "Default local directory for backup storage",
+				"path" 		=> "__ASTSPOOLDIR__/backup/",
+			];
+			$this->addItem("Local",$data);
+		}
 
 		foreach ($this->drivers as $key) {
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$key.'\\'.$key;

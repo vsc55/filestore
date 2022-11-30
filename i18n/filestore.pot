@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-07-18 12:58+0000\n"
+"POT-Creation-Date: 2022-11-30 04:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -254,7 +254,7 @@ msgstr ""
 msgid "File from %s, Identifier: %s"
 msgstr ""
 
-#: Filestore.class.php:132
+#: Filestore.class.php:143
 #: filestore.i18n.php:4
 #: filestore.i18n.php:10
 msgid "Filestore"
@@ -391,8 +391,8 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: Filestore.class.php:82
-#: Filestore.class.php:88
+#: Filestore.class.php:93
+#: Filestore.class.php:99
 msgid "No id supplied"
 msgstr ""
 
@@ -591,12 +591,12 @@ msgid ""
 "than the max size are not sent."
 msgstr ""
 
-#: Filestore.class.php:285
+#: Filestore.class.php:296
 #, php-format
 msgid "The requested driver %s seems invalid"
 msgstr ""
 
-#: Filestore.class.php:281
+#: Filestore.class.php:292
 msgid "The requested driver seems invalid"
 msgstr ""
 
@@ -662,7 +662,7 @@ msgstr ""
 msgid "Unix/Linux"
 msgstr ""
 
-#: Filestore.class.php:91
+#: Filestore.class.php:102
 msgid "Unknown action provided"
 msgstr ""
 

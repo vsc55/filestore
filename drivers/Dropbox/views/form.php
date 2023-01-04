@@ -118,11 +118,21 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 <script type="text/javascript">
 var immortal = <?php echo (isset($immortal) && !empty($immortal))?'true':'false';?>;
 $('#server_form').on('submit', function(e) {
-	if($("#name").val().length === 0 ) {
+	let name = $("#name").val();
+	let desc = $("#desc").val();
+	if(name.length === 0 ) {
 		warnInvalid($("#host"),_("The host cannot be empty"));
 		return false;
-	}else{
-		return true;
+	}
+	var pattern = /^[a-zA-Z0-9_.!-&@,]*$/;
+	if(!pattern.test(name)){
+		warnInvalid($("#host"),_("Invalid host name"));
+		return false;
+	}
+	pattern = /^[a-zA-Z0-9_.!-&@,()#$%*+=`~]*$/;
+	if(!pattern.test(desc)){
+		warnInvalid($("#host"),_("Invalid description"));
+		return false;
 	}
 });
 </script>

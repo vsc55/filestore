@@ -87,12 +87,15 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	}
 
 	public function doConfigPageInit($page){
-		$req = $_REQUEST;
+		$req = freepbxGetSanitizedRequest();
 		$driver = $req['driver'];
 		$action = isset($req['action'])?$req['action']:'';
 		$id = isset($req['id'])?$req['id']:false;
 		switch ($action) {
 			case 'add':
+				if(empty($req['name'])){
+					return array('status' => false, 'message' => _("Invalid name"));
+				}
 				return $this->addItem($driver, $req);
 			break;
 			case 'edit':

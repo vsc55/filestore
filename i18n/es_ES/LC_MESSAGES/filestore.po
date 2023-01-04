@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-30 04:02+0000\n"
+"POT-Creation-Date: 2023-01-04 12:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -239,7 +239,7 @@ msgstr ""
 msgid "File from %s, Identifier: %s"
 msgstr ""
 
-#: Filestore.class.php:143 filestore.i18n.php:4 filestore.i18n.php:10
+#: Filestore.class.php:146 filestore.i18n.php:4 filestore.i18n.php:10
 msgid "Filestore"
 msgstr ""
 
@@ -289,6 +289,10 @@ msgstr ""
 
 #: drivers/FTP/views/form.php:59
 msgid "IP address or FQDN of remote ftp host"
+msgstr ""
+
+#: Filestore.class.php:88
+msgid "Invalid name"
 msgstr ""
 
 #: drivers/Email/views/form.php:130
@@ -368,7 +372,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: Filestore.class.php:93 Filestore.class.php:99
+#: Filestore.class.php:96 Filestore.class.php:102
 msgid "No id supplied"
 msgstr ""
 
@@ -555,12 +559,12 @@ msgid ""
 "than the max size are not sent."
 msgstr ""
 
-#: Filestore.class.php:296
+#: Filestore.class.php:299
 #, php-format
 msgid "The requested driver %s seems invalid"
 msgstr ""
 
-#: Filestore.class.php:292
+#: Filestore.class.php:295
 msgid "The requested driver seems invalid"
 msgstr ""
 
@@ -624,7 +628,7 @@ msgstr ""
 msgid "Unix/Linux"
 msgstr ""
 
-#: Filestore.class.php:102
+#: Filestore.class.php:105
 msgid "Unknown action provided"
 msgstr ""
 

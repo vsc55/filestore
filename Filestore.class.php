@@ -536,4 +536,14 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		}
 		return $final;
 	}
+	
+	public function checkTableExists($tableName)
+	{
+		$sql = 'SELECT * from INFORMATION_SCHEMA.tables WHERE TABLE_NAME = :tableName ';
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(':tableName', $tableName);
+		$stmt->execute();
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
+	}
 }

@@ -12,27 +12,22 @@ class Restore Extends Base\RestoreBase{
         }
 
         private function RestoreLegacyFtpFilestore($pdo){
-                // Check if table exists
-                $serverTableExists = $this->FreePBX->Filestore->checkTableExists('backup_servers');
-                $detailsTableExists = $this->FreePBX->Filestore->checkTableExists('backup_server_details');
-                if ($serverTableExists && $detailsTableExists) {
-                        //backup_server,backup_server_details
-                        $bkserver = "SELECT id,name,desc FROM backup_servers WHERE type='ftp'";
-                        $sth = $pdo->query($bkserver,\PDO::FETCH_ASSOC);
-                        $serversar = $sth->fetchAll();
-                        $tableExists = $this->tableExists($pdo, 'backup_server_details');
-                        if(!empty($serversar) && $tableExists) {
-                                foreach($serversar as $ser){
-                                        $server = ['id'=>'','action'=>'add','timeout'=>30,'name'=>$ser['name'],'desc'=>$ser['desc'],'driver'=>'FTP'];
-                                        $bkserverd = "SELECT key,value FROM backup_server_details WHERE server_id='".$ser['id']."'";
-                                        $sth = $pdo->query($bkserverd,\PDO::FETCH_ASSOC);
-                                        $res = $sth->fetchAll();
-                                        foreach($res as $row) {
-                                                $server[$row['key']] = $row['value'];
-                                        }
-                                        $this->FreePBX->Filestore->addItem('FTP',$server);
+                //backup_server,backup_server_details
+                $bkserver = "SELECT id,name,desc FROM backup_servers WHERE type='ftp'";
+                $sth = $pdo->query($bkserver,\PDO::FETCH_ASSOC);
+                $serversar = $sth->fetchAll();
+                if(!empty($serversar)) {
+                        foreach($serversar as $ser){
+                                $server = ['id'=>'','action'=>'add','timeout'=>30,'name'=>$ser['name'],'desc'=>$ser['desc'],'driver'=>'FTP'];
+                                $bkserverd = "SELECT key,value FROM backup_server_details WHERE server_id='".$ser['id']."'";
+                                $sth = $pdo->query($bkserverd,\PDO::FETCH_ASSOC);
+                                $res = $sth->fetchAll();
+                                foreach($res as $row) {
+                                        $server[$row['key']] = $row['value'];
                                 }
+                                $this->FreePBX->Filestore->addItem('FTP',$server);
                         }
                 }
         }
+
 }

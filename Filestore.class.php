@@ -37,17 +37,28 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function install() {
 		$keys = ['ftpservers' => 'FTP', 'sshservers' => 'SSH', 's3servers' => 'S3', 'localservers' => 'Local', 'emailservers' => 'Email', 'dropboxservers' => 'Dropbox'];
 		$servers = $this->getConfig('servers');
-		$servers = is_array($servers) ? $servers : [];
-		foreach($keys as $oldkey => $newkey) {
-			foreach($this->getAll($oldkey) as $id => $data) {
-				$data['driver'] = $newkey;
-				$this->setConfig('driver', $data['driver'], $id);
-				$servers[$id] = $data;
+		if(!empty($servers)){
+			$servers = is_array($servers) ? $servers : [];
+			foreach($keys as $oldkey => $newkey) {
+				foreach($this->getAll($oldkey) as $id => $data) {
+					$data['driver'] = $newkey;
+					$this->setConfig('driver', $data['driver'], $id);
+					$servers[$id] = $data;
+				}
+				$this->delById($oldkey);
 			}
-			$this->delById($oldkey);
+			$this->setConfig('servers',$servers);			
 		}
-		$this->setConfig('servers',$servers);
-
+		else{
+			$data= [
+				"id" 		=> Null,
+				"driver" 	=> "Local",
+				"name" 		=> "Local backup storage",
+				"desc" 		=> "Default local directory for backup storage",
+				"path" 		=> "__ASTSPOOLDIR__/backup/",
+			];
+			$this->addItem("Local",$data);
+		}
 
 		foreach ($this->drivers as $key) {
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$key.'\\'.$key;
@@ -76,12 +87,15 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	}
 
 	public function doConfigPageInit($page){
-		$req = $_REQUEST;
+		$req = freepbxGetSanitizedRequest();
 		$driver = $req['driver'];
 		$action = isset($req['action'])?$req['action']:'';
 		$id = isset($req['id'])?$req['id']:false;
 		switch ($action) {
 			case 'add':
+				if(empty($req['name'])){
+					return array('status' => false, 'message' => _("Invalid name"));
+				}
 				return $this->addItem($driver, $req);
 			break;
 			case 'edit':
@@ -521,5 +535,15 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 			}
 		}
 		return $final;
+	}
+	
+	public function checkTableExists($tableName)
+	{
+		$sql = 'SELECT * from INFORMATION_SCHEMA.tables WHERE TABLE_NAME = :tableName ';
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(':tableName', $tableName);
+		$stmt->execute();
+		$res = $stmt->fetch(\PDO::FETCH_ASSOC);
+		return $res;
 	}
 }

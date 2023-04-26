@@ -3,13 +3,13 @@
 # For licensing information, please see the file named LICENSE located in the module directory
 #
 # FreePBX language template for filestore
-# Copyright (C) 2008-2022 Sangoma Technologies, Inc.
+# Copyright (C) 2008-2023 Sangoma Technologies, Inc.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-11 06:55+0000\n"
+"POT-Creation-Date: 2023-04-05 11:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,7 +181,7 @@ msgstr ""
 msgid "Does this connection use tls? Make sure the port is set correctly."
 msgstr ""
 
-#: Filestore.class.php:72
+#: Filestore.class.php:83
 #, php-format
 msgid "Driver (%s) not found!"
 msgstr ""
@@ -274,6 +274,8 @@ msgstr ""
 msgid "File from %s, Identifier: %s"
 msgstr ""
 
+#: filestore.i18n.php:4
+#: filestore.i18n.php:10
 #: views/rnav.php:1
 msgid "Filestore"
 msgstr ""
@@ -286,6 +288,10 @@ msgstr ""
 
 #: drivers/FTP/views/form.php:161
 msgid "Filesystem Type"
+msgstr ""
+
+#: filestore.i18n.php:8
+msgid "Filesystem abstraction for your PBX"
 msgstr ""
 
 #: drivers/S3/views/form.php:10
@@ -321,6 +327,10 @@ msgstr ""
 
 #: drivers/FTP/views/form.php:84
 msgid "IP address or FQDN of remote ftp host"
+msgstr ""
+
+#: Filestore.class.php:97
+msgid "Invalid name"
 msgstr ""
 
 #: drivers/Email/views/form.php:155
@@ -411,8 +421,8 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: Filestore.class.php:91
-#: Filestore.class.php:97
+#: Filestore.class.php:105
+#: Filestore.class.php:111
 msgid "No id supplied"
 msgstr ""
 
@@ -539,6 +549,10 @@ msgstr ""
 msgid "Set user name"
 msgstr ""
 
+#: filestore.i18n.php:6
+msgid "Settings"
+msgstr ""
+
 #: drivers/S3/views/form.php:179
 msgid ""
 "Settings here will override settings in the general tab. Only make changes "
@@ -607,17 +621,17 @@ msgid ""
 "than the max size are not sent."
 msgstr ""
 
-#: Filestore.class.php:332
+#: Filestore.class.php:346
 #, php-format
 msgid "The requested driver %s is disabled"
 msgstr ""
 
-#: Filestore.class.php:328
+#: Filestore.class.php:342
 #, php-format
 msgid "The requested driver %s seems invalid"
 msgstr ""
 
-#: Filestore.class.php:324
+#: Filestore.class.php:338
 msgid "The requested driver seems invalid"
 msgstr ""
 
@@ -683,7 +697,7 @@ msgstr ""
 msgid "Unix/Linux"
 msgstr ""
 
-#: Filestore.class.php:100
+#: Filestore.class.php:114
 msgid "Unknown action provided"
 msgstr ""
 

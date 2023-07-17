@@ -23,7 +23,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	}
 
 	public function listDrivers(){
-		$drivers = array();
+		$drivers = [];
 		foreach (new \DirectoryIterator(__DIR__.'/drivers/') as $dir) {
 			if($dir->isDot() || !$dir->isDir()){
 				continue;
@@ -88,13 +88,13 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 
 	public function doConfigPageInit($page){
 		$req = freepbxGetSanitizedRequest();
-		$driver = $req['driver'];
-		$action = isset($req['action'])?$req['action']:'';
-		$id = isset($req['id'])?$req['id']:false;
+		$driver = $req['driver'] ?? '';
+		$action = $req['action'] ?? '';
+		$id = $req['id'] ?? false;
 		switch ($action) {
 			case 'add':
 				if(empty($req['name'])){
-					return array('status' => false, 'message' => _("Invalid name"));
+					return ['status' => false, 'message' => _("Invalid name")];
 				}
 				return $this->addItem($driver, $req);
 			break;
@@ -102,34 +102,35 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 				if($id){
 					return $this->editItem($id, $req);
 				}
-				return array('status' => false, 'message' => _("No id supplied"));
+				return ['status' => false, 'message' => _("No id supplied")];
 			break;
 			case 'delete':
 				if($id){
 					return $this->deleteItem($id);
 				}
-				return array('status' => false, 'message' => _("No id supplied"));
+				return ['status' => false, 'message' => _("No id supplied")];
 			break;
 			default:
-				return array('status' => false, 'message' => _("Unknown action provided"));
+				return ['status' => false, 'message' => _("Unknown action provided")];
 			break;
 		}
 	}
 
 	public function getActionBar($request) {
 		if(!isset($_REQUEST['driver'])){
-			return array();
+			return [];
 		}else{
 			$driver = $_REQUEST['driver'];
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 			if (!class_exists($class)) {
-				return array();
+				return [];
 			}
 			return $class::getActionBar();
 		}
 	}
 	public function showPage(){
-		// WARNING: Do not change _GET for _REQUEST since giving submit in the creation/edition/deletion of a 
+		$vars = [];
+  // WARNING: Do not change _GET for _REQUEST since giving submit in the creation/edition/deletion of a 
 		// storage entails that doConfigPageInit is executed and the main page is subsequently loaded. This 
 		// causes the "device" variable to exist since it is sent to doConfigPageInit via POST and when the 
 		// "driver" variable exists, the page does not load the tabs of all the supported "drivers" and only 
@@ -141,20 +142,13 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		}
 		return $this->getDisplay($_GET['driver']);
 	}
-	public function ajaxRequest($req, &$setting) {
-		// ** Allow remote consultation with Postman **
-		// ********************************************
-		// $setting['authenticate'] = false;
-		// $setting['allowremote'] = true;
-		// return true;
-		// ********************************************
-		switch($req) {
-			case 'grid':
-				return true;
-			break;
-		}
-		return false;
-	}
+	public function ajaxRequest($req, &$setting)
+ {
+     return match ($req) {
+         'grid' => true,
+         default => false,
+     };
+ }
 	public function ajaxHandler(){
 		switch($_REQUEST['command']) {
 			case 'grid':
@@ -171,17 +165,11 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		if(empty($_GET['driver'])){
 			return '';
 		}
-		$vars = array(
-			'drivers' => $this->validateDrivers($this->drivers),
-			'current'  => $_REQUEST['driver'],
-		);
+		$vars = ['drivers' => $this->validateDrivers($this->drivers), 'current'  => $_REQUEST['driver']];
 		return load_view(__DIR__.'/views/rnav.php', $vars);
 	}
 	public function listLocations($permissions = 'all'){
-		$locations = array(
-			'filestoreTypes' => array(),
-			'locations'	=> array(),
-		);
+		$locations = ['filestoreTypes' => [], 'locations'	=> []];
 		foreach ($this->drivers as $driver) {
 			$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 			if (!class_exists($class)) {
@@ -189,11 +177,11 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 			}
 			$class = new $class($this->FreePBX);
 			$locations['filestoreTypes'][] = $driver;
-			$location['locations'][$driver] = isset($location['locations'][$driver])?$location['locations'][$driver]:array();
+			$location['locations'][$driver] ??= [];
 			foreach($this->listItems($driver) as $item){
-				$name = isset($item['name'])?$item['name']:$driver.'-'.substr($item['id'], -5);
-				$description = isset($item['description'])?$item['description']:'';
-				$locations['locations'][$driver][] = array('id' => $item['id'], 'name' => $name, 'description' => $description);
+				$name = $item['name'] ?? $driver.'-'.substr((string) $item['id'], -5);
+				$description = $item['description'] ?? '';
+				$locations['locations'][$driver][] = ['id' => $item['id'], 'name' => $name, 'description' => $description];
 			}
 		}
 		return $locations;
@@ -208,9 +196,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		if(empty($items)) {
 			return [];
 		}
-		$check_driver = array_values(array_filter($items, function($item) use($driver){
-			return ($item['driver'] === $driver);
-		}));
+		$check_driver = array_values(array_filter($items, fn($item) => $item['driver'] === $driver));
 		if (! empty($check_driver)) {
 			$item_value = $check_driver[array_key_first($check_driver)];
 			if ($includeDisabled == false && (! empty($item_value['enabled']) && $item_value['enabled'] == 'no' )) {
@@ -278,7 +264,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 */
 	private function saveConfig($id,$data) {
 		$driver = $data['driver'];
-		$data['path'] = rtrim($data['path'], '/') . '/';
+		$data['path'] = rtrim((string) $data['path'], '/') . '/';
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if (!class_exists($class)) {
 			return false;
@@ -450,7 +436,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		if ($params) {
 			// Oh. I do. If it's an array, json encode and base64
 			if (is_array($params)) {
-				$b = base64_encode(gzcompress(json_encode($params)));
+				$b = base64_encode(gzcompress(json_encode($params, JSON_THROW_ON_ERROR)));
 				// Note we derp the base64, changing / to _, because filepath.
 				$filename .= ".".str_replace('/', '_', $b);
 			} elseif (is_object($params)) {
@@ -499,7 +485,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 				try {
 					$presult = $this->ls($instance['id']);
 				}
-				catch(\Exception $e) {
+				catch(\Exception) {
 					continue;
 				}
 
@@ -519,8 +505,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 								try {
 									$dir_files_new = $this->ls($instance['id'], $result["path"]);
 								}
-								catch(\Exception $e) {
-									continue 2;
+								catch(\Exception) {
+									continue;
 								}
 								$dir_files = array_merge($dir_files, $dir_files_new);
 								break;

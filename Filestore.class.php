@@ -232,7 +232,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$data['driver'] = $driver;
 		$fsdata = array_map(function($val){
 			if(!is_array($val)) {
-				return trim($val);
+				return trim((string) $val);
 			}
 			return $val;
 		},$data);
@@ -248,7 +248,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function editItem($id,$data){
 		$fsdata = array_map(function($val){
 			if(!is_array($val)) {
-				return trim($val);
+				return trim((string) $val);
 			}
 			return $val;
 		},$data);

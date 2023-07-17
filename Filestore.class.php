@@ -264,7 +264,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	 */
 	private function saveConfig($id,$data) {
 		$driver = $data['driver'];
-		$data['path'] = rtrim((string) $data['path'], '/') . '/';
+		$data['path'] = isset($data['path'])  ? rtrim((string) $data['path'], '/') . '/' : '';
 		$class = "\FreePBX\\modules\\Filestore\\drivers\\".$driver.'\\'.$driver;
 		if (!class_exists($class)) {
 			return false;
@@ -506,7 +506,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 									$dir_files_new = $this->ls($instance['id'], $result["path"]);
 								}
 								catch(\Exception) {
-									continue;
+									continue 2;
 								}
 								$dir_files = array_merge($dir_files, $dir_files_new);
 								break;

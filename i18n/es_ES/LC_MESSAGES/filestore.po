@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-17 06:57+0000\n"
+"POT-Creation-Date: 2023-09-13 10:04+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Danger"
 msgstr ""
 
-#: drivers/DriverBase.php:88
+#: drivers/DriverBase.php:89
 msgid "Delete"
 msgstr ""
 
@@ -253,7 +253,7 @@ msgstr ""
 msgid "File from %s, Identifier: %s"
 msgstr ""
 
-#: filestore.i18n.php:4 filestore.i18n.php:10 views/rnav.php:1
+#: views/rnav.php:1
 msgid "Filestore"
 msgstr ""
 
@@ -265,10 +265,6 @@ msgstr ""
 
 #: drivers/FTP/views/form.php:161
 msgid "Filesystem Type"
-msgstr ""
-
-#: filestore.i18n.php:8
-msgid "Filesystem abstraction for your PBX"
 msgstr ""
 
 #: drivers/S3/views/form.php:10
@@ -459,7 +455,7 @@ msgstr ""
 msgid "Remote SSH Port"
 msgstr ""
 
-#: drivers/DriverBase.php:93
+#: drivers/DriverBase.php:94
 msgid "Reset"
 msgstr ""
 
@@ -505,10 +501,6 @@ msgstr ""
 msgid "Set user name"
 msgstr ""
 
-#: filestore.i18n.php:6
-msgid "Settings"
-msgstr ""
-
 #: drivers/S3/views/form.php:179
 msgid ""
 "Settings here will override settings in the general tab. Only make changes "
@@ -548,7 +540,7 @@ msgstr ""
 msgid "Status of the request"
 msgstr ""
 
-#: drivers/DriverBase.php:98
+#: drivers/DriverBase.php:99
 msgid "Submit"
 msgstr ""
 

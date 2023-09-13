@@ -1,6 +1,7 @@
 <?php
 namespace FreePBX\modules\Filestore\drivers;
 
+#[\AllowDynamicProperties]
 abstract class DriverBase{
 	protected $databasekey;
 	protected $config = [];

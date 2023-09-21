@@ -10,7 +10,7 @@ include __DIR__.'/../vendor/autoload.php';
  * This class uses phpseclib to perform various tasks
  * that may be required to properly use SSH
  */
-
+#[\AllowDynamicProperties]
  class Remote{
      public function __construct(){
         $this->ssh = null;

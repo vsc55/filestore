@@ -197,7 +197,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 								<div class="row">
 									<div class="col-md-12">
 										<span id="key-help" class="help-block fpbx-help-block">
-											<?php echo _("Location of ssh private key to be used when connecting to a host") ?></span>
+											<?php echo _("Location of ssh private key to be used when connecting to a host. Only ECDSA SSH key is supported") ?></span>
 									</div>
 								</div>
 							</div>

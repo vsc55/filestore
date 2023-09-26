@@ -35,9 +35,8 @@ include __DIR__.'/../vendor/autoload.php';
         if (!file_exists($outputDir)) {
             mkdir($outputDir, 0700, true);
         }
-        // dbug(openssl_get_curve_names());
         // Generate a new ECDSA key pair
-        $privateKey = openssl_pkey_new(array(
+        $res = openssl_pkey_new(array(
             'private_key_bits' => 384,
             'curve_name' => 'secp384r1',
             'config' => '/etc/ssl/openssl.cnf',
@@ -45,26 +44,26 @@ include __DIR__.'/../vendor/autoload.php';
             'private_key_file' => '/tmp/tempkey',
         ));
         
-        if (!$privateKey) {
+        if (!$res) {
             die("Private key generation failed: " . openssl_error_string());
         }
         
         // Extract the private key
-        openssl_pkey_export($privateKey, $privateKeyPEM);
+        openssl_pkey_export($res, $privateKey);
+
+        // Extract the public key
+        $publicKeyDetails = openssl_pkey_get_details($res);
+        $publicKey = $publicKeyDetails['key'];
         
-        // Extract the corresponding public key
-        $keyDetails = openssl_pkey_get_details($privateKey);
-        $publicKeyPEM = $keyDetails['key'];
-        
-        $private = fopen($outputDir."/id_dsa_pri.pem","w");
-        $public = fopen($outputDir."/id_dsa_pub.pem","w");
-        $success1 = fwrite($private,$privateKeyPEM);
-        $success2 = fwrite($public,$publicKeyPEM);
+        $private = fopen($outputDir."/id_ecdsa","w");
+        $public = fopen($outputDir."/id_ecdsa.pub","w");
+        $success1 = fwrite($private,$privateKey);
+        $success2 = fwrite($public,$publicKey);
         fclose($private);
         fclose($public);
         if(!$success1 || !$success2){
-            @unlink($outputDir.'/id_rsa');
-            @unlink($outputDir.'/id_rsa.pub');
+            @unlink($outputDir.'/id_ecdsa');
+            @unlink($outputDir.'/id_ecdsa.pub');
             return false;
         }
         return true;

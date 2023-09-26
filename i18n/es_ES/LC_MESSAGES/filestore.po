@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-13 10:04+0000\n"
+"POT-Creation-Date: 2023-09-26 07:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -350,7 +350,9 @@ msgid "Local Display Name"
 msgstr ""
 
 #: drivers/SSH/views/form.php:200
-msgid "Location of ssh private key to be used when connecting to a host"
+msgid ""
+"Location of ssh private key to be used when connecting to a host. Only ECDSA "
+"SSH key is supported"
 msgstr ""
 
 #: drivers/Email/views/form.php:157

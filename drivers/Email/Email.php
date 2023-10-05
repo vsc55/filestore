@@ -58,7 +58,7 @@ class Email extends DriverBase {
 			}
 		};
 
-		$to = array_filter(explode("\n",$this->config['addr']),trim);
+		$to = array_filter(explode("\n",$this->config['addr']),'trim');
 		$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
 		$ident = $this->FreePBX->Config->get("FREEPBX_SYSTEM_IDENT");
 		$body = !empty($this->config['body'])?$this->config['body']:sprintf(_("File from %s, Identifier: %s"),$brand,$ident);

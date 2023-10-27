@@ -325,6 +325,15 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	}
 
 	/**
+	 * set email options
+	 * @param array $mailOptions 
+	 */
+	public function setEmailOptions($id,$mailOptions=false){
+		return $this->getDriverObjectById($id)->setEmailOptions($mailOptions);
+	}
+
+
+	/**
 	 * List files/directories in path
 	 * @param  int $id  filestore item id
 	 * @param  string $path  path to list

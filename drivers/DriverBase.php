@@ -139,6 +139,10 @@ abstract class DriverBase{
 		$this->putStream($remote,$resource);
 	}
 
+	public function setEmailOptions($mailOptions) {
+		$this->setEmailOptions($mailOptions);
+	}
+	
 	//Filestore Actions
 	/**
 	 * Read files

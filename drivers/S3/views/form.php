@@ -2,7 +2,7 @@
 $disabled = (isset($readonly) && !empty($readonly)) ? ' disabled ' : '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 if (empty($displayname)) {
-	$displayname = $bucket;
+	$displayname = $bucket ?? '';
 }
 $fstype = isset($fstype) ? $fstype : 'auto';
 ?>
@@ -33,9 +33,9 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 												</div>
 												<div class="col-md-9">
 													<span class="radioset">
-														<input type="radio" name="enabled" id="enabledyes" value="yes" <?php echo $enabled != "no" ? "CHECKED" : "" ?>>
+														<input type="radio" name="enabled" id="enabledyes" value="yes" <?php echo (isset($enabled) && $enabled != "no") ? "CHECKED" : "" ?>>
 														<label for="enabledyes"><?php echo _("Yes"); ?></label>
-														<input type="radio" name="enabled" id="enabledno" value="no" <?php echo $enabled == "no" ? "CHECKED" : "" ?>>
+														<input type="radio" name="enabled" id="enabledno" value="no" <?php echo (!isset($enabled) || $enabled == "no") ? "CHECKED" : "" ?>>
 														<label for="enabledno"><?php echo _("No"); ?></label>
 													</span>
 												</div>
@@ -100,7 +100,7 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 													<select class="form-control" id="region" name="region">
 														<?php
 														foreach ($regions as $value => $key) {
-															$selected = ($key == $region) ? 'SELECTED' : '';
+															$selected = (isset($region) && $key == $region) ? 'SELECTED' : '';
 															echo '<option value = "' . $key . '" ' . $selected . '>' . $value . ' [' . $key . ']</option>';
 														}
 														?>
@@ -188,7 +188,7 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="customendpoint"></i>
 												</div>
 												<div class="col-md-9">
-													<input type="text" class="form-control" id="customendpoint" name="customendpoint" value="<?php echo $customendpoint ?>">
+													<input type="text" class="form-control" id="customendpoint" name="customendpoint" value="<?php echo $customendpoint ?? '' ?>">
 												</div>
 											</div>
 										</div>
@@ -208,7 +208,7 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 													<i class="fa fa-question-circle fpbx-help-icon" data-for="customregion"></i>
 												</div>
 												<div class="col-md-9">
-													<input type="text" class="form-control" id="customregion" name="customregion" value="<?php echo $customregion ?>">
+													<input type="text" class="form-control" id="customregion" name="customregion" value="<?php echo $customregion ?? '' ?>">
 												</div>
 											</div>
 										</div>

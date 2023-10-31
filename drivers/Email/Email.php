@@ -15,6 +15,7 @@ class Email extends DriverBase {
 		'enabled' => 'yes',
 	];
 
+	protected $mailOptions='';
 	/**
 	 * Weather an implintation is supported in this driver
 	 * @param  string $method the method "all,backup,readonly,writeonly"
@@ -62,12 +63,24 @@ class Email extends DriverBase {
 		$to = array_filter(explode("\n",$this->config['addr']),'trim');
 		$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
 		$ident = $this->FreePBX->Config->get("FREEPBX_SYSTEM_IDENT");
-		$body = !empty($this->config['body'])?$this->config['body']:sprintf(_("File from %s, Identifier: %s"),$brand,$ident);
+		$subject = isset($this->mailOptions['subject']) ? trim($this->mailOptions['subject']) :'';
+		$body = isset($this->mailOptions['body']) ? trim($this->mailOptions['body']) :'';
+		$emailType = isset($this->mailOptions['emailType']) ? trim($this->mailOptions['emailType']) :'';
+		if ($body =='') {
+			$body = !empty($this->config['body'])?$this->config['body']:sprintf(_("File from %s, Identifier: %s"),$brand,$ident);
+		}
+		if ($subject =='') {
+			$subject = $this->config['desc'];
+		}
 		$mail = \FreePBX::Mail();
-		$mail->setSubject($this->config['desc']);
+		$mail->setSubject($subject);
 		$mail->setFrom($from,$from);
 		$mail->setTo($to);
-		$mail->setBody($body);
+		if ($emailType == 'html') {
+			$mail->setMultipart('',$body);
+		} else {
+			$mail->setBody($body);
+		}
 
 		file_put_contents("/tmp/".$path, $contents);
 		$f_mime = mime_content_type("/tmp/".$path);
@@ -81,7 +94,11 @@ class Email extends DriverBase {
 	public function putStream($path, $resource) {
 		return $this->put($path, stream_get_contents($resource));
 	}
-  
+	
+	public function setEmailOptions($mailOptions=false) {
+		$this->mailOptions = $mailOptions;
+	}
+	
 	public function getDirRecursive($dir){
 		$directory = new \RecursiveDirectoryIterator($dir,\FilesystemIterator::SKIP_DOTS|\FilesystemIterator::CURRENT_AS_FILEINFO);
 		$iterator = new \RecursiveIteratorIterator($directory);

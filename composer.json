@@ -1,6 +1,6 @@
 {
     "require": {
-        "league/flysystem-aws-s3-v3": "^1.0.29",
+        "league/flysystem-aws-s3-v3": "^1.0.30",
         "phpseclib/phpseclib": "^2.0.29",
         "league/flysystem-sftp": "^1.0.22",
         "league/flysystem": "^1.1.3",

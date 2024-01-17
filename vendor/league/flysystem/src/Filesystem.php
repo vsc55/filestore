@@ -270,6 +270,9 @@ class Filesystem implements FilesystemInterface
     {
         $directory = Util::normalizePath($directory);
         $contents = $this->getAdapter()->listContents($directory, $recursive);
+        if(!is_array($contents)) {
+            $contents = [];
+        }
 
         return (new ContentListingFormatter($directory, $recursive, $this->config->get('case_sensitive', true)))
             ->formatListing($contents);

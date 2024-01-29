@@ -72,21 +72,13 @@ class Email extends DriverBase {
 		if ($subject =='') {
 			$subject = $this->config['desc'];
 		}
-		$mail = \FreePBX::Mail();
-		$mail->setSubject($subject);
-		$mail->setFrom($from,$from);
-		$mail->setTo($to);
-		if ($emailType == 'html') {
-			$mail->setMultipart('',$body);
-		} else {
-			$mail->setBody($body);
-		}
-
-		file_put_contents("/tmp/".$path, $contents);
-		$f_mime = mime_content_type("/tmp/".$path);
-		unlink("/tmp/".$path);
-
-		$mail->getMessage()->attach(\Swift_Attachment::newInstance($contents, basename($path), $f_mime));
+		$mail = new \CI_Email();
+		$mail->subject($subject);
+		$mail->from($from);
+		$mail->to($to);
+		$mail->set_mailtype("html");
+		$mail->message($body);
+		$mail->attach($path);
 		$ret = $mail->send();
 		return $ret;
 	}

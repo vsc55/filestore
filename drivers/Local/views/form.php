@@ -35,7 +35,7 @@ $id = isset($_GET['id'])?$_GET['id']:'';
 										</div>
 										<div class="col-md-9">
 											<span class="radioset">
-												<input type="radio" name="enabled" id="enabledyes" value="yes" <?php echo $enabled != "no" ? "CHECKED" : "" ?>>
+												<input type="radio" name="enabled" id="enabledyes" value="yes" <?php $enabled = $enabled ?? ''; echo $enabled != "no" ? "CHECKED" : "" ?>>
 												<label for="enabledyes"><?php echo _("Yes"); ?></label>
 												<input type="radio" name="enabled" id="enabledno" value="no" <?php echo $enabled == "no" ? "CHECKED" : "" ?>>
 												<label for="enabledno"><?php echo _("No"); ?></label>

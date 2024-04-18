@@ -306,6 +306,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function getItemById($id) {
 		$config =  $this->getAll($id);
 		$config['id'] = $id;
+		$config['enabled'] = !empty($config['enabled']) ? $config['enabled'] : 'yes';
 		return $config;
 	}
 

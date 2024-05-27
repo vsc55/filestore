@@ -199,7 +199,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		$check_driver = array_values(
 			array_filter(
 				$items,
-				fn ($item) => (($item['driver'] === $driver) && ($includeDisabled == true || ($includeDisabled == false && $item['enabled'] == 'yes')))
+				fn ($item) => (($item['driver'] === $driver) && ($includeDisabled == true || 
+					($includeDisabled == false && isset($item['enabled']) && $item['enabled'] == 'yes')))
 			)
 		);
 		return $check_driver;

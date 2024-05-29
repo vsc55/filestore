@@ -203,6 +203,13 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 					($includeDisabled == false && isset($item['enabled']) && $item['enabled'] == 'yes')))
 			)
 		);
+		if ($includeDisabled == true) {
+			foreach ($check_driver as $key => $item) {
+				if (!isset($item['enabled']) || trim($item['enabled']) == '') {
+					$check_driver[$key]['enabled'] = 'no';
+				}
+			}
+		}
 		return $check_driver;
 	}
 
@@ -306,7 +313,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 	public function getItemById($id) {
 		$config =  $this->getAll($id);
 		$config['id'] = $id;
-		$config['enabled'] = !empty($config['enabled']) ? $config['enabled'] : 'yes';
+		$config['enabled'] = (!empty($config['enabled']) && $config['enabled']=='yes') ? 'yes' : 'no';
 		return $config;
 	}
 

@@ -47,11 +47,20 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 				}
 				$this->delById($oldkey);
 			}
+			// Enable the local( default enty 
+			foreach($servers as $id=> $entry){
+				if ($entry['driver'] === 'Local' && $entry['enabled'] === '') {
+					$entry['enabled'] ='yes';
+					$servers[$id] = $entry;
+					$this->setConfig('enabled', "yes", $id);
+				}
+			}
 			$this->setConfig('servers',$servers);			
 		}
 		else{
 			$data= [
 				"id" 		=> Null,
+				"enabled"       => "yes",
 				"driver" 	=> "Local",
 				"name" 		=> "Local backup storage",
 				"desc" 		=> "Default local directory for backup storage",

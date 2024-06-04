@@ -2,15 +2,12 @@
   <rawname>filestore</rawname>
   <name>Filestore</name>
   <repo>standard</repo>
-  <version>17.0.2.16</version>
+  <version>17.0.2.17</version>
   <publisher>Sangoma Technologies</publisher>
   <license>AGPLv3</license>
   <licenselink>http://www.gnu.org/licenses/agpl-3.0.txt</licenselink>
   <changelog>
-		*17.0.2.16* Packaging of ver 17.0.2.16
-		*17.0.2.14* Packaging of ver 17.0.2.14
-	*17.0.2.13 bump 
-	*17.0.2* Packaging of ver 17.0.2
+	*17.0.2.17 bump 
 	*17.0.1alpha1* Initial release
 	</changelog>
   <category>Settings</category>

@@ -49,7 +49,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 			}
 			// Enable the local( default enty 
 			foreach($servers as $id=> $entry){
-				if ($entry['driver'] === 'Local' && $entry['enabled'] === '') {
+				if ($entry['driver'] === 'Local' && (isset($entry['enabled']) && $entry['enabled'] === '')) {
 					$entry['enabled'] ='yes';
 					$servers[$id] = $entry;
 					$this->setConfig('enabled', "yes", $id);

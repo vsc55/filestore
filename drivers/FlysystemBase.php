@@ -39,7 +39,7 @@ class FlysystemBase extends DriverBase {
 	 * @return bool success boolean
 	 */
 	public function putStream($path,$resource) {
-		return $this->getHandler()->putStream($path,$resource);
+		return $this->getHandler()->writeStream($path,$resource);
 	}
 
 	/**
@@ -112,7 +112,7 @@ class FlysystemBase extends DriverBase {
 	 * @return integer size of a file
 	 */
 	public function getSize($path) {
-		return $this->getHandler()->getSize($path);
+		return $this->getHandler()->fileSize($path);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class FlysystemBase extends DriverBase {
 	 * @return bool  was the operation successful
 	 */
 	public function createDir($path) {
-		return $this->getHandler()->createDir($path);
+		return $this->getHandler()->createDirectory($path);
 	}
 
 	/**

@@ -2,10 +2,8 @@
 namespace FreePBX\modules\Filestore\drivers\Dropbox;
 use League\Flysystem\Filesystem;
 use FreePBX\modules\Filestore\drivers\FlysystemBase;
-use League\Flysystem\Cached\CachedAdapter;
-use League\Flysystem\Cached\Storage\Memory as MemoryStore;
-use Srmklive\Dropbox\Client\DropboxClient;
-use Srmklive\Dropbox\Adapter\DropboxAdapter;
+use Spatie\Dropbox\Client;
+use Spatie\FlysystemDropbox\DropboxAdapter;
 class Dropbox extends FlysystemBase {
 	protected static $path = __DIR__;
 	protected static $validKeys = [
@@ -38,9 +36,8 @@ class Dropbox extends FlysystemBase {
 		if(isset($this->handler)){
 			return $this->handler;
 		}
-		$client = new DropboxClient($this->config['token']);
-
-		$adapter = new CachedAdapter(new DropboxAdapter($client, $this->config['path']), new MemoryStore());
+		$client = new Client($this->config['token']);
+		$adapter = new DropboxAdapter($client, $this->config['path']);
 
 		$this->handler = new Filesystem($adapter, ['case_sensitive' => false]);
 		return $this->handler;

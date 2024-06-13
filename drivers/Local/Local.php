@@ -1,10 +1,8 @@
 <?php
 namespace FreePBX\modules\Filestore\drivers\Local;
 use League\Flysystem\Filesystem;
-use League\Flysystem\Adapter\Local as Loc;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use \FreePBX\modules\Filestore\drivers\FlysystemBase;
-use League\Flysystem\Cached\CachedAdapter;
-use League\Flysystem\Cached\Storage\Memory as MemoryStore;
 class Local extends FlysystemBase {
 	protected static $path = __DIR__;
 	protected static $validKeys = [
@@ -38,7 +36,7 @@ class Local extends FlysystemBase {
 		}
 		$path = $this->translatePath($this->config['path']);
 		$path = str_replace("'", "", $path);
-		$adapter = new CachedAdapter(new Loc($path), new MemoryStore());
+		$adapter = new LocalFilesystemAdapter($path);
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;
 	}

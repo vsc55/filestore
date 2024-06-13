@@ -3,11 +3,9 @@
 namespace FreePBX\modules\Filestore\drivers\S3;
 
 use Aws\S3\S3Client;
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\Flysystem\Filesystem;
 use \FreePBX\modules\Filestore\drivers\FlysystemBase;
-use League\Flysystem\Cached\CachedAdapter;
-use League\Flysystem\Cached\Storage\Memory as MemoryStore;
 
 class S3 extends FlysystemBase
 {
@@ -114,11 +112,9 @@ class S3 extends FlysystemBase
 		if (!empty($this->config['customendpoint'])) {
 			$config['endpoint'] = $this->config['customendpoint'];
 		}
-
 		$client = new S3Client($config);
-
 		// Decorate the adapter
-		$adapter = new CachedAdapter(new AwsS3Adapter($client, $this->config['bucket'], $this->config['path']), new MemoryStore());
+		$adapter = new AwsS3V3Adapter($client, $this->config['bucket'], $this->config['path']);
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;
 	}

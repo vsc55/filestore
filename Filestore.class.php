@@ -534,6 +534,8 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 								catch(\Exception) {
 									continue 2;
 								}
+								if (!is_array($dir_files)) $dir_files = [];
+								if (!is_array($dir_files_new)) $dir_files_new = [];
 								$dir_files = array_merge($dir_files, $dir_files_new);
 								break;
 

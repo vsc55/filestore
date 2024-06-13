@@ -4,8 +4,12 @@ namespace FreePBX\modules\Filestore\drivers\FTP;
 
 use League\Flysystem\Adapter\Ftp as FTPAdaptor;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Ftp\FtpAdapter;
+use League\Flysystem\Ftp\FtpConnectionOptions;
+use League\Flysystem\Ftp\FtpConnectionProvider;
+use \League\Flysystem\Ftp\NoopCommandConnectivityChecker;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use FreePBX\modules\Filestore\drivers\FlysystemBase;
-use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\Storage\Memory as MemoryStore;
 
 class FTP extends FlysystemBase
@@ -51,27 +55,42 @@ class FTP extends FlysystemBase
 			return $this->handler;
 		}
 
-		$options = [
-			'host' => $this->config['host'],
-			'username' => $this->config['user'],
-			'password' => $this->config['password'],
-
-			/** optional config settings */
-			'port' => $this->config['port'],
-			'root' => $this->config['path'],
-			'passive' => ($this->config['transfer'] === 'passive'),
-			'timeout' => (isset($this->config['timeout']) && !empty($this->config['timeout'])) ? $this->config['timeout'] : 30,
-			'ssl' => isset($this->config['usetls']) && $this->config['usetls'] === 'yes',
-		];
-
-		if ($this->config['fstype'] !== 'auto') {
-			$options['systemType'] = $this->config['fstype'];
+		$systemType=null;
+		if (isset($this->config['fstype']) && $this->config['fstype'] !== 'auto') {
+			$systemType= $this->config['fstype'];
 		}
-
-		// Decorate the adapter
-		$adapter = new CachedAdapter(new FTPAdaptor($options), new MemoryStore());
-
-		// And use that to create the file system
+		$ftpConnectionOptions = FtpConnectionOptions::fromArray([
+			'host' => $this->config['host'], 
+			'root' => $this->config['path'], 
+			'username' => $this->config['user'], 
+			'password' => $this->config['password'], 
+			'port' => (int) $this->config['port'], 
+			'ssl' => false,
+			'timeout' => 90,
+			'utf8' => false,
+			'passive' => true,
+			'transferMode' => FTP_BINARY,
+			'systemType' => $systemType, 
+			'ignorePassiveAddress' => null, 
+			'timestampsOnUnixListingsEnabled' => false, 
+			'recurseManually' => true 
+		]);
+		
+		$adapter = new FtpAdapter(
+			$ftpConnectionOptions,
+			new FtpConnectionProvider(),
+			new NoopCommandConnectivityChecker(),
+			PortableVisibilityConverter::fromArray([
+				'file' => [
+					'public' => 0644,
+					'private' => 0600,
+				],
+				'dir' => [
+					'public' => 0755,
+					'private' => 0700,
+				],
+			])
+		);
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;
 	}

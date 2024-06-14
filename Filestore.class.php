@@ -189,7 +189,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 			$location['locations'][$driver] ??= [];
 			foreach($this->listItems($driver) as $item){
 				$name = $item['name'] ?? $driver.'-'.substr((string) $item['id'], -5);
-				$description = $item['description'] ?? '';
+				$description = $item['desc'] ?? '';
 				$locations['locations'][$driver][] = ['id' => $item['id'], 'name' => $name, 'description' => $description];
 			}
 		}

@@ -523,6 +523,7 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 				else
 				{
 					$dir_files = $files = [];
+					try {
 					foreach($presult as $result)
 					{
 						switch($result["type"])
@@ -544,6 +545,9 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 								break;
 						}
 						$final[$driver][$instance['id']]['results'] = array_merge($dir_files, $files);
+					}
+					} catch (\Exception) {
+						continue;
 					}
 				}
 			}

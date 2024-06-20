@@ -60,7 +60,13 @@ class FlysystemBase extends DriverBase {
 	 * @return boolean            success boolean
 	 */
 	public function delete($path) {
-		return $this->getHandler()->delete($path);
+		try {
+			if(!$this->getHandler()->has($path)) return false;
+			$this->getHandler()->delete($path);
+			return true;
+		} catch (\League\Flysystem\FilesystemException $exception) {
+			return false;
+		}
 	}
 
 	/**

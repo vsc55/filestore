@@ -19,6 +19,7 @@ class S3 extends FlysystemBase
 		"region" => '',
 		'immortal' => '',
 		'path' => '',
+		'storageclass' => '',
 		'customendpoint' => '',
 		'customregion' => '',
 		'enabled' => 'yes',
@@ -60,10 +61,22 @@ class S3 extends FlysystemBase
 				'South America (São Paulo)' => 'sa-east-1',
 				'Middle East (Bahrain)' => 'me-south-1',
 			];
+		$storageclasses = [
+				'Standard' => 'STANDARD',
+				'Intelligent-Tiering' => 'INTELLIGENT_TIERING',
+				'Express One Zone' => 'EXPRESS_ONEZONE',
+				'Standard-Infrequent Access' => 'STANDARD_IA',
+				'One Zone-Infrequent Acess' => 'ONEZONE_IA',
+				'Glacier Instant Retrieval' => 'GLACIER_IR',
+				'Glacier Flexible Retrieval' => 'GLACIER',
+				'Glacier Deep Archive' => 'DEEP_ARCHIVE',
+				'Outpost' => 'OUTPOSTS',
+			];
 		if (empty($_GET['view'])) {
 			return load_view(__DIR__ . '/views/grid.php');
 		} else {
 			$config['regions'] = $regions;
+			$config['storageclasses'] = $storageclasses;
 			return load_view(__DIR__ . '/views/form.php', $config);
 		}
 	}
@@ -112,9 +125,14 @@ class S3 extends FlysystemBase
 		if (!empty($this->config['customendpoint'])) {
 			$config['endpoint'] = $this->config['customendpoint'];
 		}
+
+		$adapterOptions = [
+			'StorageClass' => $this->config['storageclass']
+		];
+
 		$client = new S3Client($config);
 		// Decorate the adapter
-		$adapter = new AwsS3V3Adapter($client, $this->config['bucket'], $this->config['path']);
+		$adapter = new AwsS3V3Adapter($client, $this->config['bucket'], $this->config['path'], null, null, $adapterOptions);
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;
 	}

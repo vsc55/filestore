@@ -149,6 +149,30 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 										</div>
 									</div>
 									<!--END AWS Secret-->
+									<!--Storage Class-->
+									<div class="element-container">
+										<div class="row">
+											<div class="form-group">
+												<div class="col-md-3">
+													<label class="control-label" for="storageclass"><?php echo _("Storage Class") ?></label>
+												</div>
+												<div class="col-md-9">
+													<div class="input-group">
+														<select class="form-control" id="storageclass" name="storageclass">
+															<?php
+															foreach ($storageclasses as $value => $key) {
+																$selected = ($key == $storageclass) ? 'SELECTED' : '';
+													    		echo '<option value = "' . $key . '" ' . $selected . '>' . $value . '</option>';
+															}
+															?>
+														</select>
+														<span class="input-group-addon" id="storageclassaddon"><a href="https://aws.amazon.com/s3/storage-classes/" target="_blank"><?php echo _("What's this?") ?></a></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!--END Storage Class-->
 									<!--Path-->
 									<div class="element-container">
 										<div class="row">

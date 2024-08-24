@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-22 00:41-0400\n"
+"POT-Creation-Date: 2024-08-23 23:56-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,19 +112,19 @@ msgstr ""
 msgid "Bucket Name"
 msgstr ""
 
-#: drivers/S3/views/form.php:187
+#: drivers/S3/views/form.php:211
 msgid "Custom Endpoint"
 msgstr ""
 
-#: drivers/S3/views/form.php:207 drivers/S3/views/form.php:217
+#: drivers/S3/views/form.php:231 drivers/S3/views/form.php:241
 msgid "Custom Region"
 msgstr ""
 
-#: drivers/S3/views/form.php:197
+#: drivers/S3/views/form.php:221
 msgid "Custom S3 compatable endpoint"
 msgstr ""
 
-#: drivers/S3/views/form.php:176
+#: drivers/S3/views/form.php:200
 msgid "Danger"
 msgstr ""
 
@@ -406,7 +406,7 @@ msgid "Password"
 msgstr ""
 
 #: drivers/Dropbox/views/form.php:121 drivers/FTP/views/form.php:186
-#: drivers/Local/views/form.php:108 drivers/S3/views/form.php:157
+#: drivers/Local/views/form.php:108 drivers/S3/views/form.php:181
 #: drivers/SSH/views/form.php:213
 msgid "Path"
 msgstr ""
@@ -416,7 +416,7 @@ msgid "Path Name"
 msgstr ""
 
 #: Api/Gql/Filestore.php:328 drivers/Dropbox/views/form.php:131
-#: drivers/S3/views/form.php:167 drivers/SSH/views/form.php:227
+#: drivers/S3/views/form.php:191 drivers/SSH/views/form.php:227
 msgid "Path on remote server"
 msgstr ""
 
@@ -513,7 +513,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: drivers/S3/views/form.php:179
+#: drivers/S3/views/form.php:203
 msgid ""
 "Settings here will override settings in the general tab. Only make changes "
 "here if you know what you are doing. These settings are not validated and "
@@ -550,6 +550,10 @@ msgstr ""
 
 #: Api/Gql/Filestore.php:380
 msgid "Status of the request"
+msgstr ""
+
+#: drivers/S3/views/form.php:157
+msgid "Storage Class"
 msgstr ""
 
 #: drivers/DriverBase.php:99
@@ -681,6 +685,7 @@ msgid "What is File Store?"
 msgstr ""
 
 #: drivers/S3/views/form.php:128 drivers/S3/views/form.php:145
+#: drivers/S3/views/form.php:169
 msgid "What's this?"
 msgstr ""
 

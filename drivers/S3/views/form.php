@@ -161,7 +161,7 @@ $fstype = isset($fstype) ? $fstype : 'auto';
 														<select class="form-control" id="storageclass" name="storageclass">
 															<?php
 															foreach ($storageclasses as $value => $key) {
-																$selected = ($key == $storageclass) ? 'SELECTED' : '';
+																$selected = (isset($storageclass) && ($key == $storageclass)) ? 'SELECTED' : '';
 													    		echo '<option value = "' . $key . '" ' . $selected . '>' . $value . '</option>';
 															}
 															?>

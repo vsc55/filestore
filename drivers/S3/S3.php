@@ -71,6 +71,7 @@ class S3 extends FlysystemBase
 				'Glacier Flexible Retrieval' => 'GLACIER',
 				'Glacier Deep Archive' => 'DEEP_ARCHIVE',
 				'Outpost' => 'OUTPOSTS',
+				'Not Applicable (Uncommon)' => 'NOT_APPLICABLE',
 			];
 		if (empty($_GET['view'])) {
 			return load_view(__DIR__ . '/views/grid.php');
@@ -125,10 +126,9 @@ class S3 extends FlysystemBase
 		if (!empty($this->config['customendpoint'])) {
 			$config['endpoint'] = $this->config['customendpoint'];
 		}
-
-		$adapterOptions = [
-			'StorageClass' => $this->config['storageclass']
-		];
+		if($isset = $this->config['storageclass'] && $config['storageclass'] !== 'NOT_APPLICABLE') {
+			$adapterOptions = ['StorageClass' => $this->config['storageclass']];
+		}
 
 		$client = new S3Client($config);
 		// Decorate the adapter

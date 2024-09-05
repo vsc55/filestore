@@ -11,6 +11,8 @@ use \League\Flysystem\Ftp\NoopCommandConnectivityChecker;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use FreePBX\modules\Filestore\drivers\FlysystemBase;
 use League\Flysystem\Cached\Storage\Memory as MemoryStore;
+use phpseclib3\Net\SFTP;
+use FreePBX\modules\Filestore\drivers\FTP\PhpseclibV3SftpAdapter;
 
 class FTP extends FlysystemBase
 {
@@ -22,6 +24,7 @@ class FTP extends FlysystemBase
 		"host" => '',
 		"port" => 21,
 		"usetls" => 'no',
+		"usesftp" => 'no',
 		"user" => 'anonymous',
 		"password" => 'anonymous',
 		"timeout" => 30,
@@ -55,6 +58,16 @@ class FTP extends FlysystemBase
 			return $this->handler;
 		}
 
+		if(isset($this->config['usesftp']) && $this->config['usesftp'] == 'yes') {
+			$this->handler = $this->getSftpHandler();
+		} else {
+			$this->handler = $this->getFtpHandler();
+		}
+
+		return $this->handler;
+	}
+
+	public function getFtpHandler() {
 		$systemType=null;
 		if (isset($this->config['fstype']) && $this->config['fstype'] !== 'auto') {
 			$systemType= $this->config['fstype'];
@@ -91,7 +104,24 @@ class FTP extends FlysystemBase
 				],
 			])
 		);
-		$this->handler = new Filesystem($adapter);
-		return $this->handler;
+		$ftphandler = new Filesystem($adapter);
+		return $ftphandler;
+	}
+
+	public function getSftpHandler() {
+		// Create the SFTP object
+		$sftp = new SFTP($this->config['host'],$this->config['port']);
+
+		// Authenticate
+		if (!$sftp->login($this->config['user'], $this->config['password'])) {
+			throw new \Exception('Login failed');
+		}
+
+		// Optionally, change the working directory
+		$sftp->chdir($this->config['path']);
+		$adapter = new PhpseclibV3SftpAdapter($sftp);
+		// And use that to create the file system
+		$sftphandler = new Filesystem($adapter);
+		return $sftphandler;
 	}
 }

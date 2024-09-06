@@ -125,6 +125,31 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 								</div>
 							</div>
 							<!--END Use TLS-->
+							<!--Use SFTP-->
+							<div class="element-container">
+								<div class="row">
+									<div class="form-group">
+										<div class="col-md-3">
+											<label class="control-label" for="usesftp"><?php echo _("Use SFTP") ?></label>
+											<i class="fa fa-question-circle fpbx-help-icon" data-for="usesftp"></i>
+										</div>
+										<div class="col-md-9">
+											<span class="radioset">
+												<input type="radio" name="usesftp" id="usesftpyes" value="yes" <?php echo (isset($usesftp) && $usesftp == "yes") ? "CHECKED" : "" ?>>
+												<label for="usesftpyes"><?php echo _("Yes"); ?></label>
+												<input type="radio" name="usesftp" id="usesftpno" value="no" <?php echo (!isset($usesftp) || $usesftp == "no") ? "CHECKED" : "" ?>>
+												<label for="usesftpno"><?php echo _("No"); ?></label>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<span id="usesftp-help" class="help-block fpbx-help-block"><?php echo _("Enable this option to use SFTP (Secure File Transfer Protocol), a secure method for transferring files that encrypts both commands and data. Ensure that the server supports SFTP for this connection.") ?></span>
+									</div>
+								</div>
+							</div>
+							<!--END Use SFTP-->
 							<!--Username-->
 							<div class="element-container">
 								<div class="row">

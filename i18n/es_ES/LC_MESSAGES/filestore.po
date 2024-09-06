@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-08-23 23:56-0400\n"
+"POT-Creation-Date: 2024-09-06 01:52-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: drivers/FTP/views/form.php:211
+#: drivers/FTP/views/form.php:236
 msgid "Active"
 msgstr ""
 
@@ -100,7 +100,7 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: drivers/FTP/views/form.php:166
+#: drivers/FTP/views/form.php:191
 msgid "Auto"
 msgstr ""
 
@@ -199,6 +199,13 @@ msgstr ""
 msgid "Email address where backups should be emailed to"
 msgstr ""
 
+#: drivers/FTP/views/form.php:148
+msgid ""
+"Enable this option to use SFTP (Secure File Transfer Protocol), a secure "
+"method for transferring files that encrypts both commands and data. Ensure "
+"that the server supports SFTP for this connection."
+msgstr ""
+
 #: drivers/Dropbox/views/form.php:24 drivers/Dropbox/views/grid.php:22
 #: drivers/Email/views/form.php:24 drivers/Email/views/grid.php:22
 #: drivers/FTP/views/form.php:21 drivers/FTP/views/grid.php:22
@@ -267,7 +274,7 @@ msgid ""
 "setup file system destinations that can be used in other modules"
 msgstr ""
 
-#: drivers/FTP/views/form.php:161
+#: drivers/FTP/views/form.php:186
 msgid "Filesystem Type"
 msgstr ""
 
@@ -388,8 +395,8 @@ msgstr ""
 
 #: drivers/Dropbox/views/form.php:32 drivers/Email/views/form.php:32
 #: drivers/FTP/views/form.php:29 drivers/FTP/views/form.php:116
-#: drivers/Local/views/form.php:41 drivers/S3/views/form.php:39
-#: drivers/SSH/views/form.php:31
+#: drivers/FTP/views/form.php:141 drivers/Local/views/form.php:41
+#: drivers/S3/views/form.php:39 drivers/SSH/views/form.php:31
 msgid "No"
 msgstr ""
 
@@ -397,15 +404,15 @@ msgstr ""
 msgid "No id supplied"
 msgstr ""
 
-#: drivers/FTP/views/form.php:213
+#: drivers/FTP/views/form.php:238
 msgid "Passive"
 msgstr ""
 
-#: drivers/FTP/views/form.php:147
+#: drivers/FTP/views/form.php:172
 msgid "Password"
 msgstr ""
 
-#: drivers/Dropbox/views/form.php:121 drivers/FTP/views/form.php:186
+#: drivers/Dropbox/views/form.php:121 drivers/FTP/views/form.php:211
 #: drivers/Local/views/form.php:108 drivers/S3/views/form.php:181
 #: drivers/SSH/views/form.php:213
 msgid "Path"
@@ -428,7 +435,7 @@ msgid ""
 "work, and will behave in unexpected ways."
 msgstr ""
 
-#: drivers/FTP/views/form.php:196
+#: drivers/FTP/views/form.php:221
 msgid ""
 "Path on remote server. This must be a COMPLETE PATH, starting with a / - for "
 "example, <tt>/home/backups/freepbx</tt>. A path without a leading slash will "
@@ -564,7 +571,7 @@ msgstr ""
 msgid "Successfully deleted FTP instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:176
+#: drivers/FTP/views/form.php:201
 msgid "The FTP Server's file system type. If you are unsure set this to Auto"
 msgstr ""
 
@@ -608,7 +615,7 @@ msgid ""
 "Server to send data."
 msgstr ""
 
-#: drivers/FTP/views/form.php:219
+#: drivers/FTP/views/form.php:244
 msgid ""
 "This defaults to 'Passive'. If your FTP server is behind a seperate NAT or "
 "Firewall to this VoIP server, you should select 'Active'. In 'Active' mode, "
@@ -621,11 +628,11 @@ msgstr ""
 msgid "This has a maximum size of 25MB."
 msgstr ""
 
-#: drivers/FTP/views/form.php:229
+#: drivers/FTP/views/form.php:254
 msgid "Timeout"
 msgstr ""
 
-#: drivers/FTP/views/form.php:239
+#: drivers/FTP/views/form.php:264
 msgid "Timeout on remote server"
 msgstr ""
 
@@ -642,7 +649,7 @@ msgstr ""
 msgid "Token on remote server"
 msgstr ""
 
-#: drivers/FTP/views/form.php:206
+#: drivers/FTP/views/form.php:231
 msgid "Transfer Mode"
 msgstr ""
 
@@ -654,7 +661,7 @@ msgstr ""
 msgid "UUid for the instance"
 msgstr ""
 
-#: drivers/FTP/views/form.php:168
+#: drivers/FTP/views/form.php:193
 msgid "Unix/Linux"
 msgstr ""
 
@@ -662,11 +669,15 @@ msgstr ""
 msgid "Unknown action provided"
 msgstr ""
 
+#: drivers/FTP/views/form.php:133
+msgid "Use SFTP"
+msgstr ""
+
 #: drivers/FTP/views/form.php:108
 msgid "Use TLS"
 msgstr ""
 
-#: drivers/FTP/views/form.php:133 drivers/SSH/views/form.php:159
+#: drivers/FTP/views/form.php:158 drivers/SSH/views/form.php:159
 msgid "Username"
 msgstr ""
 
@@ -689,14 +700,14 @@ msgstr ""
 msgid "What's this?"
 msgstr ""
 
-#: drivers/FTP/views/form.php:170
+#: drivers/FTP/views/form.php:195
 msgid "Windows"
 msgstr ""
 
 #: drivers/Dropbox/views/form.php:30 drivers/Email/views/form.php:30
 #: drivers/FTP/views/form.php:27 drivers/FTP/views/form.php:114
-#: drivers/Local/views/form.php:39 drivers/S3/views/form.php:37
-#: drivers/SSH/views/form.php:29
+#: drivers/FTP/views/form.php:139 drivers/Local/views/form.php:39
+#: drivers/S3/views/form.php:37 drivers/SSH/views/form.php:29
 msgid "Yes"
 msgstr ""
 

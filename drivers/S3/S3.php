@@ -132,6 +132,7 @@ class S3 extends FlysystemBase
 
 		$client = new S3Client($config);
 		// Decorate the adapter
+		$this->config['path'] = $this->config['path'] === '/' ? '' : $this->config['path'];
 		$adapter = new AwsS3V3Adapter($client, $this->config['bucket'], $this->config['path'], null, null, $adapterOptions);
 		$this->handler = new Filesystem($adapter);
 		return $this->handler;

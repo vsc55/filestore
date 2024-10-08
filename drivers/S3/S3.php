@@ -126,8 +126,9 @@ class S3 extends FlysystemBase
 		if (!empty($this->config['customendpoint'])) {
 			$config['endpoint'] = $this->config['customendpoint'];
 		}
+		$adapterOptions = [];
 		if(isset($this->config['storageclass']) && $this->config['storageclass'] !== 'NOT_APPLICABLE') {
-			$adapterOptions = ['StorageClass' => $this->config['storageclass']];
+			$adapterOptions['StorageClass'] = $this->config['storageclass'];
 		}
 
 		$client = new S3Client($config);

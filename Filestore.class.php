@@ -397,6 +397,27 @@ class Filestore extends \FreePBX_Helpers implements \BMO {
 		return $this->getDriverObjectById($id)->listContents($path, $recursive);
 	}
 
+	public function listFiles($id,$path='') {
+		$list = [];
+		foreach ($this->getDriverObjectById($id)->listContents($path,false) as $fileAttributes) {
+			$path = $fileAttributes->path();
+			$dirname = pathinfo($path, PATHINFO_DIRNAME);
+			$basename = pathinfo($path, PATHINFO_BASENAME);
+			$extension = pathinfo($path, PATHINFO_EXTENSION);
+			$filename = pathinfo($path, PATHINFO_FILENAME);
+			$list[] = [
+				'type' => $fileAttributes->type(),
+				'path' => $path,
+				'visibility' => $fileAttributes->visibility(),
+				'size' => $fileAttributes->fileSize(),
+				'dirname' => $dirname,
+				'basename' => $basename,
+				'extension' => $extension,
+				'filename' => $filename,
+			];
+		}
+		return $list;
+	}
 	/**
 	 * Delete object by path
 	 * @param  int  $id        filestore item id

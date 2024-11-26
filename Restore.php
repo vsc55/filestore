@@ -2,8 +2,19 @@
 namespace FreePBX\modules\Filestore;
 use FreePBX\modules\Backup as Base;
 class Restore Extends Base\RestoreBase{
+        private function updateEnabledKeys(&$array) {
+                foreach ($array as &$value) {
+                        if (is_array($value)) {
+                                $this->updateEnabledKeys($value); // Recursively check nested arrays
+                        } elseif (isset($array['enabled']) && empty($array['enabled'])) {
+                                $array['enabled'] = "yes"; // Set 'enabled' to 'yes' if empty
+                        }
+                }
+        }
+            
   public function runRestore(){
     $settings = $this->getConfigs();
+    $this->updateEnabledKeys($settings);
 		$this->importKVStore($settings);
   }
 	public function processLegacy($pdo, $data, $tables, $unknownTables){

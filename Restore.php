@@ -6,7 +6,7 @@ class Restore Extends Base\RestoreBase{
                 foreach ($array as &$value) {
                         if (is_array($value)) {
                                 $this->updateEnabledKeys($value); // Recursively check nested arrays
-                        } elseif (isset($array['enabled']) && empty($array['enabled'])) {
+                        } else if (!isset($array['enabled']) || empty($array['enabled'])) {
                                 $array['enabled'] = "yes"; // Set 'enabled' to 'yes' if empty
                         }
                 }
